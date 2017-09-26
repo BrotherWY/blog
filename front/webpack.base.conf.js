@@ -24,65 +24,6 @@ function assetsPath(_path) {
   return path.posix.join('static', _path);
 }
 
-function cssLoaders(o) {
-  const options = o || {};
-
-  const cssLoader = {
-    loader: 'css-loader',
-    options: {
-      minimize: isProd,
-      // sourceMap: options.sourceMap
-    },
-  };
-
-  // generate loader string to be used with extract text plugin
-  function generateLoaders(loader, loaderOptions) {
-    const loaders = [cssLoader];
-    if (loader) {
-      loaders.push({
-        loader: `${loader}-loader`,
-        options: Object.assign({}, loaderOptions, {
-          sourceMap: options.sourceMap,
-        }),
-      });
-    }
-
-    // Extract CSS when that option is specified
-    // (which is the case during production build)
-    if (options.extract) {
-      return ExtractTextPlugin.extract({
-        use: loaders,
-        fallback: 'vue-style-loader',
-      });
-    }
-    return ['vue-style-loader'].concat(loaders);
-  }
-
-  // https://vue-loader.vuejs.org/en/configurations/extract-css.html
-  return {
-    css: generateLoaders(),
-    postcss: generateLoaders(),
-    less: generateLoaders('less'),
-    sass: generateLoaders('sass', { indentedSyntax: true }),
-    scss: generateLoaders('sass'),
-    stylus: generateLoaders('stylus'),
-    styl: generateLoaders('stylus'),
-  };
-}
-
-function styleLoaders(options) {
-  const output = [];
-  const loaders = cssLoaders(options);
-  for (const extension in loaders) {
-    const loader = loaders[extension];
-    output.push({
-      test: new RegExp(`\\.${extension}$`),
-      use: loader,
-    });
-  }
-  return output;
-}
-
 module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -111,7 +52,6 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
-          extractCSS: isProd,
           preserveWhitespace: false,
           postcss: [
             autoprefixer({
@@ -125,7 +65,14 @@ module.exports = {
         loader: 'babel-loader',
         include: [resolve('src'), resolve('test')],
       },
-      ...styleLoaders({ sourceMap: isProd, extract: isProd }),
+      {
+        test: /\.(scss)$/,
+        loader: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(css)$/,
+        loader: ['style-loader', 'css-loader'],
+      },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',

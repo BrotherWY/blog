@@ -38,6 +38,9 @@ module.exports = {
     'consistent-return': 0,
     'no-console': process.env.NODE_ENV === 'production' ? 2 : 0,
     'guard-for-in': 0,
-    'no-restricted-syntax': 0
+    'no-restricted-syntax': 0,
+    'no-empty': 0,
+    'one-var': 0,
+    'no-use-before-define': 0
   }
 }

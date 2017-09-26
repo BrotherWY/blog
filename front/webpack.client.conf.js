@@ -1,14 +1,16 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const HTMLPlugin = require('html-webpack-plugin');
-// const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const baseConfig = require('./webpack.base.conf.js');
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = merge(baseConfig, {
-  entry: './src/entry-client.js',
+  entry: {
+    client: './src/entry-client.js',
+  },
   plugins: [
     // 重要信息：这将 webpack 运行时分离到一个引导 chunk 中，
     // 以便可以在之后正确注入异步 chunk。
@@ -39,6 +41,7 @@ module.exports = merge(baseConfig, {
     new HTMLPlugin({
       template: './index.html',
     }),
+    new ExtractTextPlugin('common.css'),
     // 此插件在输出目录中
     // 生成 `vue-ssr-client-manifest.json`。
     new VueSSRClientPlugin(),

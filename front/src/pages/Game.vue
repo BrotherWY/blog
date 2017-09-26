@@ -1,6 +1,6 @@
 <template>
-  <div>
-     <router-link :to="{ path: '/'}">home</router-link>
+  <div class="game">
+     <router-link :to="{ path: '/'}">好嘛干啥子哦</router-link>
   </div>
 </template>
 <script>
@@ -12,4 +12,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+  @import '../styles/index.scss';
+</style>
+
 
