@@ -21,6 +21,9 @@ export default {
 
     };
   },
+  created() {
+    if (this.$ssrContext) this.$ssrContext.title = '首页';
+  },
   components: {
     'top-bar': TopBar,
   },

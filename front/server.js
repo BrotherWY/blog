@@ -63,7 +63,7 @@ app.listen(8888, () => {
 function requestSetting(res, req) {
   res.setHeader('Content-Type', 'text/html');
   const context = {
-    title: 'test', // default title
+    title: 'blog', // default title
     url: req.url,
   };
   renderer.renderToString(context, (err, html) => {
