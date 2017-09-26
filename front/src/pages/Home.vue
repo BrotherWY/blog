@@ -26,7 +26,7 @@ export default {
     if (this.$ssrContext) this.$ssrContext.title = '首页';
     HttpClient.self = this;
     // 发送请求
-    HttpClient.post(this, '/1.0/agent_app/game', {
+    HttpClient.post('/1.0/agent_app/game', {
       page_index: 1,
       page_size: 10,
       game_tag_ids: '',
