@@ -13,9 +13,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.16.2",
     "express": "^4.15.4",
     "lru-cache": "^4.1.1",
     "vue": "^2.4.4",
+    "vue-progressbar": "^0.7.3",
     "vue-router": "^2.7.0",
     "vue-server-renderer": "^2.4.4"
   },

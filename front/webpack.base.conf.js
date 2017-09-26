@@ -1,6 +1,5 @@
 const path = require('path');
 const eslintFriendlyFormatter = require('eslint-friendly-formatter');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
 function resolve(dir) {
