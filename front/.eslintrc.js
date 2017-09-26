@@ -41,6 +41,8 @@ module.exports = {
     'no-restricted-syntax': 0,
     'no-empty': 0,
     'one-var': 0,
-    'no-use-before-define': 0
+    'no-use-before-define': 0,
+    'no-param-reassign': 0,
+    'object-shorthand': 0,
   }
 }

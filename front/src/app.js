@@ -1,8 +1,16 @@
 import Vue from 'vue';
+import VueProgressBar from 'vue-progressbar';
 import App from './App.vue';
 import createRouter from './routes/index';
+// process bar
+Vue.use(VueProgressBar, {
+  color: 'rgb(143, 255, 199)',
+  failedColor: 'red',
+  height: '2px',
+});
 // 导出一个工厂函数，用于创建新的
 // 应用程序、router 和 store 实例
+
 export default function createApp() {
   // 创建 router 实例
   const router = createRouter();

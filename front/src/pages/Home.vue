@@ -14,6 +14,7 @@
 
 <script>
 import TopBar from '@/components/TopBar';
+import HttpClient from '@/network/HttpClientPromise';
 
 export default {
   data() {
@@ -23,6 +24,20 @@ export default {
   },
   created() {
     if (this.$ssrContext) this.$ssrContext.title = '首页';
+    HttpClient.self = this;
+    // 发送请求
+    HttpClient.post(this, '/1.0/agent_app/game', {
+      page_index: 1,
+      page_size: 10,
+      game_tag_ids: '',
+      platform: 1,
+    })
+    .then(() => {
+
+    })
+    .catch(() => {
+
+    });
   },
   components: {
     'top-bar': TopBar,
