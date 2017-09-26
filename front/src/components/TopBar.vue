@@ -1,6 +1,6 @@
 <template>
   <div class="top">
-    <div class="top-bar">
+    <div class="top-bar wrapper">
       <h1 class="logo-wrapper">
         <router-link to="/" class="logo"></router-link>
       </h1>
@@ -59,18 +59,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  $height: 50px;
   .top {
     width: 100%;
-    height: 70px;
+    height: $height;
     background: #fff;
     display: flex;
     justify-content: center;
   }
 
   .top-bar {
-    width: 1100px;
-    height: 70px;
-    display: flex;
     flex-direction: row;
     align-items: center;
   }
@@ -94,15 +92,31 @@ export default {
   }
   
   .bar {
-    height: 70px;
-    width: 100px;
-    line-height: 70px;
+    height: $height;
+    padding: 0 20px;
+    line-height: $height;
     text-align: center;
     color: #333;
+    font-size: 15px;
+  }
+
+  .bar:last-child {
+    padding-right: 0;
   }
 
   .bar:hover {
     color: #999;
+  }
+
+  @media (max-width: 1000px) {
+    .bars {
+      display: none;
+    }
+
+    .logo-wrapper {
+      display: flex;
+      justify-content: center;
+    }
   }
 </style>
 

@@ -10,7 +10,7 @@
   #app {
     width: 100%;
     height: 100%;
-    background: #f5f5f5;
+    background: #F7F7F7;
     display: flex;
     justify-content: center;
   }
