@@ -22,6 +22,7 @@ HttpClient.delete = (url, params) => request(Method.DELETE, url, params);
 
 
 function request(method, url, params) {
+  if (!params)params = {};
   url = UrlConfig.apiUrl + url;
 
   if (method === Method.GET || method === Method.DELETE) {
@@ -35,12 +36,20 @@ function request(method, url, params) {
     'Content-Type': 'application/json',
   };
 
-  return axios({
-    method: method,
-    url: url,
-    timeout: 3000,
-    data: params,
-    headers: headers,
+  return new Promise((resolve, reject) => {
+    axios({
+      method: method,
+      url: url,
+      timeout: 3000,
+      data: params,
+      headers: headers,
+    })
+    .then((res) => {
+      resolve(res.data.data);
+    })
+    .catch(() => {
+      reject({ msg: '网络错误' });
+    });
   });
 }
 
