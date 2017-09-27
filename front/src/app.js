@@ -1,16 +1,9 @@
 import Vue from 'vue';
-import VueProgressBar from 'vue-progressbar';
 import { sync } from 'vuex-router-sync';
 import App from './App.vue';
 import createRouter from './routes/index';
 import createStore from './store/index';
 import Mixin from './mixin/Mixin';
-// process bar
-Vue.use(VueProgressBar, {
-  color: '#bffaf3',
-  failedColor: 'red',
-  height: '2px',
-});
 
 Vue.mixin(Mixin);
 

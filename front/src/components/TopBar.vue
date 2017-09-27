@@ -4,14 +4,20 @@
       <h1 class="logo-wrapper">
         <router-link to="/" class="logo"></router-link>
       </h1>
-      <div class="bars">
+      <div class="bars" v-if="menus.length>0">
         <router-link 
           class="bar" 
-          v-for="(bar,i) in topBars" 
+          v-for="(menu,i) in menus" 
           :key="i" 
-          :to="bar.url">
-          {{bar.name}}
+          :to="menu.url">
+          {{menu.name}}
         </router-link>
+      </div>
+      <div v-else class="bars">
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
       </div>
     </div>
   </div>
@@ -22,31 +28,8 @@ export default {
     logo: {
       default: '',
     },
-    topBars: {
-      default: () => [{
-        name: '主页',
-        url: '/',
-        icon: 'xxxx',
-        selectColor: '#d5d5d5',
-      },
-      {
-        name: '归档',
-        url: '/archive',
-        icon: 'xxxx',
-        selectColor: '#d5d5d5',
-      },
-      {
-        name: '分类',
-        url: '/catalog',
-        icon: 'xxxx',
-        selectColor: '#d5d5d5',
-      },
-      {
-        name: '关于',
-        url: '/about',
-        icon: 'xxxx',
-        selectColor: '#d5d5d5',
-      }],
+    menus: {
+
     },
   },
   data() {
@@ -89,6 +72,13 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+  }
+
+  .skeleton {
+    width: 30px;
+    height: 20px;
+    margin-left: 40px;
+    background: #f5f5f5;
   }
   
   .bar {
