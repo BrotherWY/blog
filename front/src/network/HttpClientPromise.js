@@ -3,7 +3,7 @@ import UrlConfig from '@/network/url-config';
 
 const HttpClient = {};
 
-HttpClient.self = {};
+// HttpClient.self = {};
 
 const Method = {
   GET: 'GET',
@@ -23,6 +23,7 @@ HttpClient.delete = (url, params) => request(Method.DELETE, url, params);
 
 function request(method, url, params) {
   if (!params)params = {};
+
   url = UrlConfig.apiUrl + url;
 
   if (method === Method.GET || method === Method.DELETE) {
@@ -53,21 +54,21 @@ function request(method, url, params) {
   });
 }
 
-axios.interceptors.request.use((config) => {
-  HttpClient.self.$Progress.start();
-  return config;
-}, (error) => {
-  HttpClient.self.$Progress.fail();
-  return Promise.reject(error);
-});
+// axios.interceptors.request.use((config) => {
+//   // HttpClient.self.$Progress.start();
+//   return config;
+// }, (error) => {
+//   HttpClient.self.$Progress.fail();
+//   return Promise.reject(error);
+// });
 
-axios.interceptors.response.use((response) => {
-  HttpClient.self.$Progress.finish();
-  return response;
-}, (error) => {
-  HttpClient.self.$Progress.fail();
-  return Promise.reject(error);
-});
+// axios.interceptors.response.use((response) => {
+//   HttpClient.self.$Progress.finish();
+//   return response;
+// }, (error) => {
+//   HttpClient.self.$Progress.fail();
+//   return Promise.reject(error);
+// });
 
 function fullUrl(url, params) {
   const keys = Object.keys(params);

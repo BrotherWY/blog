@@ -5108,6 +5108,14 @@ vue@^2.4.4:
   version "2.4.4"
   resolved "http://registry.npm.taobao.org/vue/download/vue-2.4.4.tgz#ea9550b96a71465fd2b8b17b61673b3561861789"
 
+vuex-router-sync@^4.3.2:
+  version "4.3.2"
+  resolved "http://registry.npm.taobao.org/vuex-router-sync/download/vuex-router-sync-4.3.2.tgz#604b61a377daaa68b2ef6e8e0326b2cad26f359e"
+
+vuex@^2.4.0:
+  version "2.4.0"
+  resolved "http://registry.npm.taobao.org/vuex/download/vuex-2.4.0.tgz#e1d0430646282b40007fdd06ec6ae88a9f5a1e14"
+
 watchpack@^1.4.0:
   version "1.4.0"
   resolved "http://registry.npm.taobao.org/watchpack/download/watchpack-1.4.0.tgz#4a1472bcbb952bd0a9bb4036801f954dfb39faac"

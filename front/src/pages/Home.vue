@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <top-bar></top-bar>
+    <top-bar :menus="getMenus"></top-bar>
     <div class="wrapper mt16">
       <div class="center">
-
+        
       </div>
       <div class="right ml16">
 
@@ -16,23 +16,28 @@
 <script>
 import TopBar from '@/components/TopBar';
 import FooterBar from '@/components/Footer';
+import homeStoreModule from '@/store/modules/home';
 
 export default {
+  asyncData({ store }) {
+    store.registerModule('home', homeStoreModule);
+    return store.dispatch('home/FETCH_MENUS');
+  },
   data() {
-    return {
-
-    };
+    return {};
+  },
+  computed: {
+    getMenus() {
+      return this.$store.state.home.menus;
+    },
   },
   created() {
     this.setTitleMixin('首页');
-    // 发送请求
-    this.getHttpClient().get('/menu')
-    .then(() => {
-
-    })
-    .catch(() => {
-
-    });
+  },
+  // 重要信息：当多次访问路由时，
+  // 避免在客户端重复注册模块。
+  destroyed() {
+    this.$store.unregisterModule('home');
   },
   components: {
     'top-bar': TopBar,

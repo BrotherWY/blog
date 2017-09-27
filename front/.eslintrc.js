@@ -44,5 +44,7 @@ module.exports = {
     'no-use-before-define': 0,
     'no-param-reassign': 0,
     'object-shorthand': 0,
+    'no-underscore-dangle': 0,
+    'import/prefer-default-export': 0
   }
 }
