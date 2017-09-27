@@ -16,7 +16,6 @@
 <script>
 import TopBar from '@/components/TopBar';
 import FooterBar from '@/components/Footer';
-import HttpClient from '@/network/HttpClientPromise';
 
 export default {
   data() {
@@ -25,12 +24,11 @@ export default {
     };
   },
   created() {
-    if (this.$ssrContext) this.$ssrContext.title = '首页';
-    HttpClient.self = this;
+    this.setTitleMixin('首页');
     // 发送请求
-    HttpClient.get('/menu')
-    .then((data) => {
-      console.log(data);
+    this.getHttpClient().get('/menu')
+    .then(() => {
+
     })
     .catch(() => {
 

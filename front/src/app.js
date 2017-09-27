@@ -2,21 +2,20 @@ import Vue from 'vue';
 import VueProgressBar from 'vue-progressbar';
 import App from './App.vue';
 import createRouter from './routes/index';
+import Mixin from './mixin/Mixin';
 // process bar
 Vue.use(VueProgressBar, {
-  color: 'rgb(143, 255, 199)',
+  color: '#bffaf3',
   failedColor: 'red',
   height: '2px',
 });
-// 导出一个工厂函数，用于创建新的
-// 应用程序、router 和 store 实例
+
+Vue.mixin(Mixin);
 
 export default function createApp() {
   // 创建 router 实例
   const router = createRouter();
   const app = new Vue({
-    // 根实例简单的渲染应用程序组件。
-    // 注入 router 到根 Vue 实例
     router,
     render: h => h(App),
   });
