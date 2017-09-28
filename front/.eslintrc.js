@@ -47,6 +47,7 @@ module.exports = {
     'no-underscore-dangle': 0,
     'import/prefer-default-export': 0,
     'no-return-assign': 0,
-    'arrow-body-style': 0
+    'arrow-body-style': 0,
+    'quote-props': 0
   }
 }

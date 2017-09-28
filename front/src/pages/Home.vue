@@ -4,14 +4,18 @@
     <skeleton-heder></skeleton-heder>
     <div class="wrapper mt16">
       <div class="left">
-        <skeleton-profile></skeleton-profile>
+        <profile></profile>
+        <!-- <skeleton-profile></skeleton-profile> -->
       </div>
       <div class="center">
-        <skeleton-article-item></skeleton-article-item>
+        <!-- <skeleton-article-item></skeleton-article-item> -->
+        <article-item></article-item>
       </div>
       <div class="right ml16">
-        <skeleton-tag></skeleton-tag>
-        <skeleton-recent></skeleton-recent>
+        <!-- <skeleton-tag></skeleton-tag> -->
+        <!-- <skeleton-recent></skeleton-recent> -->
+        <tag-wrapper></tag-wrapper>
+        <recent></recent>
       </div>
     </div>
     <footer-bar></footer-bar>
@@ -19,8 +23,12 @@
 </template>
 
 <script>
+import Recent from '@/components/Recent';
 import HeaderBar from '@/components/Header';
 import FooterBar from '@/components/Footer';
+import Profile from '@/components/Profile';
+import ArticleItem from '@/components/ArticleItem';
+import TagWrapper from '@/components/TagWrapper';
 import homeStoreModule from '@/store/modules/home';
 import SkeletonTag from '@/components/skeleton/SkeletonTag';
 import SkeletonHeader from '@/components/skeleton/SkeletonHeader';
@@ -55,9 +63,13 @@ export default {
     this.$store.unregisterModule('home');
   },
   components: {
+    'recent': Recent,
+    'profile': Profile,
     'header-bar': HeaderBar,
     'footer-bar': FooterBar,
+    'tag-wrapper': TagWrapper,
     'skeleton-tag': SkeletonTag,
+    'article-item': ArticleItem,
     'skeleton-heder': SkeletonHeader,
     'skeleton-recent': SkeletonRecent,
     'skeleton-profile': SkeletonProfile,
