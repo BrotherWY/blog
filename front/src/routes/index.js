@@ -17,8 +17,8 @@ export default function createRouter() {
         component: () => import('@/pages/Archive.vue'),
       },
       {
-        path: '/catalog',
-        component: () => import('@/pages/Catalog.vue'),
+        path: '/tag',
+        component: () => import('@/pages/Tag.vue'),
       },
       {
         path: '/about',
