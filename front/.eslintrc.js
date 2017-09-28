@@ -45,6 +45,8 @@ module.exports = {
     'no-param-reassign': 0,
     'object-shorthand': 0,
     'no-underscore-dangle': 0,
-    'import/prefer-default-export': 0
+    'import/prefer-default-export': 0,
+    'no-return-assign': 0,
+    'arrow-body-style': 0
   }
 }

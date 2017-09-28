@@ -6,6 +6,17 @@ export default {
       if (this.$ssrContext) this.$ssrContext.title = title;
     },
   },
+  beforeRouteUpdate(to, from, next) {
+    const { asyncData } = this.$options;
+    if (asyncData) {
+      asyncData({
+        store: this.$store,
+        route: to,
+      }).then(next).catch(next);
+    } else {
+      next();
+    }
+  },
   beforeMount() {
     const { asyncData } = this.$options;
     if (asyncData) {
@@ -16,17 +27,6 @@ export default {
         store: this.$store,
         route: this.$route,
       });
-    }
-  },
-  beforeRouteUpdate(to, from, next) {
-    const { asyncData } = this.$options;
-    if (asyncData) {
-      asyncData({
-        store: this.$store,
-        route: to,
-      }).then(next).catch(next);
-    } else {
-      next();
     }
   },
 };

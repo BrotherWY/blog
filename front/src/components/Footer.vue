@@ -18,10 +18,8 @@ export default {
   $height: 250px;
   .footer {
     width: 100%;
-    height: $height;
-    background: #fff;
-    display: flex;
-    justify-content: center;
+    height: 200px;
+    // background: #fff;
   }
 </style>
 

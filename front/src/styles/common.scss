@@ -7,7 +7,7 @@
 
 .wrapper {
   display: flex;
-  width: 1000px;
+  width: 1300px;
 }
 
 .mt8 {
@@ -26,6 +26,10 @@
   margin-top: 32px;
 }
 
+.mt48 {
+  margin-top: 48px;
+}
+
 .ml8 {
   margin-left: 8px;
 }
@@ -42,4 +46,17 @@
   margin-left: 32px;
 }
 
+.ml48 {
+  margin-left: 48px;
+}
 
+.skeleton-bg {
+  background: #f5f5f5;
+}
+
+
+@media (max-width: 1300px) {
+  .wrapper {
+    width: 100%;
+  }
+}

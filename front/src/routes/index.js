@@ -9,7 +9,20 @@ export default function createRouter() {
     scrollBehavior: () => ({ y: 0 }),
     routes: [
       {
-        path: '/', component: () => import('@/pages/Home.vue'),
+        path: '/',
+        component: () => import('@/pages/Home.vue'),
+      },
+      {
+        path: '/archive',
+        component: () => import('@/pages/Archive.vue'),
+      },
+      {
+        path: '/catalog',
+        component: () => import('@/pages/Catalog.vue'),
+      },
+      {
+        path: '/about',
+        component: () => import('@/pages/About.vue'),
       },
     ],
   });

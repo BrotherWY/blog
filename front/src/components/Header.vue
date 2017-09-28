@@ -1,10 +1,12 @@
 <template>
-  <div class="top">
+  <header class="top">
     <div class="top-bar wrapper">
       <h1 class="logo-wrapper">
-        <router-link to="/" class="logo"></router-link>
+        <router-link to="/">
+          <img src="http://cdn2.jianshu.io/assets/web/logo-58fd04f6f0de908401aa561cda6a0688.png" alt="logo" class="logo">
+        </router-link>
       </h1>
-      <div class="bars" v-if="menus.length>0">
+      <div class="bars">
         <router-link 
           class="bar" 
           v-for="(menu,i) in menus" 
@@ -13,14 +15,8 @@
           {{menu.name}}
         </router-link>
       </div>
-      <div v-else class="bars">
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-      </div>
     </div>
-  </div>
+  </header>
 </template>
 <script>
 export default {
@@ -28,9 +24,7 @@ export default {
     logo: {
       default: '',
     },
-    menus: {
-
-    },
+    menus: {},
   },
   data() {
     return {
@@ -62,9 +56,6 @@ export default {
 
   .logo {
     width: 40px;
-    height: 40px;
-    background-image: url('//img.alicdn.com/tps/i2/TB1bNE7LFXXXXaOXFXXwFSA1XXX-292-116.png_145x145.jpg');
-    background-size: 40px 40px;
   }
 
   .bars {
@@ -79,6 +70,7 @@ export default {
     height: 20px;
     margin-left: 40px;
     background: #f5f5f5;
+    font-size: 15px;
   }
   
   .bar {
@@ -98,7 +90,7 @@ export default {
     color: #999;
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1300px) {
     .bars {
       display: none;
     }

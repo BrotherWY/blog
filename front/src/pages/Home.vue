@@ -1,12 +1,17 @@
 <template>
   <div class="container">
-    <top-bar :menus="getMenus"></top-bar>
+    <!-- <header-bar v-if="getMenus.length>0" :menus="getMenus"></header-bar> -->
+    <skeleton-heder></skeleton-heder>
     <div class="wrapper mt16">
+      <div class="left">
+        <skeleton-profile></skeleton-profile>
+      </div>
       <div class="center">
-        
+        <skeleton-article-item></skeleton-article-item>
       </div>
       <div class="right ml16">
-
+        <skeleton-tag></skeleton-tag>
+        <skeleton-recent></skeleton-recent>
       </div>
     </div>
     <footer-bar></footer-bar>
@@ -14,9 +19,14 @@
 </template>
 
 <script>
-import TopBar from '@/components/TopBar';
+import HeaderBar from '@/components/Header';
 import FooterBar from '@/components/Footer';
 import homeStoreModule from '@/store/modules/home';
+import SkeletonTag from '@/components/skeleton/SkeletonTag';
+import SkeletonHeader from '@/components/skeleton/SkeletonHeader';
+import SkeletonRecent from '@/components/skeleton/SkeletonRecent';
+import SkeletonProfile from '@/components/skeleton/SkeletonProfile';
+import SkeletonArticleItem from '@/components/skeleton/SkeletonArticleItem';
 
 export default {
   asyncData({ store }) {
@@ -24,7 +34,12 @@ export default {
     return store.dispatch('home/FETCH_MENUS');
   },
   data() {
-    return {};
+    return {
+      menus: [],
+    };
+  },
+  methods: {
+
   },
   computed: {
     getMenus() {
@@ -40,26 +55,42 @@ export default {
     this.$store.unregisterModule('home');
   },
   components: {
-    'top-bar': TopBar,
+    'header-bar': HeaderBar,
     'footer-bar': FooterBar,
+    'skeleton-tag': SkeletonTag,
+    'skeleton-heder': SkeletonHeader,
+    'skeleton-recent': SkeletonRecent,
+    'skeleton-profile': SkeletonProfile,
+    'skeleton-article-item': SkeletonArticleItem,
   },
 };
 </script>
 
 <style lang="scss" scoped>
+  .left {
+    width: 300px;
+  }
+
   .center {
     flex: 1;
-    height: 500px;
-    background: #fff;
+    margin-left: 16px;
   }
 
   .right {
     width: 300px;
-    height: 500px;
-    background: #fff;
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1300px) {
+    .left {
+      display: none;
+    }
+    
+    .center {
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 750px) {
     .right {
       display: none;
     }
