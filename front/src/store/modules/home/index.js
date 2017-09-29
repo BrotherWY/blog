@@ -1,10 +1,11 @@
-import { FETCH_MENUS, SET_MENUS } from '@/store/mutation-types';
+import { FETCH_MENUS, SET_MENUS, FETCH_TAGS, SET_TAGS } from '@/store/mutation-types';
 import HttpClient from '@/network/HttpClientPromise';
 
 export default {
   namespaced: true,
   state: {
     menus: [],
+    tags: [],
   },
   getters: {},
   actions: {
@@ -12,15 +13,21 @@ export default {
       HttpClient.get('/menu')
       .then((data) => {
         commit(SET_MENUS, data.list);
-      })
-      .catch(() => {
-
+      });
+    },
+    [FETCH_TAGS]({ commit }) {
+      HttpClient.get('/tags')
+      .then((data) => {
+        commit(SET_TAGS, data.list);
       });
     },
   },
   mutations: {
     [SET_MENUS](state, menus) {
       state.menus = menus;
+    },
+    [SET_TAGS](state, tags) {
+      state.tags = tags;
     },
   },
 };

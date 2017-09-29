@@ -27,8 +27,7 @@ export default {
 
 <style lang="scss" scoped>
   .tag {
-    display: flex;
-    align-items: center;
+    float: left;
     margin-right: 16px;
   }
 

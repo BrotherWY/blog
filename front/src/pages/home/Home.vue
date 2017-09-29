@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <!-- <header-bar v-if="getMenus.length>0" :menus="getMenus"></header-bar> -->
-    <skeleton-heder></skeleton-heder>
+    <header-bar v-if="getMenus&&getMenus.length>0" :menus="getMenus"></header-bar>
+    <skeleton-heder v-else></skeleton-heder>
     <div class="wrapper mt16">
       <div class="left">
         <profile></profile>
@@ -12,9 +12,9 @@
         <article-item></article-item>
       </div>
       <div class="right ml16">
-        <!-- <skeleton-tag></skeleton-tag> -->
+        <tag-wrapper v-if="getTags.length>0" :tags="getTags" ></tag-wrapper>
+        <skeleton-tag v-else></skeleton-tag>
         <!-- <skeleton-recent></skeleton-recent> -->
-        <tag-wrapper></tag-wrapper>
         <recent></recent>
       </div>
     </div>
@@ -39,7 +39,8 @@ import SkeletonArticleItem from '@/components/skeleton/SkeletonArticleItem';
 export default {
   asyncData({ store }) {
     store.registerModule('home', homeStoreModule);
-    return store.dispatch('home/FETCH_MENUS');
+    store.dispatch('home/FETCH_MENUS');
+    return store.dispatch('home/FETCH_TAGS');
   },
   data() {
     return {
@@ -52,6 +53,9 @@ export default {
   computed: {
     getMenus() {
       return this.$store.state.home.menus;
+    },
+    getTags() {
+      return this.$store.state.home.tags;
     },
   },
   created() {

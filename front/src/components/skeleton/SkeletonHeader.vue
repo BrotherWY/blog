@@ -2,7 +2,7 @@
   <header class="skeleton">
     <div class="skeleton-bar wrapper">
       <h1 class="logo-wrapper">
-        <div class="logo skeleton-bg"></div>
+        <div class="logo skeleton-bg" alt="logo" ></div>
       </h1>
       <div class="skeleton-items">
         <div class="skeleton-item skeleton-bg"></div>
