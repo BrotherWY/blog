@@ -23,14 +23,14 @@
 </template>
 
 <script>
-import Recent from '@/components/Recent';
 import HeaderBar from '@/components/Header';
 import FooterBar from '@/components/Footer';
-import Profile from '@/components/Profile';
-import ArticleItem from '@/components/ArticleItem';
-import TagWrapper from '@/components/TagWrapper';
 import homeStoreModule from '@/store/modules/home';
+import Recent from '@/pages/home/components/Recent';
+import Profile from '@/pages/home/components/Profile';
+import TagWrapper from '@/pages/home/components/TagWrapper';
 import SkeletonTag from '@/components/skeleton/SkeletonTag';
+import ArticleItem from '@/pages/home/components/ArticleItem';
 import SkeletonHeader from '@/components/skeleton/SkeletonHeader';
 import SkeletonRecent from '@/components/skeleton/SkeletonRecent';
 import SkeletonProfile from '@/components/skeleton/SkeletonProfile';

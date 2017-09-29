@@ -10,19 +10,19 @@ export default function createRouter() {
     routes: [
       {
         path: '/',
-        component: () => import('@/pages/Home.vue'),
+        component: () => import('@/pages/home/Home.vue'),
       },
       {
         path: '/archive',
-        component: () => import('@/pages/Archive.vue'),
+        component: () => import('@/pages/archive/Archive.vue'),
       },
       {
         path: '/tag',
-        component: () => import('@/pages/Tag.vue'),
+        component: () => import('@/pages/tag/Tag.vue'),
       },
       {
         path: '/about',
-        component: () => import('@/pages/About.vue'),
+        component: () => import('@/pages/about/About.vue'),
       },
     ],
   });
