@@ -75,6 +75,7 @@ export default {
   @media (max-width: 1300px) {
     .skeleton {
       min-height: 90px;
+      margin-top: 8px;
     }
 
     .skeleton-img {

@@ -14,7 +14,7 @@ export default {
       show: false,
       canSuccess: true,
       duration: 3000,
-      color: '#ffca2b',
+      color: '#4B8DFA',
       failedColor: '#ff0000',
     };
   },
@@ -95,7 +95,7 @@ export default {
     width: 0%;
     transition: width 0.2s, opacity 0.2s;
     opacity: 1;
-    background-color: #efc14e;
+    background-color: #4B8DFA;
     z-index: 999999;
   }
 </style>

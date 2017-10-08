@@ -105,6 +105,10 @@ export default {
   }
 
   @media (max-width: 1300px) {
+    .article-item {
+      margin-top: 8px;
+    }
+    
     .img {
       width: 60px;
       height: 60px;
