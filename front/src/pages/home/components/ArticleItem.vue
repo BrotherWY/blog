@@ -1,18 +1,18 @@
 <template>
   <div class="article-item">
     <div class="top">
-      <img class="img" src="http://wenwen.soso.com/p/20110106/20110106102235-195726459.jpg"/>
+      <img class="img" :src="article.cover"/>
       <div class="content-wrapper">
-        <h1 class="title ellipsis">今天天气大好啊！！！！今天天气大好啊！！！！今天天气大好啊！！！！今天天气大好啊！！！！今天天气大好啊！！！！</h1>
-        <div class="content">今天天气大好啊！！！！今天天气大好啊！今天天气大好啊！！！！</div>
+        <h1 class="title ellipsis">{{article.title}}</h1>
+        <div class="content">{{article.content}}</div>
+        <div class="list">
+          <span class="time">{{article.date}}</span>
+          <function v-for="(func, i) in article.funcs" :key="i" :func="func"></function>
+        </div>
       </div>
     </div>
-    <div class="list">
-      <span class="time">2017-09-29 10:00</span>
-      <function v-for="(func, i) in funcs" :key="i" :func="func"></function>
-    </div>
     <div class="tags">
-      <tag v-for="(tag, i) in tags" :key="i" :name="tag"></tag>
+      <tag v-for="(tag, i) in article.tags" :key="i" :name="tag"></tag>
     </div>
   </div>
 </template>
@@ -22,23 +22,11 @@ import Tag from '@/pages/home/components/ArticleTag';
 import Function from '@/pages/home/components/Function';
 
 export default {
+  props: {
+    article: {},
+  },
   data() {
     return {
-      funcs: [
-        {
-          icon: 'wy-faxian',
-          count: 1000,
-        },
-        {
-          icon: 'wy-pinglun',
-          count: 1000,
-        },
-        {
-          icon: 'wy-iconfontzhuanfa',
-          count: 1000,
-        },
-      ],
-      tags: ['react', 'vue', 'react-native', 'react', 'vue', 'react-native'],
     };
   },
   components: {
@@ -56,6 +44,11 @@ export default {
     flex-direction: column;
     background: #fff;
     padding-top: 12px;
+    margin-top: 16px;
+  }
+
+  .article-item:first-child {
+    margin-top: 0;
   }
 
   .top {
@@ -94,19 +87,11 @@ export default {
     color: #666;
   }
 
-  .ellipsis {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
   .list {
     height: 30px;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    margin: 0 16px;
+    align-items: flex-end;
   }
 
   .tags {

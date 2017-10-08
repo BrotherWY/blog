@@ -1,33 +1,31 @@
-import { FETCH_MENUS, SET_MENUS, FETCH_TAGS, SET_TAGS } from '@/store/mutation-types';
+import { FETCH_INDEX, SET_INDEX } from '@/store/mutation-types';
 import HttpClient from '@/network/HttpClientPromise';
 
 export default {
   namespaced: true,
   state: {
-    menus: [],
+    header: {},
     tags: [],
+    userInfo: {},
+    articles: [],
+    recents: [],
   },
   getters: {},
   actions: {
-    [FETCH_MENUS]({ commit }) {
-      HttpClient.get('/menu')
+    [FETCH_INDEX]({ commit }) {
+      HttpClient.get('/index')
       .then((data) => {
-        commit(SET_MENUS, data.list);
-      });
-    },
-    [FETCH_TAGS]({ commit }) {
-      HttpClient.get('/tags')
-      .then((data) => {
-        commit(SET_TAGS, data.list);
+        commit(SET_INDEX, data);
       });
     },
   },
   mutations: {
-    [SET_MENUS](state, menus) {
-      state.menus = menus;
-    },
-    [SET_TAGS](state, tags) {
-      state.tags = tags;
+    [SET_INDEX](state, data) {
+      state.header = data.header;
+      state.tags = data.tags;
+      state.userInfo = data.userInfo;
+      state.articles = data.articles;
+      state.recents = data.recents;
     },
   },
 };

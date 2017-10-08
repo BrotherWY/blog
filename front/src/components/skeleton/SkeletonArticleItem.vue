@@ -27,6 +27,11 @@ export default {
     display: flex;
     background: #fff;
     align-items: center;
+    margin-top: 16px;
+  }
+
+  .skeleton:first-child {
+    margin-top: 0;
   }
 
   .skeleton-img {

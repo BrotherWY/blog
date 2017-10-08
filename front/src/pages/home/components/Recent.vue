@@ -4,25 +4,9 @@
       <div class="title bg ml8">最新文章</div>
     </div>
     <div class="articles">
-      <div class="article">
-        <p class="text ellipsis">最近文章最近文章最近文章最近文章最近文章最近文章最近文章</p>
-        <span class="time">09-29 5:01</span>
-      </div>
-      <div class="article">
-        <p class="text ellipsis">最近文章最近文章最近文章最近文章最近文章最近文章最近文章</p>
-        <span class="time">09-29 5:01</span>
-      </div>
-      <div class="article">
-        <p class="text ellipsis">最近文章最近文章最近文章最近文章最近文章最近文章最近文章</p>
-        <span class="time">09-29 5:01</span>
-      </div>
-      <div class="article">
-        <p class="text ellipsis">最近文章最近文章最近文章最近文章最近文章最近文章最近文章</p>
-        <span class="time">09-29 5:01</span>
-      </div>
-      <div class="article">
-        <p class="text ellipsis">最近文章最近文章最近文章最近文章最近文章最近文章最近文章</p>
-        <span class="time">09-29 5:01</span>
+      <div class="article" v-for="(recent,i) in recents" :key="i">
+        <p class="text ellipsis">{{recent.title}}</p>
+        <span class="time">{{recent.time}}</span>
       </div>
     </div>
   </div>
@@ -30,6 +14,9 @@
 
 <script>
 export default {
+  props: {
+    recents: {},
+  },
   data() {
     return {
 
@@ -41,7 +28,6 @@ export default {
 <style lang="scss" scoped>
   .recent {
     width: 100%;
-    min-height: 150px;
     display: flex;
     background: #fff;
     flex-direction: column;
@@ -90,12 +76,6 @@ export default {
   .time {
     font-size: 12px;
     color: #999;
-  }
-
-  .ellipsis {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
   }
 
   .w30 {

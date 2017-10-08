@@ -8,7 +8,7 @@
   @import './styles/common.scss';
   #app {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     background: #F7F7F7;
     display: flex;
     justify-content: center;

@@ -2,14 +2,14 @@
   <header class="top">
     <div class="top-bar wrapper">
       <h1 class="logo-wrapper">
-        <router-link to="/">
-          <img src="http://cdn2.jianshu.io/assets/web/logo-58fd04f6f0de908401aa561cda6a0688.png" alt="logo" class="logo">
+        <router-link :to="data.logo.url">
+          <img :src="data.logo.img" alt="logo" class="logo">
         </router-link>
       </h1>
       <div class="bars">
         <router-link 
           class="bar" 
-          v-for="(menu,i) in menus" 
+          v-for="(menu,i) in data.menus" 
           :key="i" 
           :to="menu.url">
           {{menu.name}}
@@ -21,10 +21,7 @@
 <script>
 export default {
   props: {
-    logo: {
-      default: '',
-    },
-    menus: {},
+    data: {},
   },
   data() {
     return {
@@ -40,6 +37,7 @@ export default {
   .top {
     width: 100%;
     height: $height;
+    min-height: $height;
     background: #fff;
     display: flex;
     justify-content: center;

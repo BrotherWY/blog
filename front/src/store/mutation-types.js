@@ -1,5 +1,2 @@
-export const FETCH_MENUS = 'FETCH_MENUS';
-export const SET_MENUS = 'SET_MENUS';
-
-export const FETCH_TAGS = 'FETCH_TAGS';
-export const SET_TAGS = 'SET_TAGS';
+export const FETCH_INDEX = 'FETCH_INDEX';
+export const SET_INDEX = 'SET_INDEX';

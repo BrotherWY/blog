@@ -10,14 +10,7 @@ import Badge from '@/components/Badge';
 
 export default {
   props: {
-    tag: {
-      default: () => {
-        return {
-          name: 'android',
-          count: 10,
-        };
-      },
-    },
+    tag: {},
   },
   data() {
     return {

@@ -25,7 +25,7 @@ export default {
     height: 100%;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-end;
     margin-left: 16px;
   }
 
