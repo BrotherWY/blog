@@ -4,7 +4,6 @@ import HttpClient from '@/network/HttpClientPromise';
 export default {
   namespaced: true,
   state: {
-    header: {},
     tags: [],
     userInfo: {},
     articles: [],
@@ -21,7 +20,6 @@ export default {
   },
   mutations: {
     [SET_INDEX](state, data) {
-      state.header = data.header;
       state.tags = data.tags;
       state.userInfo = data.userInfo;
       state.articles = data.articles;

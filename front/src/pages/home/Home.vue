@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    <header-bar v-if="getHeader.menus&&getHeader.menus.length>0" :data="getHeader"></header-bar>
-    <skeleton-heder v-else></skeleton-heder>
     <div class="wrapper mt16">
       <div class="left">
         <profile v-if="getUserInfo&&getUserInfo.logo" :userInfo="getUserInfo"></profile>
@@ -28,7 +26,6 @@
 </template>
 
 <script>
-import HeaderBar from '@/components/Header';
 import FooterBar from '@/components/Footer';
 import homeStoreModule from '@/store/modules/home';
 import Recent from '@/pages/home/components/Recent';
@@ -36,7 +33,6 @@ import Profile from '@/pages/home/components/Profile';
 import TagWrapper from '@/pages/home/components/TagWrapper';
 import SkeletonTag from '@/components/skeleton/SkeletonTag';
 import ArticleItem from '@/pages/home/components/ArticleItem';
-import SkeletonHeader from '@/components/skeleton/SkeletonHeader';
 import SkeletonRecent from '@/components/skeleton/SkeletonRecent';
 import SkeletonProfile from '@/components/skeleton/SkeletonProfile';
 import SkeletonArticleItem from '@/components/skeleton/SkeletonArticleItem';
@@ -54,9 +50,6 @@ export default {
 
   },
   computed: {
-    getHeader() {
-      return this.$store.state.home.header;
-    },
     getTags() {
       return this.$store.state.home.tags;
     },
@@ -81,12 +74,10 @@ export default {
   components: {
     'recent': Recent,
     'profile': Profile,
-    'header-bar': HeaderBar,
     'footer-bar': FooterBar,
     'tag-wrapper': TagWrapper,
     'skeleton-tag': SkeletonTag,
     'article-item': ArticleItem,
-    'skeleton-heder': SkeletonHeader,
     'skeleton-recent': SkeletonRecent,
     'skeleton-profile': SkeletonProfile,
     'skeleton-article-item': SkeletonArticleItem,
