@@ -40,5 +40,19 @@ export default {
     margin-left: 3px;
   }
 
+  @media (max-width: 1300px) {
+    .function {
+        margin-left: 8px;
+    }
+
+    .icon {
+      font-size: 12px;
+    }
+
+    .text {
+      font-size: 12px;
+    }
+  }
+
 </style>
 

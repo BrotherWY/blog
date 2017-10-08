@@ -9,7 +9,6 @@
 export default {
   props: {
     name: {
-      default: 'react',
     },
   },
   data() {
@@ -31,8 +30,27 @@ export default {
     margin-right: 16px;
   }
 
+  .icon {
+    font-size: 14px;
+  }
+
   .text {
+    font-size: 14px;
     margin-left: 5px;
+  }
+
+  @media (max-width: 1300px) {
+    .tag {
+      margin-right: 8px;
+    }
+
+     .icon {
+      font-size: 12px;
+    }
+
+    .text {
+      font-size: 12px;
+    }
   }
 </style>
 

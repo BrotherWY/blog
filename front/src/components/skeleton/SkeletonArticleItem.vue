@@ -26,8 +26,8 @@ export default {
     min-height: 150px;
     display: flex;
     background: #fff;
-    align-items: center;
     margin-top: 16px;
+    padding-top: 12px;
   }
 
   .skeleton:first-child {
@@ -74,12 +74,12 @@ export default {
 
   @media (max-width: 1300px) {
     .skeleton {
-      min-height: 120px;
+      min-height: 90px;
     }
 
     .skeleton-img {
-      width: 90px;
-      height: 90px;
+      width: 60px;
+      height: 60px;
       margin: 0 0 0 8px;
     }
 

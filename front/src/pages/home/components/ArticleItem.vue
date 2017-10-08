@@ -39,7 +39,6 @@ export default {
 <style lang="scss" scoped>
   .article-item {
     width: 100%;
-    min-height: 130px;
     display: flex;
     flex-direction: column;
     background: #fff;
@@ -106,30 +105,34 @@ export default {
   }
 
   @media (max-width: 1300px) {
-    .article-item {
-      min-height: 120px;
-    }
-
     .img {
       width: 60px;
       height: 60px;
       margin: 0 0 0 8px;
     }
 
+    .content {
+      font-size: 12px;
+      min-height: 20px;
+    }
+
     .title {
       width: 200px;
       height: 20px;
-      font-size: 16px;
-      cursor: pointer;
-      color: #333;
+      font-size: 14px;
     }
 
     .list {
-      margin: 0 8px;
+      margin-top: 4px;
+      height: 16px;
     }
 
     .tags {
-      margin: 0 8px;
+      margin: 8px 8px;
+    }
+
+    .time {
+      font-size: 12px;
     }
   }
 </style>

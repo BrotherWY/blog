@@ -69,6 +69,15 @@ export default {
   }
 
   @media (max-width: 1300px) {
+    .skeleton {
+      height: 40px;
+    }
+
+    .logo {
+      height: 30px;
+      width: 30px;
+    }
+
     .skeleton-items {
       display: none;
     }

@@ -62,14 +62,6 @@ export default {
     flex-direction: row;
     justify-content: flex-end;
   }
-
-  .skeleton {
-    width: 30px;
-    height: 20px;
-    margin-left: 40px;
-    background: #f5f5f5;
-    font-size: 15px;
-  }
   
   .bar {
     height: $height;
@@ -89,6 +81,15 @@ export default {
   }
 
   @media (max-width: 1300px) {
+    .top {
+      height: 40px;
+      min-height: 40px;
+    }
+
+    .logo {
+      width: 30px;
+    }
+
     .bars {
       display: none;
     }
