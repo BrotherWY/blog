@@ -1,17 +1,17 @@
-const router = require('koa-router')()
+const router = require('koa-router')();
 
-router.get('/', (ctx, next) => {
+router.get('/', (ctx) => {
   ctx.body = '哈哈哈';
-})
+});
 
-router.get('/string', async (ctx, next) => {
-  ctx.body = 'koa2 string'
-})
+router.get('/string', async (ctx) => {
+  ctx.body = 'koa2 string';
+});
 
-router.get('/json', async (ctx, next) => {
+router.get('/json', async (ctx) => {
   ctx.body = {
-    title: 'koa2 json'
-  }
-})
+    title: 'koa2 json',
+  };
+});
 
-module.exports = router
+module.exports = router;
