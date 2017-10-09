@@ -47,6 +47,7 @@ function request(method, url, params) {
       resolve(res.data.data);
     })
     .catch(() => {
+      // 这里需要重新抓取一下错误提示
       reject({ msg: '网络错误' });
     });
   });

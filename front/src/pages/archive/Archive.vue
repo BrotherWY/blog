@@ -1,5 +1,9 @@
 <template>
-  
+  <div class="container">
+    <div class="wrapper mt16">
+      
+    </div>
+  </div>
 </template>
 
 <script>

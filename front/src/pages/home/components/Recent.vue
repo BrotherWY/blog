@@ -63,7 +63,7 @@ export default {
   }
 
   .text {
-    width: 77%;
+    width: 72%;
     font-size: 14px;
     color: #666;
     cursor: pointer;
