@@ -51,6 +51,7 @@ module.exports = {
     'quote-props': 0,
     'import/no-dynamic-require': 0,
     'global-require': 0,
-    'prefer-destructuring': 0
+    'prefer-destructuring': 0,
+    'no-restricted-globals': 0
   }
 }
