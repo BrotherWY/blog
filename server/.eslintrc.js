@@ -52,6 +52,7 @@ module.exports = {
     'import/no-dynamic-require': 0,
     'global-require': 0,
     'prefer-destructuring': 0,
-    'no-restricted-globals': 0
+    'no-restricted-globals': 0,
+    'dot-notation': 0,
   }
 }

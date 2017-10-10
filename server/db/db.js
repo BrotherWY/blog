@@ -25,7 +25,7 @@ function defineModel(name, attributes) {
   };
   for (const key in attributes) {
     const value = attributes[key];
-    if (typeof value === 'object' && value[' type ']) {
+    if (typeof value === 'object' && value['type']) {
       value.allowNull = value.allowNull || false;
       attrs[key] = value;
     } else {
