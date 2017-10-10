@@ -12,16 +12,6 @@ export default {
   props: {
     tag: {},
   },
-  data() {
-    return {
-      colors: ['#7AC9D5', '#9C59C4', '#76CD75', '#76D1C7', '#D76B85', '#CC8C7A', '#8E78CB', '#8077D2', '#6FD191'],
-    };
-  },
-  computed: {
-    getColor() {
-      return this.colors[Math.floor(Math.random() * 9)];
-    },
-  },
   components: {
     'badge': Badge,
   },
