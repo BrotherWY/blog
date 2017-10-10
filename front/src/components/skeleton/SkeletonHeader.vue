@@ -9,7 +9,6 @@
         <div class="skeleton-item skeleton-bg"></div>
         <div class="skeleton-item skeleton-bg"></div>
         <div class="skeleton-item skeleton-bg"></div>
-        <div class="skeleton-item skeleton-bg"></div>
       </div>
     </div>
   </header>
