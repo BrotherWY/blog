@@ -49,5 +49,11 @@ export default {
     width: 100%;
   }
 
+  @media (max-width: 750px) {
+    .title {
+      padding-left: 8px;
+      font-size: 18px;
+    }
+  }
 </style>
 

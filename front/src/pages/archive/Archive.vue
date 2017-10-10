@@ -28,13 +28,19 @@ export default {
 
 <style lang="scss" scoped>
   .title {
-    width: 100%;
-    text-align: left;
     padding-bottom: 16px;
   }
 
   .wrapper {
     flex-direction: column;
+  }
+
+   @media (max-width: 750px) {
+    .title {
+      padding-left: 8px;
+      padding-bottom: 16px;
+      font-size: 18px;
+    }
   }
 </style>
 

@@ -41,6 +41,7 @@ export default {
     border-left: 1px solid #d5d5d5;
     position: relative;
     padding: 16px 0;
+    margin-left: 16px;
   }
 
   .circle {
@@ -50,6 +51,12 @@ export default {
     position: absolute;
     left: -8px;
     top: -8px;
+  }
+
+   @media (max-width: 750px) {
+    .content {
+      margin-left: 8px;
+    }
   }
 </style>
 

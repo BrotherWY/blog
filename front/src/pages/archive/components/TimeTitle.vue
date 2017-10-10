@@ -45,5 +45,26 @@ export default {
     color: #fff;
     font-size: 14px;
   }
+
+  @media (max-width: 750px) {
+    .title {
+      width: 80px;
+      min-width: 80px;
+    }
+    
+    .time {
+      font-size: 13px;
+    }
+
+    .line {
+      height: 24px;
+    }
+
+    .count {
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+    }
+  }
 </style>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="title">
-    <p class="content">无敌大火车无敌大火车无敌大火车无敌大火车无敌大火车无敌大火车无敌大火车</p>
-    <p class="time">2017-10-10 08:10</p>
+    <p class="content ellipsis">无敌大火车无敌大火车无敌大火车无敌大火车无敌大火车无敌大火车无敌大火车</p>
+    <p class="time">2017-10-10</p>
   </div>
 </template>
 
@@ -40,6 +40,23 @@ export default {
     font-size: 12px;
     color: #999;
     margin-left: 8px;
+  }
+
+  @media (max-width: 750px) {
+    .content {
+      width: 160px;
+      height: 20px;
+      line-height: 20px;
+      font-size: 14px;
+      margin-left: 8px;
+    }
+
+    .time {
+      height: 20px;
+      line-height: 20px;
+      font-size: 12px;
+      margin-left: 0;
+    }
   }
 </style>
 
