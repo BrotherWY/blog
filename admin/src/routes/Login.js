@@ -1,5 +1,7 @@
 import React from 'react';
 import { Form, Icon, Input, Button } from 'antd';
+import httpclient from '../network/HttpClient';
+// import request from '../utils/request';
 
 const FormItem = Form.Item;
 
@@ -18,6 +20,9 @@ class NormalLoginForm extends React.Component {
       if (!err) {
         this.setState({ loading: true });
         console.log('Received values of form: ', values);
+        httpclient.get('home').then((data) => {
+          console.log(data);
+        });
       }
     });
   }
