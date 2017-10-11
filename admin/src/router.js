@@ -8,19 +8,28 @@ function RouterConfig({ history, app }) {
     app,
     component: () => import('./routes/home/Home'),
   });
+
+  const login = dynamic({
+    app,
+    component: () => import('./routes/Login'),
+  });
+
   return (
     <Router history={history}>
-      <Switch>
-        <Route
-          path="/:name" component={props => (
-            <App {...props}>
-              <Switch>
-                <Route exact path="/home" component={home} />
-              </Switch>
-            </App>
-          )}
-        />
-      </Switch>
+      <div style={{ height: '100%' }}>
+        <Switch>
+          <Route
+            path="/:name" exact component={props => (
+              <App {...props}>
+                <Switch>
+                  <Route exact path="/home" component={home} />
+                </Switch>
+              </App>
+            )}
+          />
+        </Switch>
+        <Route exact path="/admin/login" component={login} />
+      </div>
     </Router>
   );
 }

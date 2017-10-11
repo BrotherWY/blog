@@ -6,13 +6,13 @@ const { Content, Sider } = Layout;
 
 class App extends Component {
   render() {
+    console.log(this.props);
     return (
       <Layout>
         <div style={{ marginBottom: '24px', padding: '0 48px', background: '#fff' }}>
-          <div className="logo" />
           <Menu
             mode="horizontal"
-            defaultSelectedKeys={['2']}
+            defaultSelectedKeys={['1']}
             style={{ lineHeight: '80px' }}
           >
             <Menu.Item key="1">nav 1</Menu.Item>
@@ -48,7 +48,7 @@ class App extends Component {
               </SubMenu>
             </Menu>
           </Sider>
-          <Layout style={{ padding: '0 24px 24px' }}>
+          <Layout style={{ borderLeft: '1px solid #ECECEC' }}>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
               {this.props.children}
             </Content>
