@@ -7,8 +7,8 @@ const logger = require('koa-logger');
 
 // middleware
 
-
-const index = require('./controllers/index');
+// controller
+const LoginController = require('./controllers/LoginController');
 
 const app = new Koa();
 // error handler
@@ -31,7 +31,7 @@ app.use(async (ctx, next) => {
 });
 
 // routes
-app.use(index.routes(), index.allowedMethods());
+app.use(LoginController.routes(), LoginController.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {

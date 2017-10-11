@@ -12,3 +12,12 @@
 
 一个连接mysql数据库的工具，很强大，orm数据库都可以双向映射(代码生成表，表生成代码(sequelize-auto))
 
+## koa 获取参数
+
+- get/delete 获取参数使用 ctx.query
+- post/put 获取使用 ctx.request.body
+
+## async/await 太他妈的好用了(无敌，爆炸)
+
+因为这是es7的东西，所以需要babel转义,koa2已经包含了.
+针对返回值类型是promise的使用，简直就是终极大招。咔咔的
