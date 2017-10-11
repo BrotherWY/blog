@@ -1,34 +1,32 @@
 import React from 'react';
+import { connect } from 'dva';
 import { Form, Icon, Input, Button } from 'antd';
-import httpclient from '../network/HttpClient';
-// import request from '../utils/request';
+import * as ActionType from '../constants/ActionType';
 
 const FormItem = Form.Item;
 
 class NormalLoginForm extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false,
-    };
-  }
-
   handleSubmit = (e) => {
+    const { isSuccess, dispatch, loading } = this.props;
+    console.log(loading);
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.setState({ loading: true });
-        console.log('Received values of form: ', values);
-        httpclient.get('home').then((data) => {
-          console.log(data);
+        dispatch({
+          type: `user/${ActionType.USER_LOGIN}`,
+          payload: values,
         });
+        if (!isSuccess) {
+          this.props.history.push('/home');
+        }
       }
     });
   }
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { loading } = this.props;
     return (
       <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Form onSubmit={this.handleSubmit} style={{ width: '300px' }}>
@@ -47,7 +45,7 @@ class NormalLoginForm extends React.Component {
             )}
           </FormItem>
           <FormItem>
-            <Button type="primary" htmlType="submit" loading={this.state.loading}>登录</Button>
+            <Button type="primary" htmlType="submit" loading={loading}>登录</Button>
           </FormItem>
         </Form>
       </div>
@@ -57,4 +55,12 @@ class NormalLoginForm extends React.Component {
 
 const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
 
-export default WrappedNormalLoginForm;
+function mapStateToProps(state) {
+  return {
+    loading: state.loading.global,
+    isSuccess: state.user.isSuccess,
+  };
+}
+
+export default connect(mapStateToProps)(WrappedNormalLoginForm);
+
