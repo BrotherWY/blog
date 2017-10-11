@@ -54,5 +54,6 @@ module.exports = {
     'prefer-destructuring': 0,
     'no-restricted-globals': 0,
     'dot-notation': 0,
+    'no-else-return': 0,
   }
 }
