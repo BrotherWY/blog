@@ -1120,7 +1120,7 @@ inflight@^1.0.4:
     once "^1.3.0"
     wrappy "1"
 
-inherits@2, inherits@2.0.3, inherits@^2.0.1, inherits@~2.0.0, inherits@~2.0.3:
+inherits@2, inherits@2.0.3, inherits@^2.0.1, inherits@~2.0.0, inherits@~2.0.1, inherits@~2.0.3:
   version "2.0.3"
   resolved "http://registry.npm.taobao.org/inherits/download/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
 
@@ -1390,6 +1390,12 @@ koa-json@^2.0.2:
     koa-is-json "1"
     streaming-json-stringify "3"
 
+koa-log4@^2.2.1:
+  version "2.2.1"
+  resolved "http://registry.npm.taobao.org/koa-log4/download/koa-log4-2.2.1.tgz#7be52fc23ef8137fec4be7ee7c9a9bdf7e898f73"
+  dependencies:
+    log4js "^0.6.35"
+
 koa-logger@^2.0.1:
   version "2.0.1"
   resolved "http://registry.npm.taobao.org/koa-logger/download/koa-logger-2.0.1.tgz#3ee42f457c40fb4d4a19a131c8022504b5b232b8"
@@ -1549,6 +1555,13 @@ lodash.restparam@^3.0.0:
 lodash@^4.17.1, lodash@^4.17.4:
   version "4.17.4"
   resolved "http://registry.npm.taobao.org/lodash/download/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
+
+log4js@^0.6.35:
+  version "0.6.38"
+  resolved "http://registry.npm.taobao.org/log4js/download/log4js-0.6.38.tgz#2c494116695d6fb25480943d3fc872e662a522fd"
+  dependencies:
+    readable-stream "~1.0.2"
+    semver "~4.3.3"
 
 long@^3.2.0:
   version "3.2.0"
@@ -2082,6 +2095,15 @@ readable-stream@2.3.2:
     string_decoder "~1.0.0"
     util-deprecate "~1.0.1"
 
+readable-stream@~1.0.2:
+  version "1.0.34"
+  resolved "http://registry.npm.taobao.org/readable-stream/download/readable-stream-1.0.34.tgz#125820e34bc842d2f2aaafafe4c2916ee32c157c"
+  dependencies:
+    core-util-is "~1.0.0"
+    inherits "~2.0.1"
+    isarray "0.0.1"
+    string_decoder "~0.10.x"
+
 readdirp@^2.0.0:
   version "2.1.0"
   resolved "http://registry.npm.taobao.org/readdirp/download/readdirp-2.1.0.tgz#4ed0ad060df3073300c48440373f72d1cc642d78"
@@ -2210,6 +2232,10 @@ semver-diff@^2.0.0:
 semver@^5.0.1, semver@^5.0.3, semver@^5.1.0, semver@^5.3.0:
   version "5.4.1"
   resolved "http://registry.npm.taobao.org/semver/download/semver-5.4.1.tgz#e059c09d8571f0540823733433505d3a2f00b18e"
+
+semver@~4.3.3:
+  version "4.3.6"
+  resolved "http://registry.npm.taobao.org/semver/download/semver-4.3.6.tgz#300bc6e0e86374f7ba61068b5b1ecd57fc6532da"
 
 seq-queue@0.0.5:
   version "0.0.5"
@@ -2358,6 +2384,10 @@ string-width@^2.0.0:
   dependencies:
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^4.0.0"
+
+string_decoder@~0.10.x:
+  version "0.10.31"
+  resolved "http://registry.npm.taobao.org/string_decoder/download/string_decoder-0.10.31.tgz#62e203bc41766c6c28c9fc84301dab1c5310fa94"
 
 string_decoder@~1.0.0, string_decoder@~1.0.3:
   version "1.0.3"

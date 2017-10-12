@@ -2,6 +2,9 @@ const User = require('../models/User');
 const ReturnData = require('../util/ReturnData');
 const ErrorMessage = require('../constants/ErrorMessage');
 const md5 = require('md5');
+const log4js = require('koa-log4');
+
+const logger = log4js.getLogger('app');
 
 const UserService = {};
 /**
@@ -9,12 +12,12 @@ const UserService = {};
  */
 UserService.checkLogin = async (userName, password) => {
   try {
-    const data = await Promise.all(User.findOrBuild({
+    const data = await User.findOrBuild({
       where: {
         userName: userName,
         password: md5(password),
       },
-    }));
+    });
     /**
     * data is array
     * 0: user data,
@@ -25,7 +28,8 @@ UserService.checkLogin = async (userName, password) => {
     } else {
       return ReturnData.success(data[0]);
     }
-  } catch (error) {
+  } catch (err) {
+    logger.error(err.stack);
     return ReturnData.error(ErrorMessage.NETWORK_ERROR);
   }
 };
