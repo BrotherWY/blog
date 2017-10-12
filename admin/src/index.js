@@ -1,9 +1,17 @@
+import { message } from 'antd';
 import dva from 'dva';
 import createLoading from 'dva-loading';
 import './index.css';
 
 // 1. Initialize
-const app = dva(createLoading());
+const app = dva({
+  ...createLoading({
+    effects: true,
+  }),
+  onError(error) {
+    message.error(error.message);
+  },
+});
 
 // 2. Plugins
 

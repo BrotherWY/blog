@@ -8,8 +8,7 @@ const FormItem = Form.Item;
 class NormalLoginForm extends React.Component {
 
   handleSubmit = (e) => {
-    const { isSuccess, dispatch, loading } = this.props;
-    console.log(loading);
+    const { dispatch } = this.props;
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -17,9 +16,6 @@ class NormalLoginForm extends React.Component {
           type: `user/${ActionType.USER_LOGIN}`,
           payload: values,
         });
-        if (!isSuccess) {
-          this.props.history.push('/home');
-        }
       }
     });
   }
@@ -58,7 +54,6 @@ const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
 function mapStateToProps(state) {
   return {
     loading: state.loading.global,
-    isSuccess: state.user.isSuccess,
   };
 }
 

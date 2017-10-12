@@ -1,32 +1,31 @@
-import * as ActionType from '../constants/ActionType';
-import * as UserService from '../services/UserService';
+import { routerRedux } from 'dva/router';
+import { USER_SET, USER_LOGIN } from '../constants/ActionType';
+import { login } from '../services/UserService';
 
 export default {
   namespace: 'user',
   state: {
     user: {},
-    isSuccess: true, // 是否成功 false 成功 true 失败
   },
   reducers: {
-    [ActionType.USER_SET](state, { payload: { user, isSuccess } }) {
-      return { ...state, user, isSuccess };
+    [USER_SET](state, { payload: { user } }) {
+      return { ...state, user };
     },
   },
   effects: {
-    * [ActionType.USER_LOGIN]({ payload: { userName, password } }, { call, put }) {
-      /**
-       * data is array
-       * 0: user data,
-       * 1: 是否成功 false 成功 true 失败
-       */
-      const data = yield call(UserService.login, { userName, password });
-      yield put({
-        type: ActionType.USER_SET,
-        payload: {
-          user: data[0],
-          isSuccess: data[1],
-        },
-      });
+    * [USER_LOGIN]({ payload: { userName, password } }, { call, put }) {
+      const data = yield call(login, { userName, password });
+      if (data.success) {
+        yield put({
+          type: USER_SET,
+          payload: {
+            user: data.data,
+          },
+        });
+        yield put(routerRedux.push('/home'));
+      } else {
+        throw data.msg;
+      }
     },
   },
 };

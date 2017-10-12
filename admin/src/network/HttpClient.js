@@ -34,7 +34,7 @@ function request(method, url, params) {
     'Content-Type': 'application/json',
   };
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     axios({
       method: method,
       url: url,
@@ -43,11 +43,11 @@ function request(method, url, params) {
       headers: headers,
     })
     .then((res) => {
-      resolve(res.data);
-    })
-    .catch(() => {
-      // 这里需要重新抓取一下错误提示
-      reject({ msg: '网络错误' });
+      if (res.data.code === -1) {
+        resolve({ success: false, msg: res.data.msg });
+      } else {
+        resolve({ success: true, data: res.data.data });
+      }
     });
   });
 }
