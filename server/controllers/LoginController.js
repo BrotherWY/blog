@@ -7,12 +7,8 @@ const UserService = require('../services/UserService');
  */
 router.post('/1.0/login', async (ctx) => {
   const req = ctx.request.body;
-  const user = await UserService.checkLogin(req.userName, req.password);
-  if (user) {
-    ctx.body = {
-      user: user,
-    };
-  }
+  const data = await UserService.checkLogin(req.userName, req.password);
+  ctx.body = data;
 });
 
 module.exports = router;
