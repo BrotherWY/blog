@@ -14,15 +14,21 @@ function RouterConfig({ history, app }) {
     component: () => import('./routes/Login'),
   });
 
+  const WriteArticle = dynamic({
+    app,
+    component: () => import('./routes/article/WriteArticle'),
+  });
+
   return (
     <Router history={history}>
       <div style={{ height: '100%' }}>
         <Switch>
           <Route
-            path="/:name" exact component={props => (
+            path="/:name" component={props => (
               <App {...props}>
                 <Switch>
                   <Route exact path="/home" component={home} />
+                  <Route exact path="/article/write" component={WriteArticle} />
                 </Switch>
               </App>
             )}

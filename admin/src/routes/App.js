@@ -1,11 +1,75 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Icon, Avatar, Badge, Dropdown } from 'antd';
+import { Layout, Menu, Icon, Avatar, Badge, Dropdown, Breadcrumb } from 'antd';
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      menus: [
+        {
+          id: 1,
+          up_id: 0,
+          name: '统计面板',
+          url: '/dashboard',
+          icon: 'pie-chart',
+        },
+        {
+          id: 2,
+          up_id: 0,
+          name: '标签管理',
+          url: '/tag',
+          icon: 'tag',
+        },
+        {
+          id: 3,
+          up_id: 0,
+          name: '分类管理',
+          url: '/catalog',
+          icon: 'compass',
+        },
+        {
+          id: 4,
+          up_id: 0,
+          name: '文章管理',
+          url: '',
+          icon: 'book',
+        },
+        {
+          id: 5,
+          up_id: 4,
+          name: '写文章',
+          url: '/article/write',
+          icon: 'book',
+        },
+        {
+          id: 6,
+          up_id: 0,
+          name: '评论管理',
+          url: '',
+          icon: 'book',
+        },
+        {
+          id: 7,
+          up_id: 0,
+          name: '系统管理',
+          url: '',
+          icon: 'setting',
+        },
+      ],
+    };
+    this.handleSelect = this.handleSelect.bind(this);
+  }
 
+  handleSelect({ selectedKeys }) {
+    this.state.menus.forEach((menu) => {
+      if (menu.url && menu.id === parseInt(selectedKeys, 0)) {
+        this.props.history.push(menu.url);
+      }
+    });
+  }
   renderDropMenus() {
     return (
       <Menu>
@@ -21,7 +85,56 @@ class App extends Component {
     );
   }
 
+  renderLeftMenus() {
+    return this.state.menus.map((menu) => {
+      if (menu.up_id === 0 && menu.url) {
+        return (<Menu.Item key={menu.id}><Icon type={menu.icon} />{menu.name}</Menu.Item>);
+      } else if (menu.up_id === 0 && !menu.url) {
+        const childMenus = this.state.menus.map((m) => {
+          if (menu.id === m.up_id) {
+            return (<Menu.Item key={m.id}><Icon type={m.icon} />{m.name}</Menu.Item>);
+          }
+          return null;
+        });
+        return (
+          <SubMenu
+            key={menu.id}
+            title={<span><Icon type={menu.icon} /><span>{menu.name}</span></span>}
+          >
+            {childMenus}
+          </SubMenu>);
+      }
+      return null;
+    });
+  }
+
+  renderBreadcrumb() {
+    const { location } = this.props;
+    const paths = location.pathname.split('/'); // paths is array [0] 空
+    let breadcrumbItem = {};
+    if (paths.length > 2) {
+      breadcrumbItem = paths.map((path, i) => {
+        if (path) {
+          return (<Breadcrumb.Item key={i}>{path}</Breadcrumb.Item>);
+        }
+        return null;
+      });
+    } else {
+      breadcrumbItem = (
+        <Breadcrumb.Item>{paths[1]}</Breadcrumb.Item>
+      );
+    }
+    return (
+      <Breadcrumb separator="/" style={{ height: 32 }}>
+        <Breadcrumb.Item href="/dashboard"><Icon type="home" /></Breadcrumb.Item>
+        {breadcrumbItem}
+      </Breadcrumb>
+    );
+  }
+
   render() {
+    const { children } = this.props;
+
     return (
       <Layout>
         <div style={{ marginBottom: '24px', padding: '0 48px', background: '#fff' }}>
@@ -35,30 +148,20 @@ class App extends Component {
           </div>
         </div>
         <Layout style={{ padding: '0 48px' }}>
-          <Sider width={240} style={{ background: '#fff', minHeight: '800px' }}>
+          <Sider width={240} style={{ background: '#fff' }}>
             <Menu
               mode="inline"
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
+              defaultSelectedKeys={['dashboard']}
               style={{ height: '100%', borderRight: 0, fontSize: '14px' }}
+              onSelect={this.handleSelect}
             >
-              <Menu.Item key="1"><Icon type="mail" />dashboard</Menu.Item>
-              <Menu.Item key="2"><Icon type="mail" />标签管理</Menu.Item>
-              <Menu.Item key="3"><Icon type="mail" />分类管理</Menu.Item>
-              <SubMenu key="4" title={<span><Icon type="setting" /><span>文章管理</span></span>}>
-                <Menu.Item key="5">写文章</Menu.Item>
-              </SubMenu>
-              <SubMenu key="6" title={<span><Icon type="setting" /><span>评论管理</span></span>}>
-                <Menu.Item key="9">Option 9</Menu.Item>
-              </SubMenu>
-              <SubMenu key="7" title={<span><Icon type="setting" /><span>系统管理</span></span>}>
-                <Menu.Item key="9">Option 9</Menu.Item>
-              </SubMenu>
+              {this.renderLeftMenus()}
             </Menu>
           </Sider>
           <Layout style={{ borderLeft: '1px solid #ECECEC' }}>
-            <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-              {this.props.children}
+            <Content style={{ background: '#fff', padding: 16, margin: 0, minHeight: 280 }}>
+              {this.renderBreadcrumb()}
+              {children}
             </Content>
           </Layout>
         </Layout>
