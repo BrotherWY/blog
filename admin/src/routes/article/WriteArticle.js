@@ -1,6 +1,7 @@
+import { connect } from 'dva';
 import React, { Component } from 'react';
 import LzEditor from 'react-lz-editor';
-import { Button, Select } from 'antd';
+import { Button, Select, Form, Input, message, Upload, Icon, Modal } from 'antd';
 // LzEditor和dva可能有冲突 样式无法自己加载
 import 'antd/lib/modal/style';
 import 'antd/lib/popconfirm/style';
@@ -9,25 +10,48 @@ class WriteArticle extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      responseList: [],
-      content: '',
+      content: '', // 文章内容
+      fileList: [], // 封面上传图片数量
+      previewVisible: false,
+      previewImage: '',
+      uploadUrl: 'http://localhost:3000/1.0/upload',
     };
-    this.saveDraft = this.saveDraft.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.receiveMarkdown = this.receiveMarkdown.bind(this);
-    this.publishArticle = this.publishArticle.bind(this);
+    this.getContent = this.getContent.bind(this);
   }
 
-  receiveMarkdown(content) {
+  getContent(content) {
     this.setState({ content: content });
   }
 
-  publishArticle() {
-
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { fileList, content } = this.state;
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        if (fileList.length < 1) {
+          message.error('请上传文章封面');
+          return null;
+        }
+        if (content.length < 10) {
+          message.error('文章还没写呢！！');
+          return null;
+        }
+        values.content = content;
+        values.cover = fileList[0].url;
+      }
+      return null;
+    });
   }
 
-  saveDraft() {
+  handleCancel() {
+    this.setState({ previewVisible: false });
+  }
 
+  handlePreview(file) {
+    this.setState({
+      previewImage: file.url || file.thumbUrl,
+      previewVisible: true,
+    });
   }
 
   handleChange() {
@@ -38,31 +62,116 @@ class WriteArticle extends Component {
     // const Option = Select.Option;
   }
 
+  renderSelectCatalog() {
+    const Option = Select.Option;
+    return (
+      <Option value="male">1</Option>
+    );
+  }
+
   render() {
+    const FormItem = Form.Item;
+    const { getFieldDecorator } = this.props.form;
+    const { fileList, previewVisible, previewImage, uploadUrl } = this.state;
+    const uploadButton = (
+      <div>
+        <Icon type="plus" />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
     return (
       <div>
         <LzEditor
-          cbReceiver={this.receiveMarkdown}
+          cbReceiver={this.getContent}
           active
           video={false}
           audio={false}
           image={false}
           convertFormat="markdown"
         />
-        <Select
-          mode="tags"
-          style={{ width: '100%' }}
-          tokenSeparators={[',']}
-        >
-          {this.renderSelectTag()}
-        </Select>
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '24px' }}>
-          <Button style={{ marginRight: '16px' }} onClick={this.saveDraft}>存草稿</Button>
-          <Button type="primary" onClick={this.publishArticle}>发布文章</Button>
-        </div>
+        <Form onSubmit={this.handleSubmit}>
+          <h2 style={{ margin: '16px 0' }}>文章标题</h2>
+          <FormItem>
+            {getFieldDecorator('title', {
+              rules: [{ required: true, message: '请输入文章标题' }],
+            })(
+              <Input placeholder="文章标题" />,
+            )}
+          </FormItem>
+          <h2 style={{ margin: '16px 0' }}>文章概览</h2>
+          <FormItem>
+            {getFieldDecorator('overview', {
+              rules: [{ required: true, message: '请输入文章概览' }],
+            })(
+              <Input placeholder="文章概览" />,
+            )}
+          </FormItem>
+          <h2 style={{ margin: '16px 0' }}>文章封面</h2>
+          <div>
+            <Upload
+              action={uploadUrl}
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={this.handlePreview}
+              onChange={this.handleChange}
+            >
+              {fileList.length >= 1 ? null : uploadButton}
+            </Upload>
+            <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+              <img alt="example" style={{ width: '100%' }} src={previewImage} />
+            </Modal>
+          </div>
+          <h2 style={{ margin: '16px 0' }}>文章标签</h2>
+          <FormItem>
+            {getFieldDecorator('tags', {
+              rules: [{ required: true, message: '请选择该文章的标签' }],
+            })(
+              <Select
+                size="large"
+                mode="tags"
+                style={{ width: '100%' }}
+                placeholder="请选择该文章的标签"
+                tokenSeparators={['|']}
+              >
+                {this.renderSelectTag()}
+              </Select>,
+            )}
+          </FormItem>
+          <h2 style={{ margin: '16px 0' }}>文章分类</h2>
+          <FormItem>
+            {getFieldDecorator('catalog', {
+              rules: [{ required: true, message: '请选择该文章的分类' }],
+            })(
+              <Select
+                size="large"
+                style={{ width: '100%' }}
+                placeholder="请选择该文章的分类"
+              >
+                {this.renderSelectCatalog()}
+              </Select>,
+            )}
+          </FormItem>
+
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '24px' }}>
+            <FormItem>
+              <Button style={{ marginRight: '16px' }} htmlType="submit">存草稿</Button>
+            </FormItem>
+            <FormItem>
+              <Button type="primary" htmlType="submit">发布文章</Button>
+            </FormItem>
+          </div>
+        </Form>
       </div>
     );
   }
 }
 
-export default WriteArticle;
+const WrappedWriteArticle = Form.create()(WriteArticle);
+
+function mapStateToProps(state) {
+  return {
+    loading: state.loading.global,
+  };
+}
+
+export default connect(mapStateToProps)(WrappedWriteArticle);

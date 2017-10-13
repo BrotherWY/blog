@@ -27,7 +27,7 @@ function RouterConfig({ history, app }) {
             path="/:name" component={props => (
               <App {...props}>
                 <Switch>
-                  <Route exact path="/home" component={home} />
+                  <Route exact path="/dashboard" component={home} />
                   <Route exact path="/article/write" component={WriteArticle} />
                 </Switch>
               </App>

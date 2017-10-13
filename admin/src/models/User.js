@@ -22,7 +22,7 @@ export default {
             user: data.data,
           },
         });
-        yield put(routerRedux.push('/home'));
+        yield put(routerRedux.push('/dashboard'));
       } else {
         throw data.msg;
       }
