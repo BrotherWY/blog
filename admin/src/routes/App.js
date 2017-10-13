@@ -1,50 +1,58 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon, Avatar, Badge, Dropdown } from 'antd';
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
 class App extends Component {
+
+  renderDropMenus() {
+    return (
+      <Menu>
+        <Menu.Item key="0">
+          <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">1st menu item</a>
+        </Menu.Item>
+        <Menu.Item key="1">
+          <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">2nd menu item</a>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="3" disabled>3d menu item（disabled）</Menu.Item>
+      </Menu>
+    );
+  }
+
   render() {
-    console.log(this.props);
     return (
       <Layout>
         <div style={{ marginBottom: '24px', padding: '0 48px', background: '#fff' }}>
-          <Menu
-            mode="horizontal"
-            defaultSelectedKeys={['1']}
-            style={{ lineHeight: '80px' }}
-          >
-            <Menu.Item key="1">nav 1</Menu.Item>
-            <Menu.Item key="2">nav 2</Menu.Item>
-            <Menu.Item key="3">nav 3</Menu.Item>
-          </Menu>
+          <div style={{ float: 'left', lineHeight: '80px' }}>
+            <img src="" alt="logo" />
+          </div>
+          <div style={{ lineHeight: '80px', float: 'right', marginRight: '50px' }}>
+            <Dropdown overlay={this.renderDropMenus()}>
+              <Badge count={1}><Avatar icon="user" size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" /></Badge>
+            </Dropdown>
+          </div>
         </div>
         <Layout style={{ padding: '0 48px' }}>
-          <Sider width={300} style={{ background: '#fff', minHeight: '800px' }}>
+          <Sider width={240} style={{ background: '#fff', minHeight: '800px' }}>
             <Menu
               mode="inline"
               defaultSelectedKeys={['1']}
               defaultOpenKeys={['sub1']}
-              style={{ height: '100%', borderRight: 0 }}
+              style={{ height: '100%', borderRight: 0, fontSize: '14px' }}
             >
-              <SubMenu key="sub1" title={<span><Icon type="user" />subnav 1</span>}>
-                <Menu.Item key="1">option1</Menu.Item>
-                <Menu.Item key="2">option2</Menu.Item>
-                <Menu.Item key="3">option3</Menu.Item>
-                <Menu.Item key="4">option4</Menu.Item>
+              <Menu.Item key="1"><Icon type="mail" />dashboard</Menu.Item>
+              <Menu.Item key="2"><Icon type="mail" />标签管理</Menu.Item>
+              <Menu.Item key="3"><Icon type="mail" />分类管理</Menu.Item>
+              <SubMenu key="4" title={<span><Icon type="setting" /><span>文章管理</span></span>}>
+                <Menu.Item key="5">写文章</Menu.Item>
               </SubMenu>
-              <SubMenu key="sub2" title={<span><Icon type="laptop" />subnav 2</span>}>
-                <Menu.Item key="5">option5</Menu.Item>
-                <Menu.Item key="6">option6</Menu.Item>
-                <Menu.Item key="7">option7</Menu.Item>
-                <Menu.Item key="8">option8</Menu.Item>
+              <SubMenu key="6" title={<span><Icon type="setting" /><span>评论管理</span></span>}>
+                <Menu.Item key="9">Option 9</Menu.Item>
               </SubMenu>
-              <SubMenu key="sub3" title={<span><Icon type="notification" />subnav 3</span>}>
-                <Menu.Item key="9">option9</Menu.Item>
-                <Menu.Item key="10">option10</Menu.Item>
-                <Menu.Item key="11">option11</Menu.Item>
-                <Menu.Item key="12">option12</Menu.Item>
+              <SubMenu key="7" title={<span><Icon type="setting" /><span>系统管理</span></span>}>
+                <Menu.Item key="9">Option 9</Menu.Item>
               </SubMenu>
             </Menu>
           </Sider>

@@ -1,22 +1,21 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Form, Icon, Input, Button } from 'antd';
-import * as ActionType from '../constants/ActionType';
+import { USER_LOGIN } from '../constants/ActionType';
 
 const FormItem = Form.Item;
 
-class NormalLoginForm extends React.Component {
+class Login extends React.Component {
 
   handleSubmit = (e) => {
     const { dispatch } = this.props;
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      if (!err) {
-        dispatch({
-          type: `user/${ActionType.USER_LOGIN}`,
-          payload: values,
-        });
-      }
+      if (err) return;
+      dispatch({
+        type: `user/${USER_LOGIN}`,
+        payload: values,
+      });
     });
   }
 
@@ -49,7 +48,7 @@ class NormalLoginForm extends React.Component {
   }
 }
 
-const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
+const WrappedLogin = Form.create()(Login);
 
 function mapStateToProps(state) {
   return {
@@ -57,5 +56,5 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(WrappedNormalLoginForm);
+export default connect(mapStateToProps)(WrappedLogin);
 

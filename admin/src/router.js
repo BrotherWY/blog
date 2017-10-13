@@ -6,7 +6,7 @@ import App from './routes/App';
 function RouterConfig({ history, app }) {
   const home = dynamic({
     app,
-    component: () => import('./routes/home/Home'),
+    component: () => import('./routes/dashboard/DashBoard'),
   });
 
   const login = dynamic({
@@ -27,8 +27,8 @@ function RouterConfig({ history, app }) {
               </App>
             )}
           />
+          <Route exact path="/" component={login} />
         </Switch>
-        <Route exact path="/admin/login" component={login} />
       </div>
     </Router>
   );
