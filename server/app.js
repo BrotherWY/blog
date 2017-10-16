@@ -1,6 +1,8 @@
 const Koa = require('koa');
+const path = require('path');
 const cors = require('@koa/cors');// cors middleware
 const json = require('koa-json');
+const serve = require('koa-static');
 const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const log4js = require('./util/InitLog');
@@ -11,6 +13,7 @@ const app = new Koa();
 onerror(app);
 
 // middlewares
+app.use(serve(path.join(__dirname, './upload')));// 暴露出上传目录
 app.use(bodyparser({
   enableTypes: ['json', 'form', 'text'],
 }));

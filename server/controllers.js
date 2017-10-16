@@ -14,9 +14,7 @@ const jsFiles = files.filter((f) => {
 module.exports = {};
 
 for (const f of jsFiles) {
-  console.log(`import model from file ${f}...`);
+  console.log(`import controller from file ${f}...`);
   const name = f.substring(0, f.length - 3);
-  console.log(path.resolve(path.join('controllers', f)));
-
   module.exports[name] = require(path.resolve(path.join('controllers', f)));
 }
