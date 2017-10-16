@@ -5,4 +5,9 @@ router.get('/1.0/catalog', async (ctx) => {
   ctx.body = await CatalogService.findAll();
 });
 
+router.post('/1.0/catalog/add', async (ctx) => {
+  const req = ctx.request.body;
+  ctx.body = await CatalogService.add(req.catalog);
+});
+
 module.exports = router;

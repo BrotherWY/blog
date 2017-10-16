@@ -19,4 +19,100 @@ TagService.findAll = async () => {
   }
 };
 
+/**
+ * 增加标签
+ */
+TagService.add = async (tag) => {
+  try {
+    const data = await Tag.create(tag);
+    return ReturnData.success(data);
+  } catch (err) {
+    logger.error(err.stack);
+    return ReturnData.error(ErrorMessage.NETWORK_ERROR);
+  }
+};
+
+/**
+ * 根据名字查找标签
+ */
+TagService.findByName = async (name) => {
+  try {
+    const data = await Tag.findOne({
+      where: {
+        name: name,
+      },
+    });
+    return ReturnData.success(data);
+  } catch (err) {
+    logger.error(err.stack);
+    return ReturnData.error(ErrorMessage.NETWORK_ERROR);
+  }
+};
+
+/**
+ * 根据id查找标签
+ */
+TagService.findById = async (id) => {
+  try {
+    const data = await Tag.findOne({
+      where: {
+        id: id,
+      },
+    });
+    return ReturnData.success(data);
+  } catch (err) {
+    logger.error(err.stack);
+    return ReturnData.error(ErrorMessage.NETWORK_ERROR);
+  }
+};
+
+/**
+ * update
+ */
+TagService.update = async (obj, id) => {
+  try {
+    const data = await Tag.update(obj, {
+      where: {
+        id: id,
+      },
+    });
+    return ReturnData.success(data);
+  } catch (err) {
+    logger.error(err.stack);
+    return ReturnData.error(ErrorMessage.NETWORK_ERROR);
+  }
+};
+
+/**
+ * 判断标签是否存在,
+ * 不存在则存入数据库
+ * 存在该分类下的count + 1
+ */
+TagService.isExit = async (name) => {
+  try {
+    const data = await Tag.findOne({
+      where: {
+        name: name,
+      },
+    });
+    if (data) {
+      Tag.update({
+        count: data.count += 1,
+      }, {
+        where: {
+          id: data.id,
+        },
+      });
+    } else {
+      Tag.create({
+        name: name,
+        count: 1,
+        intro: '暂无',
+      });
+    }
+  } catch (err) {
+    logger.error(err.stack);
+  }
+};
+
 module.exports = TagService;
