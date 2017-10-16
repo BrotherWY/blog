@@ -1,15 +1,17 @@
 import { connect } from 'dva';
 import React, { Component } from 'react';
 import LzEditor from 'react-lz-editor';
-import { Button, Select, Form, Input, message, Upload, Icon, Modal } from 'antd';
+import { Button, Select, Form, Input, message, Upload, Icon, Modal, Spin } from 'antd';
 // LzEditor和dva可能有冲突 样式无法自己加载
 import 'antd/lib/modal/style';
 import 'antd/lib/popconfirm/style';
+import { FETCH_ALL, ADD } from '../../constants/ActionType';
 
 class WriteArticle extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      flag: 0, // 0 草稿 1 发布
       content: '', // 文章内容
       fileList: [], // 封面上传图片数量
       previewVisible: false,
@@ -17,16 +19,31 @@ class WriteArticle extends Component {
       uploadUrl: 'http://localhost:3000/1.0/upload',
     };
     this.getContent = this.getContent.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handlePreview = this.handlePreview.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.setFlag = this.setFlag.bind(this);
+  }
+
+  componentWillMount() {
+    const { dispatch } = this.props;
+    dispatch({ type: `tag/${FETCH_ALL}` });
+    dispatch({ type: `catalog/${FETCH_ALL}` });
   }
 
   getContent(content) {
     this.setState({ content: content });
   }
 
+  setFlag(flag) {
+    this.setState({ flag: flag });
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
-    const { fileList, content } = this.state;
-    this.props.form.validateFields((err, values) => {
+    const { fileList, content, flag } = this.state;
+    const { dispatch } = this.props;
+    this.props.form.validateFields((err, article) => {
       if (!err) {
         if (fileList.length < 1) {
           message.error('请上传文章封面');
@@ -36,8 +53,16 @@ class WriteArticle extends Component {
           message.error('文章还没写呢！！');
           return null;
         }
-        values.content = content;
-        values.cover = fileList[0].url;
+        article.content = content;
+        article.cover = fileList[0].response.url;
+        article.tags = article.tags.join(',');
+        article.catalog = article.catalog.join(',');
+        article.flag = flag;
+        // 文章内容存储到数据库
+        dispatch({
+          type: `article/${ADD}`,
+          payload: article,
+        });
       }
       return null;
     });
@@ -54,19 +79,27 @@ class WriteArticle extends Component {
     });
   }
 
-  handleChange() {
-
+  handleChange({ file, fileList }) {
+    if (file.status === 'done') {
+      message.success('上传成功');
+    } else if (file.status === 'error') {
+      message.error('上传失败');
+    } else if (file.status === 'removed') {
+      message.success('删除成功');
+    }
+    this.setState({ fileList });
   }
 
   renderSelectTag() {
-    // const Option = Select.Option;
+    const { tags } = this.props;
+    const Option = Select.Option;
+    return tags.map(tag => <Option value={tag.id}>{tag.name}</Option>);
   }
 
   renderSelectCatalog() {
+    const { catalogs } = this.props;
     const Option = Select.Option;
-    return (
-      <Option value="male">1</Option>
-    );
+    return catalogs.map(catalog => <Option value={catalog.id}>{catalog.name}</Option>);
   }
 
   render() {
@@ -80,7 +113,7 @@ class WriteArticle extends Component {
       </div>
     );
     return (
-      <div>
+      <Spin tip="Loading..." spinning={this.props.loading}>
         <LzEditor
           cbReceiver={this.getContent}
           active
@@ -107,7 +140,7 @@ class WriteArticle extends Component {
             )}
           </FormItem>
           <h2 style={{ margin: '16px 0' }}>文章封面</h2>
-          <div>
+          <div style={{ overflow: 'hidden' }}>
             <Upload
               action={uploadUrl}
               listType="picture-card"
@@ -131,7 +164,7 @@ class WriteArticle extends Component {
                 mode="tags"
                 style={{ width: '100%' }}
                 placeholder="请选择该文章的标签"
-                tokenSeparators={['|']}
+                tokenSeparators={[',']}
               >
                 {this.renderSelectTag()}
               </Select>,
@@ -143,6 +176,7 @@ class WriteArticle extends Component {
               rules: [{ required: true, message: '请选择该文章的分类' }],
             })(
               <Select
+                mode="tags"
                 size="large"
                 style={{ width: '100%' }}
                 placeholder="请选择该文章的分类"
@@ -154,14 +188,14 @@ class WriteArticle extends Component {
 
           <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '24px' }}>
             <FormItem>
-              <Button style={{ marginRight: '16px' }} htmlType="submit">存草稿</Button>
+              <Button style={{ marginRight: '16px' }} htmlType="submit" onClick={() => { this.setFlag(0); }}>存草稿</Button>
             </FormItem>
             <FormItem>
-              <Button type="primary" htmlType="submit">发布文章</Button>
+              <Button type="primary" htmlType="submit" onClick={() => { this.setFlag(1); }}>发布文章</Button>
             </FormItem>
           </div>
         </Form>
-      </div>
+      </Spin>
     );
   }
 }
@@ -171,6 +205,8 @@ const WrappedWriteArticle = Form.create()(WriteArticle);
 function mapStateToProps(state) {
   return {
     loading: state.loading.global,
+    tags: state.tag.tags,
+    catalogs: state.catalog.catalogs,
   };
 }
 

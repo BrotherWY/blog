@@ -20,6 +20,9 @@ const app = dva({
 
 // 3. Model
 app.model(require('./models/User'));
+app.model(require('./models/Catalog'));
+app.model(require('./models/Tag'));
+app.model(require('./models/Article'));
 
 // 4. Router
 app.router(require('./router'));

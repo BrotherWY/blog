@@ -1,5 +1,5 @@
 import { routerRedux } from 'dva/router';
-import { USER_SET, USER_LOGIN } from '../constants/ActionType';
+import { SET, USER_LOGIN } from '../constants/ActionType';
 import { login } from '../services/UserService';
 
 export default {
@@ -8,7 +8,7 @@ export default {
     user: {},
   },
   reducers: {
-    [USER_SET](state, { payload: { user } }) {
+    [SET](state, { payload: { user } }) {
       return { ...state, user };
     },
   },
@@ -17,7 +17,7 @@ export default {
       const data = yield call(login, { userName, password });
       if (data.success) {
         yield put({
-          type: USER_SET,
+          type: SET,
           payload: {
             user: data.data,
           },
