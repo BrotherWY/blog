@@ -6,3 +6,15 @@ import HttpClient from '../network/HttpClient';
 export function findAll() {
   return HttpClient.get('/1.0/tag');
 }
+
+export function add(tag) {
+  return HttpClient.post('/1.0/tag/add', tag);
+}
+
+export function update(tag) {
+  return HttpClient.put('/1.0/tag/update', tag);
+}
+
+export function remove(id) {
+  return HttpClient.delete('/1.0/tag/delete', id);
+}

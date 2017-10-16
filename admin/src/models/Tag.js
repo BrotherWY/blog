@@ -1,5 +1,6 @@
-import { FETCH_ALL, SET_ALL, ADD, ADD_AFTER } from '../constants/ActionType';
-import { findAll, add } from '../services/TagService';
+import { message } from 'antd';
+import { FETCH_ALL, SET_ALL, ADD, UPDATE, DELETE } from '../constants/ActionType';
+import { findAll, add, update, remove } from '../services/TagService';
 
 export default {
   namespace: 'tag',
@@ -8,9 +9,6 @@ export default {
   },
   reducers: {
     [SET_ALL](state, { payload: { tags } }) {
-      return { ...state, tags };
-    },
-    [ADD_AFTER](state, { payload: { tags } }) {
       return { ...state, tags };
     },
   },
@@ -28,15 +26,28 @@ export default {
         throw data.msg;
       }
     },
-    * [ADD]({ payload: { tag } }, { call, put }) {
+    * [ADD]({ payload: tag }, { call }) {
       const data = yield call(add, tag);
       if (data.success) {
-        yield put({
-          type: ADD_AFTER,
-          payload: {
-            tags: data.data,
-          },
-        });
+        message.success('添加成功');
+      } else {
+        throw data.msg;
+      }
+    },
+    * [UPDATE]({ payload: tag }, { call, put }) {
+      const data = yield call(update, tag);
+      if (data.success) {
+        message.success('更新成功');
+        yield put({ type: FETCH_ALL });
+      } else {
+        throw data.msg;
+      }
+    },
+    * [DELETE]({ payload: id }, { call, put }) {
+      const data = yield call(remove, id);
+      if (data.success) {
+        message.success('删除成功');
+        yield put({ type: FETCH_ALL });
       } else {
         throw data.msg;
       }

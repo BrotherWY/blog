@@ -19,6 +19,11 @@ function RouterConfig({ history, app }) {
     component: () => import('./routes/article/WriteArticle'),
   });
 
+  const Tag = dynamic({
+    app,
+    component: () => import('./routes/tag/Tag'),
+  });
+
   return (
     <Router history={history}>
       <div style={{ height: '100%' }}>
@@ -29,6 +34,7 @@ function RouterConfig({ history, app }) {
                 <Switch>
                   <Route exact path="/dashboard" component={home} />
                   <Route exact path="/article/write" component={WriteArticle} />
+                  <Route exact path="/tag" component={Tag} />
                 </Switch>
               </App>
             )}
