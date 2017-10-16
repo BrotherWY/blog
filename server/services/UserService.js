@@ -12,21 +12,16 @@ const UserService = {};
  */
 UserService.checkLogin = async (userName, password) => {
   try {
-    const data = await User.findOrBuild({
+    const data = await User.findOne({
       where: {
         userName: userName,
         password: md5(password),
       },
     });
-    /**
-    * data is array
-    * 0: user data,
-    * 1: 是否成功 false 成功 true 失败
-    */
-    if (data[1]) {
-      return ReturnData.error(ErrorMessage.LOGIN_PSW_ERROR);
+    if (data) {
+      return ReturnData.success(data);
     } else {
-      return ReturnData.success(data[0]);
+      return ReturnData.error(ErrorMessage.LOGIN_PSW_ERROR);
     }
   } catch (err) {
     logger.error(err.stack);
