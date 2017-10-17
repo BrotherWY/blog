@@ -20,6 +20,22 @@ TagService.findAll = async () => {
 };
 
 /**
+ * 分页
+ */
+TagService.findAllByPaging = async ({ pageSize, pageIndex }) => {
+  try {
+    const data = await Tag.findAndCountAll({
+      limit: parseInt(pageSize, 0),
+      offset: (pageIndex - 1) * parseInt(pageSize, 0),
+    });
+    return ReturnData.success(data);
+  } catch (err) {
+    logger.error(err.stack);
+    return ReturnData.error(ErrorMessage.NETWORK_ERROR);
+  }
+};
+
+/**
  * 增加标签
  */
 TagService.add = async (tag) => {

@@ -5,6 +5,11 @@ router.get('/1.0/tag', async (ctx) => {
   ctx.body = await TagService.findAll();
 });
 
+router.get('/1.0/tag/paging', async (ctx) => {
+  const req = ctx.query;
+  ctx.body = await TagService.findAllByPaging(req);
+});
+
 router.post('/1.0/tag/add', async (ctx) => {
   const req = ctx.request.body;
   ctx.body = await TagService.add(req);
