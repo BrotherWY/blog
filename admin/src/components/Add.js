@@ -10,13 +10,13 @@ class Add extends Component {
   }
 
   handleSubmit(e) {
-    const { dispatch, type } = this.props;
+    const { dispatch, type, pageIndex, pageSize } = this.props;
     e.preventDefault();
-    this.props.form.validateFields((err, tag) => {
+    this.props.form.validateFields((err, data) => {
       if (err) return;
       dispatch({
         type: type,
-        payload: tag,
+        payload: { pageIndex, pageSize, data },
       });
     });
   }

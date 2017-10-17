@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Popconfirm } from 'antd';
-import { PAGING, UPDATE, DELETE, ADD } from '../../constants/ActionType';
+import { Table, Popconfirm, Button, Modal, message } from 'antd';
+import { PAGING, UPDATE, DELETE, ADD, BATCH_DELETE } from '../../constants/ActionType';
 import Add from '../../components/Add';
 import Update from '../../components/Update';
 
@@ -61,12 +61,17 @@ class Tag extends Component {
       }),
       pageIndex: 1,
       pageSize: 10,
+      selectIds: [], // 多选的id数组
+      batchVisible: false, // 批量删除提示框是否显示
     };
+    this.handleOk = this.handleOk.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleSelectAll = this.handleSelectAll.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
+    this.handleBatchDel = this.handleBatchDel.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
   }
 
   componentWillMount() {
@@ -83,15 +88,20 @@ class Tag extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.loading !== this.props.loading) {
-      this.setState({ updateVisible: false, addVisible: false });
+      this.setState({
+        updateVisible: false,
+        addVisible: false,
+        batchVisible: false,
+      });
     }
   }
 
   handleDelete(id) {
     const { dispatch } = this.props;
+    const { pageIndex, pageSize } = this.state;
     dispatch({
       type: `tag/${DELETE}`,
-      payload: id,
+      payload: { id, pageIndex, pageSize },
     });
   }
 
@@ -101,11 +111,32 @@ class Tag extends Component {
   }
 
   handleCancel() {
-    this.setState({ updateVisible: false, addVisible: false });
+    this.setState({ updateVisible: false, addVisible: false, batchVisible: false });
   }
 
-  handleSelectAll(selected, selectedRows, changeRows) {
-    console.debug(selectedRows, changeRows);
+  handleSelect(ids, selectedRows) {
+    this.setState({ selectIds: selectedRows });
+  }
+
+  handleBatchDel() {
+    if (this.state.selectIds.length < 1) {
+      message.warn('请至少选择一行');
+      return;
+    }
+    this.setState({ batchVisible: true });
+  }
+
+  handleOk() {
+    const { dispatch } = this.props;
+    const { pageIndex, pageSize, selectIds } = this.state;
+    dispatch({
+      type: `tag/${BATCH_DELETE}`,
+      payload: { pageIndex, pageSize, selectIds },
+    });
+  }
+
+  handleAdd() {
+    this.setState({ addVisible: true });
   }
 
   handlePageChange(pageIndex, pageSize) {
@@ -131,6 +162,7 @@ class Tag extends Component {
       updateFormItems,
       pageIndex,
       pageSize,
+      batchVisible,
      } = this.state;
     const pagination = {
       total: total,
@@ -140,6 +172,9 @@ class Tag extends Component {
     };
     return (
       <div>
+        <div style={{ display: 'flex', marginBottom: '10px' }}>
+          <Button type="primary" onClick={this.handleAdd}>添加标签</Button>
+        </div>
         <Table
           columns={columns}
           dataSource={tags}
@@ -147,8 +182,9 @@ class Tag extends Component {
           loading={loading}
           rowKey={record => record.id}
           bordered
+          footer={() => (<Button type="primary" icon="delete" onClick={this.handleBatchDel}>批量删除</Button>)}
           rowSelection={{
-            onSelectAll: this.handleSelectAll,
+            onChange: this.handleSelect,
           }}
         />
         <Add
@@ -159,6 +195,8 @@ class Tag extends Component {
           loading={loading}
           handleCancel={this.handleCancel}
           formItems={addFormItems}
+          pageIndex={pageIndex}
+          pageSize={pageSize}
         />
         <Update
           title="修改标签"
@@ -169,7 +207,18 @@ class Tag extends Component {
           handleCancel={this.handleCancel}
           formItems={updateFormItems}
           data={updateData}
+          pageIndex={pageIndex}
+          pageSize={pageSize}
         />
+        <Modal
+          title="批量删除"
+          visible={batchVisible}
+          onOk={this.handleOk}
+          confirmLoading={loading}
+          onCancel={this.handleCancel}
+        >
+          <p>是否批量删除???</p>
+        </Modal>
       </div>
     );
   }

@@ -8,4 +8,5 @@ export const FETCH_BY_ID = 'FETCH_BY_ID';
 export const SET = 'SET';
 export const ADD = 'ADD';
 export const PAGING = 'PAGING';
+export const BATCH_DELETE = 'BATCH_DELETE';
 

@@ -1,6 +1,6 @@
 import { message } from 'antd';
-import { FETCH_ALL, SET_ALL, ADD, UPDATE, DELETE, PAGING } from '../constants/ActionType';
-import { findAll, findAllByPaging, add, update, remove } from '../services/TagService';
+import { FETCH_ALL, SET_ALL, ADD, UPDATE, DELETE, PAGING, BATCH_DELETE } from '../constants/ActionType';
+import { findAll, findAllByPaging, add, update, remove, batchDelete } from '../services/TagService';
 
 export default {
   namespace: 'tag',
@@ -41,30 +41,40 @@ export default {
         throw data.msg;
       }
     },
-    * [ADD]({ payload: tag }, { call }) {
-      const data = yield call(add, tag);
-      if (data.success) {
+    * [BATCH_DELETE]({ payload: { pageIndex, pageSize, selectIds } }, { call, put }) {
+      const result = yield call(batchDelete, selectIds);
+      if (result.success) {
+        message.success('批量删除成功');
+        yield put({ type: PAGING, payload: { pageIndex, pageSize } });
+      } else {
+        throw result.msg;
+      }
+    },
+    * [ADD]({ payload: { pageIndex, pageSize, data } }, { call, put }) {
+      const result = yield call(add, data);
+      if (result.success) {
         message.success('添加成功');
+        yield put({ type: PAGING, payload: { pageIndex, pageSize } });
       } else {
-        throw data.msg;
+        throw result.msg;
       }
     },
-    * [UPDATE]({ payload: tag }, { call, put }) {
-      const data = yield call(update, tag);
-      if (data.success) {
+    * [UPDATE]({ payload: { pageIndex, pageSize, data } }, { call, put }) {
+      const result = yield call(update, data);
+      if (result.success) {
         message.success('更新成功');
-        yield put({ type: FETCH_ALL });
+        yield put({ type: PAGING, payload: { pageIndex, pageSize } });
       } else {
-        throw data.msg;
+        throw result.msg;
       }
     },
-    * [DELETE]({ payload: id }, { call, put }) {
-      const data = yield call(remove, id);
-      if (data.success) {
+    * [DELETE]({ payload: { pageIndex, pageSize, id } }, { call, put }) {
+      const result = yield call(remove, id);
+      if (result.success) {
         message.success('删除成功');
-        yield put({ type: FETCH_ALL });
+        yield put({ type: PAGING, payload: { pageIndex, pageSize } });
       } else {
-        throw data.msg;
+        throw result.msg;
       }
     },
   },

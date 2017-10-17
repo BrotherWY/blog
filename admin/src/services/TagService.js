@@ -12,6 +12,7 @@ export function findAllByPaging({ pageIndex, pageSize }) {
 }
 
 export function add(tag) {
+  tag.count = 0;
   return HttpClient.post('/1.0/tag/add', tag);
 }
 
@@ -21,4 +22,10 @@ export function update(tag) {
 
 export function remove(id) {
   return HttpClient.delete('/1.0/tag/delete', { id: id });
+}
+
+export function batchDelete(tags) {
+  // 解析出ids
+  const ids = tags.map(tag => tag.id);
+  return HttpClient.delete('/1.0/tag/batchDelete', { ids: ids });
 }
