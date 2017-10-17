@@ -109,7 +109,34 @@ TagService.delete = async (id) => {
         id: id,
       },
     });
-    return ReturnData.success(data);
+    if (data > 0) {
+      return ReturnData.success(data);
+    } else {
+      return ReturnData.error(ErrorMessage.DELETE_ERROR);
+    }
+  } catch (err) {
+    logger.error(err.stack);
+    return ReturnData.error(ErrorMessage.NETWORK_ERROR);
+  }
+};
+
+/**
+ * batchDelete
+ */
+TagService.batchDelete = async (ids) => {
+  try {
+    ids = ids.split(',');
+    for (let i = 0; i < ids.length; i += 1) {
+      const data = await Tag.destroy({
+        where: {
+          id: ids[i],
+        },
+      });
+      if (data < 1) {
+        return ReturnData.error(ErrorMessage.BATCH_DELETE_ERROR);
+      }
+    }
+    return ReturnData.success();
   } catch (err) {
     logger.error(err.stack);
     return ReturnData.error(ErrorMessage.NETWORK_ERROR);

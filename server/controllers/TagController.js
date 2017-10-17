@@ -25,4 +25,9 @@ router.delete('/1.0/tag/delete', async (ctx) => {
   ctx.body = await TagService.delete(req.id);
 });
 
+router.delete('/1.0/tag/batchDelete', async (ctx) => {
+  const req = ctx.query;
+  ctx.body = await TagService.batchDelete(req.ids);
+});
+
 module.exports = router;
