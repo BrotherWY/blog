@@ -93,13 +93,13 @@ class WriteArticle extends Component {
   renderSelectTag() {
     const { tags } = this.props;
     const Option = Select.Option;
-    return tags.map(tag => <Option value={tag.id}>{tag.name}</Option>);
+    return tags.map((tag, i) => <Option value={tag.id} key={i}>{tag.name}</Option>);
   }
 
   renderSelectCatalog() {
     const { catalogs } = this.props;
     const Option = Select.Option;
-    return catalogs.map(catalog => <Option value={catalog.id}>{catalog.name}</Option>);
+    return catalogs.map((catalog, i) => <Option value={catalog.id} key={i}>{catalog.name}</Option>);
   }
 
   render() {

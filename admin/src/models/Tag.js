@@ -1,15 +1,16 @@
 import { message } from 'antd';
-import { FETCH_ALL, SET_ALL, ADD, UPDATE, DELETE } from '../constants/ActionType';
-import { findAll, add, update, remove } from '../services/TagService';
+import { FETCH_ALL, SET_ALL, ADD, UPDATE, DELETE, PAGING } from '../constants/ActionType';
+import { findAll, findAllByPaging, add, update, remove } from '../services/TagService';
 
 export default {
   namespace: 'tag',
   state: {
     tags: [],
+    total: 0,
   },
   reducers: {
-    [SET_ALL](state, { payload: { tags } }) {
-      return { ...state, tags };
+    [SET_ALL](state, { payload: { tags, total } }) {
+      return { ...state, tags, total };
     },
   },
   effects: {
@@ -20,6 +21,20 @@ export default {
           type: SET_ALL,
           payload: {
             tags: data.data,
+          },
+        });
+      } else {
+        throw data.msg;
+      }
+    },
+    * [PAGING]({ payload: { pageIndex, pageSize } }, { call, put }) {
+      const data = yield call(findAllByPaging, { pageIndex, pageSize });
+      if (data.success) {
+        yield put({
+          type: SET_ALL,
+          payload: {
+            tags: data.data.rows,
+            total: data.data.count,
           },
         });
       } else {

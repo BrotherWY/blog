@@ -7,5 +7,5 @@ export const DELETE = 'DELETE';
 export const FETCH_BY_ID = 'FETCH_BY_ID';
 export const SET = 'SET';
 export const ADD = 'ADD';
-export const ADD_AFTER = 'ADD_AFTER';
+export const PAGING = 'PAGING';
 

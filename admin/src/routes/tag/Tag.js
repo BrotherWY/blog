@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Table, Popconfirm } from 'antd';
-import { FETCH_ALL, UPDATE, DELETE, ADD } from '../../constants/ActionType';
+import { PAGING, UPDATE, DELETE, ADD } from '../../constants/ActionType';
 import Add from '../../components/Add';
 import Update from '../../components/Update';
 
@@ -59,17 +59,25 @@ class Tag extends Component {
         disabled: true,
         validate: {},
       }),
+      pageIndex: 1,
+      pageSize: 10,
     };
     this.handleCancel = this.handleCancel.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleSelectAll = this.handleSelectAll.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   componentWillMount() {
     const { dispatch } = this.props;
+    const { pageIndex, pageSize } = this.state;
     dispatch({
-      type: `tag/${FETCH_ALL}`,
+      type: `tag/${PAGING}`,
+      payload: {
+        pageIndex,
+        pageSize,
+      },
     });
   }
 
@@ -100,15 +108,42 @@ class Tag extends Component {
     console.debug(selectedRows, changeRows);
   }
 
+  handlePageChange(pageIndex, pageSize) {
+    const { dispatch } = this.props;
+    dispatch({
+      type: `tag/${PAGING}`,
+      payload: {
+        pageIndex,
+        pageSize,
+      },
+    });
+    this.setState({ pageIndex: pageIndex });
+  }
+
   render() {
-    const { tags, loading, dispatch } = this.props;
-    const { updateVisible, addVisible, columns, addFormItems, updateData, updateFormItems } = this.state;
+    const { tags, loading, dispatch, total } = this.props;
+    const {
+      updateVisible,
+      addVisible,
+      columns,
+      addFormItems,
+      updateData,
+      updateFormItems,
+      pageIndex,
+      pageSize,
+     } = this.state;
+    const pagination = {
+      total: total,
+      pageSize: pageSize,
+      current: pageIndex,
+      onChange: this.handlePageChange,
+    };
     return (
       <div>
         <Table
           columns={columns}
           dataSource={tags}
-          pagination
+          pagination={pagination}
           loading={loading}
           rowKey={record => record.id}
           bordered
@@ -144,6 +179,7 @@ function mapStateToProps(state) {
   return {
     loading: state.loading.global,
     tags: state.tag.tags,
+    total: state.tag.total,
   };
 }
 

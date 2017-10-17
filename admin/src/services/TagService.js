@@ -7,6 +7,10 @@ export function findAll() {
   return HttpClient.get('/1.0/tag');
 }
 
+export function findAllByPaging({ pageIndex, pageSize }) {
+  return HttpClient.get('/1.0/tag/paging', { pageIndex, pageSize });
+}
+
 export function add(tag) {
   return HttpClient.post('/1.0/tag/add', tag);
 }
