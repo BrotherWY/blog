@@ -10,4 +10,9 @@ router.post('/1.0/catalog/add', async (ctx) => {
   ctx.body = await CatalogService.add(req.catalog);
 });
 
+router.put('/1.0/catalog/update', async (ctx) => {
+  const req = ctx.request.body;
+  ctx.body = await CatalogService.add(req);
+});
+
 module.exports = router;

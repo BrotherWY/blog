@@ -69,11 +69,11 @@ CatalogService.findById = async (id) => {
 /**
  * update
  */
-CatalogService.update = async (obj, id) => {
+CatalogService.update = async (obj) => {
   try {
     const data = await Catalog.update(obj, {
       where: {
-        id: id,
+        id: obj.id,
       },
     });
     return ReturnData.success(data);

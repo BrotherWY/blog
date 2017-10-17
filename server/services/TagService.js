@@ -69,9 +69,26 @@ TagService.findById = async (id) => {
 /**
  * update
  */
-TagService.update = async (obj, id) => {
+TagService.update = async (obj) => {
   try {
     const data = await Tag.update(obj, {
+      where: {
+        id: obj.id,
+      },
+    });
+    return ReturnData.success(data);
+  } catch (err) {
+    logger.error(err.stack);
+    return ReturnData.error(ErrorMessage.NETWORK_ERROR);
+  }
+};
+
+/**
+ * delete
+ */
+TagService.delete = async (id) => {
+  try {
+    const data = await Tag.delete({
       where: {
         id: id,
       },

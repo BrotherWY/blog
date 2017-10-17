@@ -7,7 +7,17 @@ router.get('/1.0/tag', async (ctx) => {
 
 router.post('/1.0/tag/add', async (ctx) => {
   const req = ctx.request.body;
-  ctx.body = await TagService.add(req.tag);
+  ctx.body = await TagService.add(req);
+});
+
+router.put('/1.0/tag/update', async (ctx) => {
+  const req = ctx.request.body;
+  ctx.body = await TagService.update(req);
+});
+
+router.delete('/1.0/tag/delete', async (ctx) => {
+  const req = ctx.query;
+  ctx.body = await TagService.delete(req);
 });
 
 module.exports = router;
