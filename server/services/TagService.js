@@ -88,7 +88,7 @@ TagService.update = async (obj) => {
  */
 TagService.delete = async (id) => {
   try {
-    const data = await Tag.delete({
+    const data = await Tag.destroy({
       where: {
         id: id,
       },

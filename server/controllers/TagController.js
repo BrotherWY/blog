@@ -17,7 +17,7 @@ router.put('/1.0/tag/update', async (ctx) => {
 
 router.delete('/1.0/tag/delete', async (ctx) => {
   const req = ctx.query;
-  ctx.body = await TagService.delete(req);
+  ctx.body = await TagService.delete(req.id);
 });
 
 module.exports = router;
