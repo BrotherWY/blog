@@ -16,5 +16,5 @@ export function update(tag) {
 }
 
 export function remove(id) {
-  return HttpClient.delete('/1.0/tag/delete', id);
+  return HttpClient.delete('/1.0/tag/delete', { id: id });
 }

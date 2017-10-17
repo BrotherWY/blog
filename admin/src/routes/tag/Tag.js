@@ -1,17 +1,65 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Popconfirm, Modal, Form, Input, Button } from 'antd';
-import { FETCH_ALL, UPDATE, DELETE } from '../../constants/ActionType';
-
-const FormItem = Form.Item;
+import { Table, Popconfirm } from 'antd';
+import { FETCH_ALL, UPDATE, DELETE, ADD } from '../../constants/ActionType';
+import Add from '../../components/Add';
+import Update from '../../components/Update';
 
 class Tag extends Component {
   constructor(props) {
     super(props);
+    const formItems = [{
+      label: '标签名',
+      name: 'name',
+      disabled: false,
+      validate: {
+        rules: [{
+          required: true, message: '标签名不能为空',
+        }],
+      },
+    }, {
+      label: '标签介绍',
+      name: 'intro',
+      disabled: false,
+      validate: {
+        rules: [{
+          required: true, message: '标签介绍不能为空',
+        }],
+      },
+    }];
     this.state = {
-      visible: false,
+      updateVisible: false,
+      addVisible: false,
+      updateData: {},
+      columns: [
+        { title: '标签名', dataIndex: 'name', key: 'name' },
+        { title: '文章数量', dataIndex: 'count', key: 'count' },
+        { title: '介绍', dataIndex: 'intro', key: 'intro' },
+        { title: '创建时间', dataIndex: 'createdAt', key: 'createdAt' },
+        { title: '更新时间', dataIndex: 'updatedAt', key: 'updatedAt' },
+        { title: '当前版本', dataIndex: 'version', key: 'version' },
+        {
+          title: '操作',
+          dataIndex: 'operate',
+          key: 'operate',
+          render: (text, record) => (
+            <span>
+              <span style={{ marginRight: '16px', color: '#4396ec', cursor: 'pointer' }} onClick={() => { this.handleEdit(record); }}>编辑</span>
+              <Popconfirm title="确定删除吗?" onConfirm={() => { this.handleDelete(record.id); }} okText="yes" cancelText="no">
+                <span style={{ color: '#4396ec', cursor: 'pointer' }}>删除</span>
+              </Popconfirm>
+            </span>
+          ),
+        },
+      ],
+      addFormItems: formItems,
+      updateFormItems: formItems.concat({
+        label: 'id',
+        name: 'id',
+        disabled: true,
+        validate: {},
+      }),
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
@@ -27,7 +75,7 @@ class Tag extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.loading !== this.props.loading) {
-      this.setState({ visible: false });
+      this.setState({ updateVisible: false, addVisible: false });
     }
   }
 
@@ -40,25 +88,12 @@ class Tag extends Component {
   }
 
   handleEdit(record) {
-    const { form } = this.props;
-    form.setFieldsValue(record);
-    this.setState({ visible: true });
+    const data = { id: record.id, name: record.name, intro: record.intro };
+    this.setState({ updateVisible: true, updateData: data });
   }
 
   handleCancel() {
-    this.setState({ visible: false });
-  }
-
-  handleSubmit(e) {
-    const { dispatch } = this.props;
-    e.preventDefault();
-    this.props.form.validateFields((err, tag) => {
-      if (err) return;
-      dispatch({
-        type: `tag/${UPDATE}`,
-        payload: tag,
-      });
-    });
+    this.setState({ updateVisible: false, addVisible: false });
   }
 
   handleSelectAll(selected, selectedRows, changeRows) {
@@ -66,40 +101,8 @@ class Tag extends Component {
   }
 
   render() {
-    const columns = [
-      { title: '标签名', dataIndex: 'name', key: 'name' },
-      { title: '文章数量', dataIndex: 'count', key: 'count' },
-      { title: '介绍', dataIndex: 'intro', key: 'intro' },
-      { title: '创建时间', dataIndex: 'createdAt', key: 'createdAt' },
-      { title: '更新时间', dataIndex: 'updatedAt', key: 'updatedAt' },
-      { title: '当前版本', dataIndex: 'version', key: 'version' },
-      {
-        title: '操作',
-        dataIndex: 'operate',
-        key: 'operate',
-        render: (text, record) => (
-          <span>
-            <span style={{ marginRight: '16px', color: '#4396ec', cursor: 'pointer' }} onClick={() => { this.handleEdit(record); }}>编辑</span>
-            <Popconfirm title="确定删除吗?" onConfirm={() => { this.handleDelete(record.id); }} okText="yes" cancelText="no">
-              <span style={{ color: '#4396ec', cursor: 'pointer' }}>删除</span>
-            </Popconfirm>
-          </span>
-        ),
-      },
-    ];
-    const { tags, loading } = this.props;
-    const { visible } = this.state;
-    const { getFieldDecorator } = this.props.form;
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 6 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 14 },
-      },
-    };
+    const { tags, loading, dispatch } = this.props;
+    const { updateVisible, addVisible, columns, addFormItems, updateData, updateFormItems } = this.state;
     return (
       <div>
         <Table
@@ -107,105 +110,35 @@ class Tag extends Component {
           dataSource={tags}
           pagination
           loading={loading}
+          rowKey={record => record.id}
           bordered
           rowSelection={{
             onSelectAll: this.handleSelectAll,
           }}
         />
-        <Modal
+        <Add
+          title="增加标签"
+          dispatch={dispatch}
+          type={`tag/${ADD}`}
+          visible={addVisible}
+          loading={loading}
+          handleCancel={this.handleCancel}
+          formItems={addFormItems}
+        />
+        <Update
           title="修改标签"
-          visible={visible}
-          onCancel={this.handleCancel}
-          footer={null}
-        >
-          <Form onSubmit={this.handleSubmit}>
-            <FormItem
-              {...formItemLayout}
-              label="标签名"
-              hasFeedback
-            >
-              {getFieldDecorator('name', {
-                rules: [{
-                  required: true, message: '标签名不能为空',
-                }],
-              })(
-                <Input />,
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="介绍"
-              hasFeedback
-            >
-              {getFieldDecorator('intro', {
-                rules: [{
-                  required: true, message: '介绍不能为空',
-                }],
-              })(
-                <Input />,
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="id"
-              hasFeedback
-            >
-              {getFieldDecorator('id')(
-                <Input disabled />,
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="文章数量"
-              hasFeedback
-            >
-              {getFieldDecorator('count')(
-                <Input disabled />,
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="创建时间"
-              hasFeedback
-            >
-              {getFieldDecorator('createdAt')(
-                <Input disabled />,
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="更新时间"
-              hasFeedback
-            >
-              {getFieldDecorator('updatedAt')(
-                <Input disabled />,
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="当前版本"
-              hasFeedback
-            >
-              {getFieldDecorator('version')(
-                <Input disabled />,
-              )}
-            </FormItem>
-            <FormItem
-              wrapperCol={{
-                xs: { span: 14, offset: 0 },
-                sm: { span: 14, offset: 3 },
-              }}
-            >
-              <Button type="primary" htmlType="submit" loading={loading}>提交</Button>
-            </FormItem>
-          </Form>
-        </Modal>
+          dispatch={dispatch}
+          type={`tag/${UPDATE}`}
+          visible={updateVisible}
+          loading={loading}
+          handleCancel={this.handleCancel}
+          formItems={updateFormItems}
+          data={updateData}
+        />
       </div>
     );
   }
 }
-
-const WrappedRegistrationForm = Form.create()(Tag);
 
 function mapStateToProps(state) {
   return {
@@ -214,4 +147,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(WrappedRegistrationForm);
+export default connect(mapStateToProps)(Tag);
