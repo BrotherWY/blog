@@ -53,7 +53,7 @@ function defineModel(name, attributes) {
     hooks: {
       beforeValidate: (obj) => {
         const now = Date.now();
-        if (obj.isNewRecord) {
+        if (!obj.createdAt) { // 根据 createdAt判断该条数据是否存在
           if (!obj.id) {
             obj.id = generateId();
           }
