@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Table, Popconfirm, Button, Modal, message } from 'antd';
-import { PAGING, UPDATE, DELETE, ADD, BATCH_DELETE } from '../../constants/ActionType';
+import { PAGING, UPDATE, DELETE, ADD, BATCH_DELETE, SEARCH } from '../../constants/ActionType';
 import Add from '../../components/Add';
 import Update from '../../components/Update';
+import Search from '../../components/Search';
+import FormatDate from '../../utils/date';
 
 class Catalog extends Component {
   constructor(props) {
@@ -31,12 +33,28 @@ class Catalog extends Component {
       updateVisible: false,
       addVisible: false,
       updateData: {},
+      pageIndex: 1,
+      pageSize: 10,
+      selectIds: [], // 多选的id数组
+      batchVisible: false, // 批量删除提示框是否显示
+      addFormItems: formItems,
+      updateFormItems: formItems.concat({
+        label: 'id',
+        name: 'id',
+        disabled: true,
+        validate: {},
+      }),
+      searchFormItems: [{
+        label: '分类名',
+        name: 'name',
+        disabled: false,
+      }],
       columns: [
         { title: '分类名', dataIndex: 'name', key: 'name' },
         { title: '文章数量', dataIndex: 'count', key: 'count' },
         { title: '介绍', dataIndex: 'intro', key: 'intro' },
-        { title: '创建时间', dataIndex: 'createdAt', key: 'createdAt' },
-        { title: '更新时间', dataIndex: 'updatedAt', key: 'updatedAt' },
+        { title: '创建时间', dataIndex: 'createdAt', key: 'createdAt', render: text => this.formatTime(text) },
+        { title: '更新时间', dataIndex: 'updatedAt', key: 'updatedAt', render: text => this.formatTime(text) },
         { title: '当前版本', dataIndex: 'version', key: 'version' },
         {
           title: '操作',
@@ -52,17 +70,6 @@ class Catalog extends Component {
           ),
         },
       ],
-      addFormItems: formItems,
-      updateFormItems: formItems.concat({
-        label: 'id',
-        name: 'id',
-        disabled: true,
-        validate: {},
-      }),
-      pageIndex: 1,
-      pageSize: 10,
-      selectIds: [], // 多选的id数组
-      batchVisible: false, // 批量删除提示框是否显示
     };
     this.handleOk = this.handleOk.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
@@ -94,6 +101,10 @@ class Catalog extends Component {
         batchVisible: false,
       });
     }
+  }
+
+  formatTime(val) {
+    return new FormatDate(val).farmat('YYYY-MM-DD hh:mm');
   }
 
   handleDelete(id) {
@@ -163,6 +174,7 @@ class Catalog extends Component {
       pageIndex,
       pageSize,
       batchVisible,
+      searchFormItems,
      } = this.state;
     const pagination = {
       total: total,
@@ -172,9 +184,15 @@ class Catalog extends Component {
     };
     return (
       <div>
-        <div style={{ display: 'flex', marginBottom: '10px' }}>
-          <Button type="primary" onClick={this.handleAdd}>添加分类</Button>
-        </div>
+        <Search
+          formItems={searchFormItems}
+          pageIndex={pageIndex}
+          pageSize={pageSize}
+          type={`catalog/${SEARCH}`}
+          otherType={`catalog/${PAGING}`}
+          handleAdd={this.handleAdd}
+          dispatch={dispatch}
+        />
         <Table
           columns={columns}
           dataSource={catalogs}
