@@ -5,6 +5,12 @@
 const returnData = {};
 
 returnData.success = (data) => {
+  if (data instanceof Array) {
+    data.sort((a, b) => b.createdAt - a.createdAt);
+  }
+  if (data.rows) {
+    data.rows.sort((a, b) => b.createdAt - a.createdAt);
+  }
   return {
     code: 200,
     data: data,
