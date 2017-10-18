@@ -51,19 +51,22 @@ function defineModel(name, attributes) {
     tableName: name,
     timestamps: false,
     hooks: {
-      beforeValidate: (obj) => {
+      /**
+       * 使用两个钩子是为了让他在update的时候调用
+       */
+      beforeValidate: (instance) => {
         const now = Date.now();
-        if (!obj.createdAt) { // 根据 createdAt判断该条数据是否存在
-          if (!obj.id) {
-            obj.id = generateId();
-          }
-          obj.createdAt = now;
-          obj.updatedAt = now;
-          obj.version = 0;
-        } else {
-          obj.updatedAt = Date.now();
-          obj.version += 1;
+        if (!instance.id) {
+          instance.id = generateId();
         }
+        instance.createdAt = now;
+        instance.updatedAt = now;
+        instance.version = 0;
+      },
+      beforeUpdate: (instance) => {
+        const now = Date.now();
+        instance.updatedAt = now;
+        instance.version += 1;
       },
     },
   });

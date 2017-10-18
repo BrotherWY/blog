@@ -92,6 +92,7 @@ TagService.update = async (obj) => {
       where: {
         id: obj.id,
       },
+      individualHooks: true,
     });
     return ReturnData.success(data);
   } catch (err) {
