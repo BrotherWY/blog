@@ -1,31 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Table, Popconfirm, Button, Modal, message } from 'antd';
-import { PAGING, UPDATE, DELETE, ADD, BATCH_DELETE, SEARCH } from '../../constants/ActionType';
+import { PAGING, UPDATE, DELETE, ADD, BATCH_DELETE } from '../../constants/ActionType';
 import Add from '../../components/Add';
 import Update from '../../components/Update';
-import Search from '../../components/Search';
-import FormatDate from '../../utils/date';
 
-class Tag extends Component {
+class Catalog extends Component {
   constructor(props) {
     super(props);
     const formItems = [{
-      label: '标签名',
+      label: '分类名',
       name: 'name',
       disabled: false,
       validate: {
         rules: [{
-          required: true, message: '标签名不能为空',
+          required: true, message: '分类名不能为空',
         }],
       },
     }, {
-      label: '标签介绍',
+      label: '分类介绍',
       name: 'intro',
       disabled: false,
       validate: {
         rules: [{
-          required: true, message: '标签介绍不能为空',
+          required: true, message: '分类介绍不能为空',
         }],
       },
     }];
@@ -33,28 +31,12 @@ class Tag extends Component {
       updateVisible: false,
       addVisible: false,
       updateData: {},
-      pageIndex: 1,
-      pageSize: 10,
-      selectIds: [], // 多选的id数组
-      batchVisible: false, // 批量删除提示框是否显示
-      addFormItems: formItems,
-      updateFormItems: formItems.concat({
-        label: 'id',
-        name: 'id',
-        disabled: true,
-        validate: {},
-      }),
-      searchFormItems: [{
-        label: '标签名',
-        name: 'name',
-        disabled: false,
-      }],
       columns: [
-        { title: '标签名', dataIndex: 'name', key: 'name' },
+        { title: '分类名', dataIndex: 'name', key: 'name' },
         { title: '文章数量', dataIndex: 'count', key: 'count' },
         { title: '介绍', dataIndex: 'intro', key: 'intro' },
-        { title: '创建时间', dataIndex: 'createdAt', key: 'createdAt', render: text => this.formatTime(text) },
-        { title: '更新时间', dataIndex: 'updatedAt', key: 'updatedAt', render: text => this.formatTime(text) },
+        { title: '创建时间', dataIndex: 'createdAt', key: 'createdAt' },
+        { title: '更新时间', dataIndex: 'updatedAt', key: 'updatedAt' },
         { title: '当前版本', dataIndex: 'version', key: 'version' },
         {
           title: '操作',
@@ -70,6 +52,17 @@ class Tag extends Component {
           ),
         },
       ],
+      addFormItems: formItems,
+      updateFormItems: formItems.concat({
+        label: 'id',
+        name: 'id',
+        disabled: true,
+        validate: {},
+      }),
+      pageIndex: 1,
+      pageSize: 10,
+      selectIds: [], // 多选的id数组
+      batchVisible: false, // 批量删除提示框是否显示
     };
     this.handleOk = this.handleOk.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
@@ -85,7 +78,7 @@ class Tag extends Component {
     const { dispatch } = this.props;
     const { pageIndex, pageSize } = this.state;
     dispatch({
-      type: `tag/${PAGING}`,
+      type: `catalog/${PAGING}`,
       payload: {
         pageIndex,
         pageSize,
@@ -103,15 +96,11 @@ class Tag extends Component {
     }
   }
 
-  formatTime(val) {
-    return new FormatDate(val).farmat('YYYY-MM-DD hh:mm');
-  }
-
   handleDelete(id) {
     const { dispatch } = this.props;
     const { pageIndex, pageSize } = this.state;
     dispatch({
-      type: `tag/${DELETE}`,
+      type: `catalog/${DELETE}`,
       payload: { id, pageIndex, pageSize },
     });
   }
@@ -141,7 +130,7 @@ class Tag extends Component {
     const { dispatch } = this.props;
     const { pageIndex, pageSize, selectIds } = this.state;
     dispatch({
-      type: `tag/${BATCH_DELETE}`,
+      type: `catalog/${BATCH_DELETE}`,
       payload: { pageIndex, pageSize, selectIds },
     });
   }
@@ -153,7 +142,7 @@ class Tag extends Component {
   handlePageChange(pageIndex, pageSize) {
     const { dispatch } = this.props;
     dispatch({
-      type: `tag/${PAGING}`,
+      type: `catalog/${PAGING}`,
       payload: {
         pageIndex,
         pageSize,
@@ -163,7 +152,7 @@ class Tag extends Component {
   }
 
   render() {
-    const { tags, loading, dispatch, total } = this.props;
+    const { catalogs, loading, dispatch, total } = this.props;
     const {
       updateVisible,
       addVisible,
@@ -174,7 +163,6 @@ class Tag extends Component {
       pageIndex,
       pageSize,
       batchVisible,
-      searchFormItems,
      } = this.state;
     const pagination = {
       total: total,
@@ -184,18 +172,12 @@ class Tag extends Component {
     };
     return (
       <div>
-        <Search
-          formItems={searchFormItems}
-          pageIndex={pageIndex}
-          pageSize={pageSize}
-          type={`tag/${SEARCH}`}
-          otherType={`tag/${PAGING}`}
-          handleAdd={this.handleAdd}
-          dispatch={dispatch}
-        />
+        <div style={{ display: 'flex', marginBottom: '10px' }}>
+          <Button type="primary" onClick={this.handleAdd}>添加分类</Button>
+        </div>
         <Table
           columns={columns}
-          dataSource={tags}
+          dataSource={catalogs}
           pagination={pagination}
           loading={loading}
           rowKey={record => record.id}
@@ -206,9 +188,9 @@ class Tag extends Component {
           }}
         />
         <Add
-          title="增加标签"
+          title="增加分类"
           dispatch={dispatch}
-          type={`tag/${ADD}`}
+          type={`catalog/${ADD}`}
           visible={addVisible}
           loading={loading}
           handleCancel={this.handleCancel}
@@ -217,9 +199,9 @@ class Tag extends Component {
           pageSize={pageSize}
         />
         <Update
-          title="修改标签"
+          title="修改分类"
           dispatch={dispatch}
-          type={`tag/${UPDATE}`}
+          type={`catalog/${UPDATE}`}
           visible={updateVisible}
           loading={loading}
           handleCancel={this.handleCancel}
@@ -245,9 +227,9 @@ class Tag extends Component {
 function mapStateToProps(state) {
   return {
     loading: state.loading.global,
-    tags: state.tag.tags,
-    total: state.tag.total,
+    catalogs: state.catalog.catalogs,
+    total: state.catalog.total,
   };
 }
 
-export default connect(mapStateToProps)(Tag);
+export default connect(mapStateToProps)(Catalog);

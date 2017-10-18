@@ -4,25 +4,36 @@ import dynamic from 'dva/dynamic';
 import App from './routes/App';
 
 function RouterConfig({ history, app }) {
-  const home = dynamic({
-    app,
-    component: () => import('./routes/dashboard/DashBoard'),
-  });
-
   const login = dynamic({
     app,
     component: () => import('./routes/Login'),
   });
 
-  const WriteArticle = dynamic({
-    app,
-    component: () => import('./routes/article/WriteArticle'),
-  });
-
-  const Tag = dynamic({
-    app,
-    component: () => import('./routes/tag/Tag'),
-  });
+  const routes = [{
+    path: '/dashboard',
+    component: dynamic({
+      app,
+      component: () => import('./routes/dashboard/DashBoard'),
+    }),
+  }, {
+    path: '/article/write',
+    component: dynamic({
+      app,
+      component: () => import('./routes/article/WriteArticle'),
+    }),
+  }, {
+    path: '/tag',
+    component: dynamic({
+      app,
+      component: () => import('./routes/tag/Tag'),
+    }),
+  }, {
+    path: '/catalog',
+    component: dynamic({
+      app,
+      component: () => import('./routes/catalog/Catalog'),
+    }),
+  }];
 
   return (
     <Router history={history}>
@@ -32,9 +43,16 @@ function RouterConfig({ history, app }) {
             path="/:name" component={props => (
               <App {...props}>
                 <Switch>
-                  <Route exact path="/dashboard" component={home} />
-                  <Route exact path="/article/write" component={WriteArticle} />
-                  <Route exact path="/tag" component={Tag} />
+                  {
+                    routes.map((route, i) => (
+                      <Route
+                        key={i}
+                        exact
+                        path={route.path}
+                        component={route.component}
+                      />
+                    ))
+                  }
                 </Switch>
               </App>
             )}

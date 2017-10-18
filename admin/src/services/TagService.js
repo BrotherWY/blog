@@ -29,3 +29,21 @@ export function batchDelete(tags) {
   const ids = tags.map(tag => tag.id);
   return HttpClient.delete('/1.0/tag/batchDelete', { ids: ids });
 }
+
+export function search({ pageIndex, pageSize, data }) {
+  const params = {
+    name: data.name,
+  };
+  if (data.selTime) {
+    params.start = resolveTime(data.selTime[0]);
+    params.end = resolveTime(data.selTime[1]);
+  }
+  return HttpClient.post('/1.0/tag/search', { pageIndex, pageSize, params });
+}
+
+/**
+ * 解析出毫秒数
+ */
+function resolveTime(val) {
+  return new Date(val).getTime();
+}
