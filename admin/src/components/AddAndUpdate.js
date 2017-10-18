@@ -3,7 +3,7 @@ import { Modal, Form, Input, Button, Select } from 'antd';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-class Add extends Component {
+class AddAndUpdate extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,18 +31,32 @@ class Add extends Component {
 
   renderFormItem(formItemLayout, getFieldDecorator) {
     const { formItems } = this.props;
-    return formItems.map((data, i) => (
-      <FormItem
-        {...formItemLayout}
-        label={data.label}
-        hasFeedback
-        key={i}
-      >
-        {getFieldDecorator(data.name, data.validate)(
-          <Input disabled={data.disabled} placeholder={`请输入${data.label}`} />,
-        )}
-      </FormItem>
-    ));
+    return formItems.map((data, i) => {
+      let s;
+      if (data.isSelect) {
+        const selects = data.selects;
+        const options = selects.map((select, j) => {
+          return (
+            <Option value={select.value} key={j}>{select.name}</Option>
+          );
+        });
+        s = <Select placeholder={`请选择${data.label}`}>{options}</Select>;
+      } else {
+        s = <Input disabled={data.disabled} placeholder={`请输入${data.label}`} />;
+      }
+      return (
+        <FormItem
+          {...formItemLayout}
+          label={data.label}
+          hasFeedback
+          key={i}
+        >
+          {getFieldDecorator(data.name, data.validate)(
+            s,
+          )}
+        </FormItem>
+      );
+    });
   }
 
   render() {
@@ -81,6 +95,6 @@ class Add extends Component {
   }
 }
 
-const WrappedAddForm = Form.create()(Add);
+const WrappedAddForm = Form.create()(AddAndUpdate);
 
 export default WrappedAddForm;

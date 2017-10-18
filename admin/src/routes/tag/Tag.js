@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Table, Popconfirm, Button, Modal, message } from 'antd';
 import { PAGING, UPDATE, DELETE, ADD, BATCH_DELETE, SEARCH } from '../../constants/ActionType';
-import Add from '../../components/Add';
-import Update from '../../components/Update';
+import AddAndUpdate from '../../components/AddAndUpdate';
 import Search from '../../components/Search';
 import FormatDate from '../../utils/date';
 
@@ -205,7 +204,7 @@ class Tag extends Component {
             onChange: this.handleSelect,
           }}
         />
-        <Add
+        <AddAndUpdate
           title="增加标签"
           dispatch={dispatch}
           type={`tag/${ADD}`}
@@ -216,7 +215,7 @@ class Tag extends Component {
           pageIndex={pageIndex}
           pageSize={pageSize}
         />
-        <Update
+        <AddAndUpdate
           title="修改标签"
           dispatch={dispatch}
           type={`tag/${UPDATE}`}

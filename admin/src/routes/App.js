@@ -42,7 +42,7 @@ class App extends Component {
           up_id: 4,
           name: '写文章',
           url: '/article/write',
-          icon: 'book',
+          icon: 'edit',
         },
         {
           id: 6,
@@ -56,6 +56,13 @@ class App extends Component {
           up_id: 0,
           name: '系统管理',
           url: '',
+          icon: 'setting',
+        },
+        {
+          id: 8,
+          up_id: 7,
+          name: '菜单管理',
+          url: '/system/menu',
           icon: 'setting',
         },
       ],

@@ -6,25 +6,85 @@ import AddAndUpdate from '../../components/AddAndUpdate';
 import Search from '../../components/Search';
 import FormatDate from '../../utils/date';
 
-class Catalog extends Component {
+class Menu extends Component {
   constructor(props) {
     super(props);
     const formItems = [{
-      label: '分类名',
+      label: '菜单名',
       name: 'name',
       disabled: false,
       validate: {
         rules: [{
-          required: true, message: '分类名不能为空',
+          required: true, message: '菜单名不能为空',
         }],
       },
     }, {
-      label: '分类介绍',
-      name: 'intro',
+      label: 'url',
+      name: 'url',
       disabled: false,
       validate: {
         rules: [{
-          required: true, message: '分类介绍不能为空',
+          required: true, message: 'url不能为空',
+        }],
+      },
+    }, {
+      label: '排序',
+      name: 'sort',
+      disabled: false,
+      validate: {
+        rules: [{
+          required: true, message: '排序不能为空',
+        }],
+      },
+    }, {
+      label: '图标',
+      name: 'icon',
+      disabled: false,
+      isSelect: true,
+      selects: [{
+        name: '笔',
+        value: 'exit',
+      }],
+      validate: {
+        rules: [{
+          required: true, message: '图标不能为空',
+        }],
+      },
+    }, {
+      label: '类型',
+      name: 'flag',
+      disabled: false,
+      isSelect: true,
+      selects: [{
+        name: '前台',
+        value: 0,
+      }, {
+        name: '后台',
+        value: 1,
+      }],
+      validate: {
+        rules: [{
+          required: true, message: '类型不能为空',
+        }],
+      },
+    }, {
+      label: '上层菜单',
+      name: 'up_id',
+      disabled: false,
+      isSelect: true,
+      selects: [{
+        name: '顶层菜单',
+        value: '0',
+      }, {
+        name: '系统管理',
+        value: '1',
+      }, {
+        name: '文章管理',
+        value: '2',
+      }],
+      validate: {
+        rules: [{
+          required: true, message: '上层菜单不能为空',
         }],
       },
     }];
@@ -44,14 +104,17 @@ class Catalog extends Component {
         validate: {},
       }),
       searchFormItems: [{
-        label: '分类名',
+        label: '菜单名',
         name: 'name',
         disabled: false,
       }],
       columns: [
-        { title: '分类名', dataIndex: 'name', key: 'name' },
-        { title: '文章数量', dataIndex: 'count', key: 'count' },
-        { title: '介绍', dataIndex: 'intro', key: 'intro' },
+        { title: '菜单名', dataIndex: 'name', key: 'name' },
+        { title: '图标', dataIndex: 'icon', key: 'icon' },
+        { title: 'url', dataIndex: 'url', key: 'url' },
+        { title: '排序', dataIndex: 'sort', key: 'sort' },
+        { title: '类型', dataIndex: 'flag', key: 'flag' },
+        { title: '上层菜单', dataIndex: 'up_id', key: 'up_id' },
         { title: '创建时间', dataIndex: 'createdAt', key: 'createdAt', render: text => this.formatTime(text) },
         { title: '更新时间', dataIndex: 'updatedAt', key: 'updatedAt', render: text => this.formatTime(text) },
         { title: '当前版本', dataIndex: 'version', key: 'version' },
@@ -84,7 +147,7 @@ class Catalog extends Component {
     const { dispatch } = this.props;
     const { pageIndex, pageSize } = this.state;
     dispatch({
-      type: `catalog/${PAGING}`,
+      type: `menu/${PAGING}`,
       payload: {
         pageIndex,
         pageSize,
@@ -110,13 +173,21 @@ class Catalog extends Component {
     const { dispatch } = this.props;
     const { pageIndex, pageSize } = this.state;
     dispatch({
-      type: `catalog/${DELETE}`,
+      type: `menu/${DELETE}`,
       payload: { id, pageIndex, pageSize },
     });
   }
 
   handleEdit(record) {
-    const data = { id: record.id, name: record.name, intro: record.intro };
+    const data = {
+      id: record.id,
+      name: record.name,
+      url: record.url,
+      icon: record.icon,
+      sort: record.sort,
+      up_id: record.up_id,
+      flag: record.flag,
+    };
     this.setState({ updateVisible: true, updateData: data });
   }
 
@@ -140,7 +211,7 @@ class Catalog extends Component {
     const { dispatch } = this.props;
     const { pageIndex, pageSize, selectIds } = this.state;
     dispatch({
-      type: `catalog/${BATCH_DELETE}`,
+      type: `menu/${BATCH_DELETE}`,
       payload: { pageIndex, pageSize, selectIds },
     });
   }
@@ -152,7 +223,7 @@ class Catalog extends Component {
   handlePageChange(pageIndex, pageSize) {
     const { dispatch } = this.props;
     dispatch({
-      type: `catalog/${PAGING}`,
+      type: `menu/${PAGING}`,
       payload: {
         pageIndex,
         pageSize,
@@ -162,7 +233,7 @@ class Catalog extends Component {
   }
 
   render() {
-    const { catalogs, loading, dispatch, total } = this.props;
+    const { menus, loading, dispatch, total } = this.props;
     const {
       updateVisible,
       addVisible,
@@ -187,14 +258,14 @@ class Catalog extends Component {
           formItems={searchFormItems}
           pageIndex={pageIndex}
           pageSize={pageSize}
-          type={`catalog/${SEARCH}`}
-          otherType={`catalog/${PAGING}`}
+          type={`menu/${SEARCH}`}
+          otherType={`menu/${PAGING}`}
           handleAdd={this.handleAdd}
           dispatch={dispatch}
         />
         <Table
           columns={columns}
-          dataSource={catalogs}
+          dataSource={menus}
           pagination={pagination}
           loading={loading}
           rowKey={record => record.id}
@@ -205,9 +276,9 @@ class Catalog extends Component {
           }}
         />
         <AddAndUpdate
-          title="增加分类"
+          title="增加菜单"
           dispatch={dispatch}
-          type={`catalog/${ADD}`}
+          type={`menu/${ADD}`}
           visible={addVisible}
           loading={loading}
           handleCancel={this.handleCancel}
@@ -216,9 +287,9 @@ class Catalog extends Component {
           pageSize={pageSize}
         />
         <AddAndUpdate
-          title="修改分类"
+          title="修改菜单"
           dispatch={dispatch}
-          type={`catalog/${UPDATE}`}
+          type={`menu/${UPDATE}`}
           visible={updateVisible}
           loading={loading}
           handleCancel={this.handleCancel}
@@ -244,9 +315,9 @@ class Catalog extends Component {
 function mapStateToProps(state) {
   return {
     loading: state.loading.global,
-    catalogs: state.catalog.catalogs,
-    total: state.catalog.total,
+    menus: state.menu.menus,
+    total: state.menu.total,
   };
 }
 
-export default connect(mapStateToProps)(Catalog);
+export default connect(mapStateToProps)(Menu);
