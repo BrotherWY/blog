@@ -55,5 +55,7 @@ module.exports = {
     'no-restricted-globals': 0,
     'dot-notation': 0,
     'no-else-return': 0,
+    'no-else-return': 0,
+    'no-await-in-loop': 0,
   }
 }

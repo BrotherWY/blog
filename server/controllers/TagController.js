@@ -30,4 +30,9 @@ router.delete('/1.0/tag/batchDelete', async (ctx) => {
   ctx.body = await TagService.batchDelete(req.ids);
 });
 
+router.post('/1.0/tag/search', async (ctx) => {
+  const req = ctx.request.body;
+  ctx.body = await TagService.search(req);
+});
+
 module.exports = router;

@@ -2,6 +2,7 @@ const Tag = require('../models/Tag');
 const ReturnData = require('../util/ReturnData');
 const ErrorMessage = require('../constants/ErrorMessage');
 const log4js = require('koa-log4');
+const Sequelize = require('sequelize');
 
 const logger = log4js.getLogger('app');
 
@@ -137,6 +138,47 @@ TagService.batchDelete = async (ids) => {
       }
     }
     return ReturnData.success();
+  } catch (err) {
+    logger.error(err.stack);
+    return ReturnData.error(ErrorMessage.NETWORK_ERROR);
+  }
+};
+
+/**
+ * search
+ */
+TagService.search = async (req) => {
+  const {
+    or,
+    and,
+    gt,
+    lt,
+  } = Sequelize.Op;
+  const { pageSize, pageIndex, params } = req;
+
+  try {
+    const result = await Tag.findAndCountAll({
+      where: {
+        [or]: [
+          {
+            name: params.name,
+          },
+          {
+            [and]: [
+              {
+                updatedAt: { [gt]: params.start ? parseInt(params.start, 0) : 0 },
+              },
+              {
+                updatedAt: { [lt]: params.end ? parseInt(params.end, 0) : 0 },
+              },
+            ],
+          },
+        ],
+      },
+      limit: parseInt(pageSize, 0),
+      offset: (pageIndex - 1) * parseInt(pageSize, 0),
+    });
+    return ReturnData.success(result);
   } catch (err) {
     logger.error(err.stack);
     return ReturnData.error(ErrorMessage.NETWORK_ERROR);
