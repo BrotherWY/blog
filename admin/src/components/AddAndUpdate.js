@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Button } from 'antd';
+import { Modal, Form, Input, Button, Select } from 'antd';
 
 const FormItem = Form.Item;
+const Option = Select.Option;
 class Add extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.props.handleCancel.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { form, data } = nextProps;
+    if (this.props.data !== data) {
+      form.setFieldsValue(data);
+    }
   }
 
   handleSubmit(e) {
