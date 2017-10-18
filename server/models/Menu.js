@@ -1,6 +1,6 @@
 const db = require('../db/db');
 
-module.exports = db.defineModel('sys_operate', {
+module.exports = db.defineModel('menu', {
   name: db.STRING(20),
   icon: db.STRING(20),
   url: db.STRING(50),
