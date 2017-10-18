@@ -42,7 +42,12 @@ TagService.findAllByPaging = async ({ pageSize, pageIndex }) => {
 TagService.add = async (tag) => {
   try {
     const data = await Tag.create(tag);
-    return ReturnData.success(data);
+    // 添加成功会返回该条数据，所以根据id去判断是否成功
+    if (data.id) {
+      return ReturnData.success(data);
+    } else {
+      return ReturnData.error(ErrorMessage.ADD_ERROR);
+    }
   } catch (err) {
     logger.error(err.stack);
     return ReturnData.error(ErrorMessage.NETWORK_ERROR);
@@ -94,7 +99,17 @@ TagService.update = async (obj) => {
       },
       individualHooks: true,
     });
-    return ReturnData.success(data);
+    /**
+     * 更新成功后返回一个数组
+     * 数组第一个是affectedCount
+     * 数组第二个是affectedRows
+     * 首先根据是不是数组，然后再比对数据
+     */
+    if (data && data instanceof Array && data[0] > 0) {
+      return ReturnData.success(data);
+    } else {
+      return ReturnData.error(ErrorMessage.UPDATE_ERROR);
+    }
   } catch (err) {
     logger.error(err.stack);
     return ReturnData.error(ErrorMessage.NETWORK_ERROR);
@@ -154,6 +169,7 @@ TagService.search = async (req) => {
     and,
     gt,
     lt,
+    like,
   } = Sequelize.Op;
   const { pageSize, pageIndex, params } = req;
 
@@ -162,7 +178,9 @@ TagService.search = async (req) => {
       where: {
         [or]: [
           {
-            name: params.name,
+            name: {
+              [like]: `%${params.name}%`,
+            },
           },
           {
             [and]: [

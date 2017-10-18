@@ -8,7 +8,7 @@ returnData.success = (data) => {
   if (data instanceof Array) {
     data.sort((a, b) => b.createdAt - a.createdAt);
   }
-  if (data.rows) {
+  if (data && data.rows) {
     data.rows.sort((a, b) => b.createdAt - a.createdAt);
   }
   return {
