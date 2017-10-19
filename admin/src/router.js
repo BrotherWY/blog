@@ -16,10 +16,34 @@ function RouterConfig({ history, app }) {
       component: () => import('./routes/dashboard/DashBoard'),
     }),
   }, {
+    path: '/article',
+    component: dynamic({
+      app,
+      component: () => import('./routes/article/Article'),
+    }),
+  }, {
     path: '/article/write',
     component: dynamic({
       app,
       component: () => import('./routes/article/WriteArticle'),
+    }),
+  }, {
+    path: '/article/draft',
+    component: dynamic({
+      app,
+      component: () => import('./routes/article/Draft'),
+    }),
+  }, {
+    path: '/article/trash',
+    component: dynamic({
+      app,
+      component: () => import('./routes/article/Trash'),
+    }),
+  }, {
+    path: '/article/view',
+    component: dynamic({
+      app,
+      component: () => import('./routes/article/View'),
     }),
   }, {
     path: '/tag',

@@ -10,6 +10,8 @@ export const ADD = 'ADD';
 export const PAGING = 'PAGING';
 export const BATCH_DELETE = 'BATCH_DELETE';
 export const SEARCH = 'SEARCH';
+export const UPDATE_STATU = 'UPDATE_STATU';
+export const BATCH_UPDATE_STATU = 'BATCH_UPDATE_STATU';
 
 export const SET_ALL_MENUS = 'SET_ALL_MENUS';
 

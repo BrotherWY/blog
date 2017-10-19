@@ -8,7 +8,7 @@ class Search extends Component {
   constructor(props) {
     super(props);
     this.handleSearch = this.handleSearch.bind(this);
-    this.handleAdd = this.props.handleAdd.bind(this);
+    this.props.handleAdd ? this.handleAdd = this.props.handleAdd.bind(this) : null;
   }
 
   handleSearch(e) {
@@ -25,7 +25,8 @@ class Search extends Component {
   }
 
   renderFormItem(getFieldDecorator) {
-    const { formItems } = this.props;
+    let { formItems } = this.props;
+    formItems = formItems || [];
     return formItems.map((data, i) => (
       <FormItem
         key={i}
@@ -56,9 +57,15 @@ class Search extends Component {
         <FormItem>
           <Button type="primary" htmlType="submit">搜索</Button>
         </FormItem>
-        <FormItem>
-          <Button type="primary" onClick={this.handleAdd}>添加</Button>
-        </FormItem>
+        {
+          this.props.handleAdd
+          ?
+            <FormItem>
+              <Button type="primary" onClick={this.handleAdd}>添加</Button>
+            </FormItem>
+          :
+            null
+        }
       </Form>
     );
   }
