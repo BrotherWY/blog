@@ -8,6 +8,20 @@ const logger = log4js.getLogger('app');
 
 const MenuService = {};
 
+
+/**
+ * 获取所有菜单
+ */
+MenuService.findAll = async () => {
+  try {
+    const data = await Menu.findAll();
+    return ReturnData.success(data);
+  } catch (err) {
+    logger.error(err.stack);
+    return ReturnData.error(ErrorMessage.NETWORK_ERROR);
+  }
+};
+
 /**
  * 分页
  */
