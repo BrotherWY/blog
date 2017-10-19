@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Popconfirm, Button, Modal, message } from 'antd';
-import { PAGING, UPDATE, DELETE, ADD, BATCH_DELETE, SEARCH } from '../../constants/ActionType';
+import { Table, Popconfirm, Button, Modal, message, Icon } from 'antd';
+import { FETCH_ALL, PAGING, UPDATE, DELETE, ADD, BATCH_DELETE, SEARCH } from '../../constants/ActionType';
 import AddAndUpdate from '../../components/AddAndUpdate';
 import Search from '../../components/Search';
 import FormatDate from '../../utils/date';
@@ -43,7 +43,7 @@ class Menu extends Component {
       isSelect: true,
       selects: [{
         name: '笔',
-        value: 'exit',
+        value: 'edit',
       }],
       validate: {
         rules: [{
@@ -57,10 +57,10 @@ class Menu extends Component {
       isSelect: true,
       selects: [{
         name: '前台',
-        value: 0,
+        value: '0',
       }, {
         name: '后台',
-        value: 1,
+        value: '1',
       }],
       validate: {
         rules: [{
@@ -72,16 +72,8 @@ class Menu extends Component {
       name: 'up_id',
       disabled: false,
       isSelect: true,
-      selects: [{
-        name: '顶层菜单',
-        value: '0',
-      }, {
-        name: '系统管理',
-        value: '1',
-      }, {
-        name: '文章管理',
-        value: '2',
-      }],
+      // 配置菜单数据
+      selects: this.formatAddMenu(),
       validate: {
         rules: [{
           required: true, message: '上层菜单不能为空',
@@ -110,11 +102,11 @@ class Menu extends Component {
       }],
       columns: [
         { title: '菜单名', dataIndex: 'name', key: 'name' },
-        { title: '图标', dataIndex: 'icon', key: 'icon' },
+        { title: '图标', dataIndex: 'icon', key: 'icon', render: text => <Icon type={text} /> },
         { title: 'url', dataIndex: 'url', key: 'url' },
         { title: '排序', dataIndex: 'sort', key: 'sort' },
-        { title: '类型', dataIndex: 'flag', key: 'flag' },
-        { title: '上层菜单', dataIndex: 'up_id', key: 'up_id' },
+        { title: '类型', dataIndex: 'flag', key: 'flag', render: text => this.formatType(text) },
+        { title: '上层菜单', dataIndex: 'up_id', key: 'up_id', render: text => this.formatMenu(text) },
         { title: '创建时间', dataIndex: 'createdAt', key: 'createdAt', render: text => this.formatTime(text) },
         { title: '更新时间', dataIndex: 'updatedAt', key: 'updatedAt', render: text => this.formatTime(text) },
         { title: '当前版本', dataIndex: 'version', key: 'version' },
@@ -153,6 +145,7 @@ class Menu extends Component {
         pageSize,
       },
     });
+    dispatch({ type: `menu/${FETCH_ALL}` });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -167,6 +160,32 @@ class Menu extends Component {
 
   formatTime(val) {
     return new FormatDate(val).farmat('YYYY-MM-DD hh:mm');
+  }
+
+  formatAddMenu() {
+    return [{ name: '顶层菜单', value: '0' }].concat(this.props.allMenus.map((m) => {
+      return { name: m.name, value: m.id };
+    }));
+  }
+
+  formatMenu(val) {
+    const { allMenus } = this.props;
+    if (val === '0') {
+      return '顶层菜单';
+    } else {
+      const name = allMenus.map((menu) => {
+        if (menu.id === val) {
+          return menu.name;
+        }
+        return null;
+      });
+      return name;
+    }
+  }
+
+  formatType(val) {
+    const types = ['前台', '后台'];
+    return types[val];
   }
 
   handleDelete(id) {
@@ -317,6 +336,7 @@ function mapStateToProps(state) {
     loading: state.loading.global,
     menus: state.menu.menus,
     total: state.menu.total,
+    allMenus: state.menu.allMenus,
   };
 }
 

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Icon, Avatar, Badge, Dropdown, Breadcrumb } from 'antd';
+import { connect } from 'dva';
+import { FETCH_ALL } from '../constants/ActionType';
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -7,72 +9,19 @@ const { Content, Sider } = Layout;
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      menus: [
-        {
-          id: 1,
-          up_id: 0,
-          name: '统计面板',
-          url: '/dashboard',
-          icon: 'pie-chart',
-        },
-        {
-          id: 2,
-          up_id: 0,
-          name: '标签管理',
-          url: '/tag',
-          icon: 'tag',
-        },
-        {
-          id: 3,
-          up_id: 0,
-          name: '分类管理',
-          url: '/catalog',
-          icon: 'compass',
-        },
-        {
-          id: 4,
-          up_id: 0,
-          name: '文章管理',
-          url: '',
-          icon: 'book',
-        },
-        {
-          id: 5,
-          up_id: 4,
-          name: '写文章',
-          url: '/article/write',
-          icon: 'edit',
-        },
-        {
-          id: 6,
-          up_id: 0,
-          name: '评论管理',
-          url: '',
-          icon: 'book',
-        },
-        {
-          id: 7,
-          up_id: 0,
-          name: '系统管理',
-          url: '',
-          icon: 'setting',
-        },
-        {
-          id: 8,
-          up_id: 7,
-          name: '菜单管理',
-          url: '/system/menu',
-          icon: 'setting',
-        },
-      ],
-    };
     this.handleSelect = this.handleSelect.bind(this);
   }
 
+
+  componentWillMount() {
+    const { dispatch } = this.props;
+    dispatch({ type: `menu/${FETCH_ALL}` });
+  }
+
+
   handleSelect({ selectedKeys }) {
-    this.state.menus.forEach((menu) => {
-      if (menu.url && menu.id === parseInt(selectedKeys, 0)) {
+    this.props.allMenus.forEach((menu) => {
+      if (menu.url !== '/' && menu.id === selectedKeys[0]) {
         this.props.history.push(menu.url);
       }
     });
@@ -93,11 +42,15 @@ class App extends Component {
   }
 
   renderLeftMenus() {
-    return this.state.menus.map((menu) => {
-      if (menu.up_id === 0 && menu.url) {
+    // 先根据sort排个序
+    this.props.allMenus.sort((a, b) => {
+      return a.sort - b.sort;
+    });
+    return this.props.allMenus.map((menu) => {
+      if (menu.up_id === '0' && menu.url !== '/') {
         return (<Menu.Item key={menu.id}><Icon type={menu.icon} />{menu.name}</Menu.Item>);
-      } else if (menu.up_id === 0 && !menu.url) {
-        const childMenus = this.state.menus.map((m) => {
+      } else if (menu.up_id === '0' && menu.url === '/') {
+        const childMenus = this.props.allMenus.map((m) => {
           if (menu.id === m.up_id) {
             return (<Menu.Item key={m.id}><Icon type={m.icon} />{m.name}</Menu.Item>);
           }
@@ -176,4 +129,11 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    allMenus: state.menu.allMenus,
+  };
+}
+
+export default connect(mapStateToProps)(App);
+

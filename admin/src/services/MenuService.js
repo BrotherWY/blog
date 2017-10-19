@@ -1,12 +1,14 @@
 import HttpClient from '../network/HttpClient';
 
+export function findAll() {
+  return HttpClient.get('/1.0/menu');
+}
 
 export function findAllByPaging({ pageIndex, pageSize }) {
   return HttpClient.get('/1.0/menu/paging', { pageIndex, pageSize });
 }
 
 export function add(menu) {
-  menu.count = 0;
   return HttpClient.post('/1.0/menu/add', menu);
 }
 

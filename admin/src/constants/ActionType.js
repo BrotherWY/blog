@@ -11,3 +11,5 @@ export const PAGING = 'PAGING';
 export const BATCH_DELETE = 'BATCH_DELETE';
 export const SEARCH = 'SEARCH';
 
+export const SET_ALL_MENUS = 'SET_ALL_MENUS';
+

@@ -1,19 +1,36 @@
 import { message } from 'antd';
-import { SET_ALL, ADD, UPDATE, DELETE, PAGING, BATCH_DELETE, SEARCH } from '../constants/ActionType';
-import { findAllByPaging, add, update, remove, batchDelete, search } from '../services/MenuService';
+import { SET_ALL_MENUS, FETCH_ALL, SET_ALL, ADD, UPDATE, DELETE, PAGING, BATCH_DELETE, SEARCH } from '../constants/ActionType';
+import { findAll, findAllByPaging, add, update, remove, batchDelete, search } from '../services/MenuService';
 
 export default {
   namespace: 'menu',
   state: {
     menus: [],
+    allMenus: [],
     total: 0,
   },
   reducers: {
     [SET_ALL](state, { payload: { menus, total } }) {
       return { ...state, menus, total };
     },
+    [SET_ALL_MENUS](state, { payload: { allMenus } }) {
+      return { ...state, allMenus };
+    },
   },
   effects: {
+    * [FETCH_ALL]({}, { call, put }) {
+      const data = yield call(findAll);
+      if (data.success) {
+        yield put({
+          type: SET_ALL_MENUS,
+          payload: {
+            allMenus: data.data,
+          },
+        });
+      } else {
+        throw data.msg;
+      }
+    },
     * [PAGING]({ payload: { pageIndex, pageSize } }, { call, put }) {
       const data = yield call(findAllByPaging, { pageIndex, pageSize });
       if (data.success) {
@@ -33,6 +50,7 @@ export default {
       if (result.success) {
         message.success('添加成功');
         yield put({ type: PAGING, payload: { pageIndex, pageSize } });
+        yield put({ type: FETCH_ALL });
       } else {
         throw result.msg;
       }
