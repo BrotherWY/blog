@@ -63,6 +63,12 @@ function RouterConfig({ history, app }) {
       app,
       component: () => import('./routes/system/Menu'),
     }),
+  }, {
+    path: '/system/config',
+    component: dynamic({
+      app,
+      component: () => import('./routes/system/Config'),
+    }),
   }];
 
   return (

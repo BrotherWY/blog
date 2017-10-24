@@ -27,9 +27,7 @@ export function batchDelete(menus) {
 }
 
 export function search({ pageIndex, pageSize, data }) {
-  const params = {
-    name: data.name,
-  };
+  const params = {};
   if (data.selTime) {
     params.start = resolveTime(data.selTime[0]);
     params.end = resolveTime(data.selTime[1]);

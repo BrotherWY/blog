@@ -24,6 +24,7 @@ app.model(require('./models/Catalog'));
 app.model(require('./models/Tag'));
 app.model(require('./models/Article'));
 app.model(require('./models/Menu'));
+app.model(require('./models/Config'));
 
 // 4. Router
 app.router(require('./router'));
