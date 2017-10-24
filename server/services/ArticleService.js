@@ -33,7 +33,11 @@ ArticleService.add = async (article) => {
     if (data && data.id) {
       isCatalogOrTag(article, data.id);
     }
-    return ReturnData.success(data);
+    if (data && data.id) {
+      return ReturnData.success(data);
+    } else {
+      return ReturnData.error(ErrorMessage.ADD_ERROR);
+    }
   } catch (err) {
     logger.error(err.stack);
     return ReturnData.error(ErrorMessage.NETWORK_ERROR);

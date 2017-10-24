@@ -43,7 +43,7 @@ CatalogService.add = async (catalog) => {
   try {
     const data = await Catalog.create(catalog);
     // 添加成功会返回该条数据，所以根据id去判断是否成功
-    if (data.id) {
+    if (data && data.id) {
       return ReturnData.success(data);
     } else {
       return ReturnData.error(ErrorMessage.ADD_ERROR);
