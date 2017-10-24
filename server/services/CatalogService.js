@@ -208,8 +208,9 @@ CatalogService.search = async (req) => {
  * 判断分类是否存在,
  * 不存在则存入数据库
  * 存在该分类下的count + 1
+ * 加上 articleId
  */
-CatalogService.isExit = async (name) => {
+CatalogService.isExit = async (name, articleId) => {
   try {
     const data = await Catalog.findOne({
       where: {
@@ -219,6 +220,7 @@ CatalogService.isExit = async (name) => {
     if (data) {
       Catalog.update({
         count: data.count += 1,
+        article_ids: `${data.article_ids}${articleId},`,
       }, {
         where: {
           id: data.id,
@@ -229,6 +231,7 @@ CatalogService.isExit = async (name) => {
         name: name,
         count: 1,
         intro: '暂无',
+        article_ids: `${articleId},`,
       });
     }
   } catch (err) {

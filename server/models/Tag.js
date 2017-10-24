@@ -7,4 +7,5 @@ module.exports = db.defineModel('tag', {
   },
   intro: db.TEXT,
   count: db.INTEGER,
+  article_ids: db.TEXT,
 });

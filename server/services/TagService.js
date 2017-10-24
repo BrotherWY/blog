@@ -208,8 +208,9 @@ TagService.search = async (req) => {
  * 判断标签是否存在,
  * 不存在则存入数据库
  * 存在该分类下的count + 1
+ * 加上 articleId
  */
-TagService.isExit = async (name) => {
+TagService.isExit = async (name, articleId) => {
   try {
     const data = await Tag.findOne({
       where: {
@@ -219,6 +220,7 @@ TagService.isExit = async (name) => {
     if (data) {
       Tag.update({
         count: data.count += 1,
+        article_ids: `${data.article_ids}${articleId},`,
       }, {
         where: {
           id: data.id,
@@ -229,6 +231,7 @@ TagService.isExit = async (name) => {
         name: name,
         count: 1,
         intro: '暂无',
+        article_ids: `${articleId},`,
       });
     }
   } catch (err) {

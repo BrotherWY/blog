@@ -26,21 +26,27 @@ ArticleService.findAll = async () => {
  * 增加文章
  */
 ArticleService.add = async (article) => {
-  // 判断分类和标签是否存在数据库中,不存在则存入
-  const tags = article.tags.split(',');
-  for (let i = 0; i < tags.length; i += 1) {
-    TagService.isExit(tags[i]);
-  }
-  CatalogService.isExit(article.catalog);
   article.views = 0;// 文章阅读量初始化为0
   try {
     const data = await Article.create(article);
+    // 判断分类和标签是否存在数据库中,不存在则存入
+    if (data && data.id) {
+      isCatalogOrTag(article, data.id);
+    }
     return ReturnData.success(data);
   } catch (err) {
     logger.error(err.stack);
     return ReturnData.error(ErrorMessage.NETWORK_ERROR);
   }
 };
+
+function isCatalogOrTag(article, id) {
+  const tags = article.tags.split(',');
+  for (let i = 0; i < tags.length; i += 1) {
+    TagService.isExit(tags[i], id);
+  }
+  CatalogService.isExit(article.catalog, id);
+}
 
 /**
  * 分页
