@@ -40,7 +40,7 @@ export function batchDelete(articles) {
 
 export function search({ pageIndex, pageSize, data }) {
   const params = {
-    name: data.name,
+    flag: data.flag,
   };
   if (data.selTime) {
     params.start = resolveTime(data.selTime[0]);

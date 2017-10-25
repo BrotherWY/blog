@@ -39,7 +39,7 @@ export default {
         throw data.msg;
       }
     },
-    * [PAGING]({ payload: { pageIndex, pageSize, flag } }, { call, put }) {
+    * [PAGING]({ payload: { pageIndex, pageSize, data: { flag } } }, { call, put }) {
       const data = yield call(findAllByPaging, { pageIndex, pageSize, flag });
       if (data.success) {
         yield put({
@@ -62,20 +62,21 @@ export default {
         throw result.msg;
       }
     },
-    * [UPDATE_STATU]({ payload: { pageIndex, pageSize, id, flag } }, { call, put }) {
+    * [UPDATE_STATU]({ payload: { pageIndex, pageSize, id, data: { flag } } }, { call, put }) {
       const result = yield call(updateStatu, { id, flag });
       if (result.success) {
         message.success('状态更新成功');
-        yield put({ type: PAGING, payload: { pageIndex, pageSize } });
+        flag = parseInt(flag, 0) - 1;
+        yield put({ type: PAGING, payload: { pageIndex, pageSize, data: { flag } } });
       } else {
         throw result.msg;
       }
     },
-    * [BATCH_UPDATE_STATU]({ payload: { pageIndex, pageSize, selectIds, flag } }, { call, put }) {
+    * [BATCH_UPDATE_STATU]({ payload: { pageIndex, pageSize, selectIds, data: { flag } } }, { call, put }) {
       const result = yield call(batchUpdateStatu, { selectIds, flag });
       if (result.success) {
         message.success('状态批量更新成功');
-        yield put({ type: PAGING, payload: { pageIndex, pageSize } });
+        yield put({ type: PAGING, payload: { pageIndex, pageSize, data: { flag } } });
       } else {
         throw result.msg;
       }
@@ -84,7 +85,7 @@ export default {
       const result = yield call(remove, id);
       if (result.success) {
         message.success('删除成功');
-        yield put({ type: PAGING, payload: { pageIndex, pageSize, flag } });
+        yield put({ type: PAGING, payload: { pageIndex, pageSize, data: { flag } } });
       } else {
         throw result.msg;
       }
@@ -93,7 +94,7 @@ export default {
       const result = yield call(batchDelete, selectIds);
       if (result.success) {
         message.success('批量删除成功');
-        yield put({ type: PAGING, payload: { pageIndex, pageSize, flag } });
+        yield put({ type: PAGING, payload: { pageIndex, pageSize, data: { flag } } });
       } else {
         throw result.msg;
       }

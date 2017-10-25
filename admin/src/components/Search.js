@@ -12,13 +12,21 @@ class Search extends Component {
   }
 
   handleSearch(e) {
-    const { dispatch, type, pageIndex, pageSize, otherType } = this.props;
+    const { dispatch, type, pageIndex, pageSize, otherType, flag } = this.props;
     e.preventDefault();
     this.props.form.validateFields((err, data) => {
       if (err) return;
-      const flag = data.name || data.selTime;
+      // 遍历参数 判断参数是否存在 来发送不同的请求
+      let isPaging = false;
+      Object.keys(data).forEach((key) => {
+        if (data[key]) {
+          isPaging = true;
+        }
+      });
+      // flag 是文章的分类 0 草稿 1 发布 2 垃圾箱
+      if (flag) data.flag = flag;
       dispatch({
-        type: flag ? type : otherType,
+        type: isPaging ? type : otherType,
         payload: { pageIndex, pageSize, data },
       });
     });

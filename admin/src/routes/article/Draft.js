@@ -57,7 +57,7 @@ class Draft extends Component {
       payload: {
         pageIndex,
         pageSize,
-        flag,
+        data: { flag },
       },
     });
   }
@@ -85,7 +85,7 @@ class Draft extends Component {
     const flag = 1;
     dispatch({
       type: `article/${UPDATE_STATU}`,
-      payload: { id, pageIndex, pageSize, flag },
+      payload: { id, pageIndex, pageSize, data: { flag } },
     });
   }
 
@@ -119,7 +119,7 @@ class Draft extends Component {
     const flag = 1;
     dispatch({
       type: `article/${BATCH_UPDATE_STATU}`,
-      payload: { pageIndex, pageSize, selectIds, flag },
+      payload: { pageIndex, pageSize, selectIds, data: { flag } },
     });
   }
 
@@ -131,7 +131,7 @@ class Draft extends Component {
       payload: {
         pageIndex,
         pageSize,
-        flag,
+        data: { flag },
       },
     });
     this.setState({ pageIndex: pageIndex });
@@ -160,6 +160,7 @@ class Draft extends Component {
           otherType={`article/${PAGING}`}
           handleAdd={this.handleAdd}
           dispatch={dispatch}
+          flag="0"
         />
         <Table
           columns={columns}

@@ -57,7 +57,7 @@ class Article extends Component {
       payload: {
         pageIndex,
         pageSize,
-        flag,
+        data: { flag },
       },
     });
   }
@@ -85,7 +85,7 @@ class Article extends Component {
     const flag = 2;
     dispatch({
       type: `article/${UPDATE_STATU}`,
-      payload: { id, pageIndex, pageSize, flag },
+      payload: { id, pageIndex, pageSize, data: { flag } },
     });
   }
 
@@ -122,7 +122,7 @@ class Article extends Component {
     const flag = 2;
     dispatch({
       type: `article/${BATCH_UPDATE_STATU}`,
-      payload: { pageIndex, pageSize, selectIds, flag },
+      payload: { pageIndex, pageSize, selectIds, data: { flag } },
     });
   }
 
@@ -134,7 +134,7 @@ class Article extends Component {
       payload: {
         pageIndex,
         pageSize,
-        flag,
+        data: { flag },
       },
     });
     this.setState({ pageIndex: pageIndex });
@@ -163,6 +163,7 @@ class Article extends Component {
           otherType={`article/${PAGING}`}
           handleAdd={this.handleAdd}
           dispatch={dispatch}
+          flag="1"
         />
         <Table
           columns={columns}
