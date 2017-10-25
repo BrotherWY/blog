@@ -5,7 +5,7 @@ import { Button, Select, Form, Input, message, Upload, Icon, Modal, Spin } from 
 // LzEditor和dva可能有冲突 样式无法自己加载
 import 'antd/lib/modal/style';
 import 'antd/lib/popconfirm/style';
-import { FETCH_ALL, ADD } from '../../constants/ActionType';
+import { FETCH_ALL, ADD, UPLOAD_URL } from '../../constants/ActionType';
 
 class WriteArticle extends Component {
   constructor(props) {
@@ -16,7 +16,6 @@ class WriteArticle extends Component {
       fileList: [], // 封面上传图片数量
       previewVisible: false,
       previewImage: '',
-      uploadUrl: 'http://localhost:3000/1.0/upload',
     };
     this.getContent = this.getContent.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -105,7 +104,7 @@ class WriteArticle extends Component {
   render() {
     const FormItem = Form.Item;
     const { getFieldDecorator } = this.props.form;
-    const { fileList, previewVisible, previewImage, uploadUrl } = this.state;
+    const { fileList, previewVisible, previewImage } = this.state;
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -142,7 +141,7 @@ class WriteArticle extends Component {
           <h2 style={{ margin: '16px 0' }}>文章封面</h2>
           <div style={{ overflow: 'hidden' }}>
             <Upload
-              action={uploadUrl}
+              action={UPLOAD_URL}
               listType="picture-card"
               fileList={fileList}
               onPreview={this.handlePreview}

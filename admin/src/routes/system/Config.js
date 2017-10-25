@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Popconfirm, Button, Modal, message, Icon } from 'antd';
-import { FETCH_ALL, PAGING, UPDATE, DELETE, ADD, BATCH_DELETE, SEARCH } from '../../constants/ActionType';
+import { Table, Popconfirm, Button, Modal, message } from 'antd';
+import { PAGING, UPDATE, DELETE, ADD, BATCH_DELETE, SEARCH } from '../../constants/ActionType';
 import AddAndUpdate from '../../components/AddAndUpdate';
 import Search from '../../components/Search';
 import FormatDate from '../../utils/date';
+import Image from '../../components/Image';
 
 class Config extends Component {
   constructor(props) {
@@ -37,17 +38,13 @@ class Config extends Component {
         }],
       },
     }, {
-      label: '图标',
-      name: 'icon',
+      label: '图片',
+      name: 'img_url',
       disabled: false,
-      isSelect: true,
-      selects: [{
-        name: '笔',
-        value: 'edit',
-      }],
+      isUpload: true,
       validate: {
         rules: [{
-          required: true, message: '图标不能为空',
+          required: true, message: '图片不能为空',
         }],
       },
     }, {
@@ -58,6 +55,16 @@ class Config extends Component {
       validate: {
         rules: [{
           required: true, message: '代码不能为空',
+        }],
+      },
+    }, {
+      label: '内容',
+      name: 'content',
+      disabled: false,
+      isSelect: false,
+      validate: {
+        rules: [{
+          required: true, message: '内容不能为空',
         }],
       },
     }];
@@ -87,10 +94,11 @@ class Config extends Component {
       }],
       columns: [
         { title: '配置名', dataIndex: 'name', key: 'name' },
-        { title: '图标', dataIndex: 'icon', key: 'icon', render: text => <Icon type={text} /> },
+        { title: '图片', dataIndex: 'img_url', key: 'img_url', render: text => <Image src={text} /> },
         { title: 'url', dataIndex: 'url', key: 'url' },
         { title: '排序', dataIndex: 'sort', key: 'sort' },
         { title: '代码', dataIndex: 'code', key: 'code' },
+        { title: '内容', dataIndex: 'content', key: 'content' },
         { title: '创建时间', dataIndex: 'createdAt', key: 'createdAt', render: text => this.formatTime(text) },
         { title: '更新时间', dataIndex: 'updatedAt', key: 'updatedAt', render: text => this.formatTime(text) },
         { title: '当前版本', dataIndex: 'version', key: 'version' },
@@ -159,9 +167,10 @@ class Config extends Component {
       id: record.id,
       name: record.name,
       url: record.url,
-      icon: record.icon,
+      img_url: record.img_url,
       sort: record.sort,
       code: record.code,
+      content: record.content,
     };
     this.setState({ updateVisible: true, updateData: data });
   }

@@ -4,7 +4,7 @@ import { Table, Popconfirm, Button, Modal, message } from 'antd';
 import { PAGING, UPDATE_STATU, BATCH_UPDATE_STATU, SEARCH } from '../../constants/ActionType';
 import Search from '../../components/Search';
 import FormatDate from '../../utils/date';
-import Image from './components/Image';
+import Image from '../../components/Image';
 
 class Draft extends Component {
   constructor(props) {
