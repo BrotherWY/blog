@@ -30,13 +30,14 @@ class App extends Component {
     return (
       <Menu>
         <Menu.Item key="0">
-          <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">1st menu item</a>
+          <a target="_blank" rel="noopener noreferrer">个人信息</a>
         </Menu.Item>
         <Menu.Item key="1">
-          <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">2nd menu item</a>
+          <a target="_blank" rel="noopener noreferrer">更改头像</a>
         </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="3" disabled>3d menu item（disabled）</Menu.Item>
+        <Menu.Item key="2">
+          <a target="_blank" rel="noopener noreferrer" >退出系统</a>
+        </Menu.Item>
       </Menu>
     );
   }
@@ -93,17 +94,17 @@ class App extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, history } = this.props;
 
     return (
-      <Layout>
+      <Layout style={{ minHeight: '100%' }}>
         <div style={{ marginBottom: '24px', padding: '0 48px', background: '#fff' }}>
-          <div style={{ float: 'left', lineHeight: '80px' }}>
-            <img src="" alt="logo" />
-          </div>
+          <a style={{ float: 'left', lineHeight: '80px', fontSize: '20px' }} onClick={() => history.push('/dashboard')}>
+            博客后台
+          </a>
           <div style={{ lineHeight: '80px', float: 'right', marginRight: '50px' }}>
             <Dropdown overlay={this.renderDropMenus()}>
-              <Badge count={1}><Avatar icon="user" size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" /></Badge>
+              <Badge count={0}><Avatar icon="user" size="large" src="" /></Badge>
             </Dropdown>
           </div>
         </div>

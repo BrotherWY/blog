@@ -42,8 +42,35 @@ class Menu extends Component {
       disabled: false,
       isSelect: true,
       selects: [{
-        name: '笔',
+        name: '统计面板',
+        value: 'pie-chart',
+      }, {
+        name: '标签',
+        value: 'tag-o',
+      }, {
+        name: '文章管理',
+        value: 'book',
+      }, {
+        name: '垃圾箱',
+        value: 'delete',
+      }, {
+        name: '写作',
         value: 'edit',
+      }, {
+        name: '草稿箱',
+        value: 'file-text',
+      }, {
+        name: '系统管理',
+        value: 'setting',
+      }, {
+        name: '菜单',
+        value: 'menu-fold',
+      }, {
+        name: '分类管理',
+        value: 'bars',
+      }, {
+        name: '评论',
+        value: 'mail',
       }],
       validate: {
         rules: [{
