@@ -234,32 +234,24 @@ ArticleService.batchDelete = async (ids) => {
  */
 ArticleService.search = async (req) => {
   const {
-    or,
     and,
     gt,
     lt,
-    like,
   } = Sequelize.Op;
   const { pageSize, pageIndex, params } = req;
 
   try {
     const result = await Article.findAndCountAll({
       where: {
-        [or]: [
+        [and]: [
           {
-            name: {
-              [like]: `%${params.name}%`,
-            },
+            flag: params.flag,
           },
           {
-            [and]: [
-              {
-                updatedAt: { [gt]: params.start ? parseInt(params.start, 0) : 0 },
-              },
-              {
-                updatedAt: { [lt]: params.end ? parseInt(params.end, 0) : 0 },
-              },
-            ],
+            updatedAt: { [gt]: params.start ? parseInt(params.start, 0) : 0 },
+          },
+          {
+            updatedAt: { [lt]: params.end ? parseInt(params.end, 0) : 0 },
           },
         ],
       },
