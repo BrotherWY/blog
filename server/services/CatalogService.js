@@ -210,14 +210,15 @@ CatalogService.search = async (req) => {
  * 存在该分类下的count + 1
  * 加上 articleId
  */
-CatalogService.isExit = async (name, articleId) => {
+CatalogService.isExit = async (id, articleId) => {
   try {
-    const data = await Catalog.findOne({
+    let data = await Catalog.findAll({
       where: {
-        name: name,
+        id: id,
       },
     });
-    if (data) {
+    if (data.length > 0) {
+      data = data[0];
       Catalog.update({
         count: data.count += 1,
         article_ids: `${data.article_ids}${articleId},`,
@@ -226,14 +227,7 @@ CatalogService.isExit = async (name, articleId) => {
           id: data.id,
         },
       });
-    } else {
-      Catalog.create({
-        name: name,
-        count: 1,
-        intro: '暂无',
-        article_ids: `${articleId},`,
-      });
-    }
+    } 
   } catch (err) {
     logger.error(err.stack);
   }

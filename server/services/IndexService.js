@@ -18,11 +18,14 @@ IndexService.index = async () => {
     const catalogs = await Catalog.findAll();
     // 查找出个人的基本信息
     const userInfo = await getUserInfo();
+    userInfo.tag_count = tags.length;
+    userInfo.catalog_count = catalogs.length;
     let articles = await Article.findAll({
       where: {
         is_top: 0,
       },
     });
+    userInfo.article_count = articles.length;
     // 先对articles排序
     articles.sort((a, b) => b.createdAt - a.createdAt);
     // 推荐文章
@@ -41,15 +44,15 @@ IndexService.index = async () => {
     // 对已经排好序的文章根据tags和catalogs对比出名字
     if (articles.length > 0) {
       articles.forEach((article) => {
-        if (article) {
-          article.tags.split(',').map((tag) => {
-            tags.forEach((t) => {
-              if (t.id === tag) {
-                return t.name;
-              }
-            });
+        const temp = []; // 用来存储tag数组
+        article.tags.split(',').forEach((tag) => {
+          tags.forEach((t) => {
+            if (t.id === tag) {
+              temp.push(t);
+            }
           });
-        }
+        });
+        article.tags = temp;
       });
     }
     const data = {
