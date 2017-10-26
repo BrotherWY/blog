@@ -12,9 +12,13 @@ const MenuService = {};
 /**
  * 获取所有菜单
  */
-MenuService.findAll = async () => {
+MenuService.findByFlag = async (flag) => {
   try {
-    const data = await Menu.findAll();
+    const data = await Menu.findAll({
+      where: {
+        flag: flag,
+      },
+    });
     return ReturnData.success(data);
   } catch (err) {
     logger.error(err.stack);
