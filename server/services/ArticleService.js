@@ -29,6 +29,8 @@ ArticleService.findAll = async () => {
  */
 ArticleService.add = async (article) => {
   article.views = 0;// 文章阅读量初始化为0
+  article.is_hot = 0;
+  article.is_top = 0;
   try {
     const data = await Article.create(article);
     // 判断分类和标签是否存在数据库中,不存在则存入
