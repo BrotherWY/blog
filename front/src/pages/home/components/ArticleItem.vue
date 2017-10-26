@@ -6,13 +6,20 @@
         <h1 class="title ellipsis">{{article.title}}</h1>
         <div class="content">{{article.content}}</div>
         <div class="list">
-          <span class="time">{{article.date}}</span>
-          <function v-for="(func, i) in article.funcs" :key="i" :func="func"></function>
+          <span class="time">{{formatTime(article.createdAt)}}</span>
+          <div class="function">
+            <span class="icon iconfont wy-faxian"></span>
+            <span class="text">{{article.views}}</span>
+          </div>
+          <div class="function">
+            <span class="icon iconfont wy-pinglun"></span>
+            <span class="text">{{article.views}}</span>
+          </div>
         </div>
       </div>
     </div>
     <div class="tags">
-      <tag v-for="(tag, i) in article.tags" :key="i" :name="tag"></tag>
+      <tag v-for="(tag, i) in article.tags" :key="i" :name="tag.name"></tag>
     </div>
   </div>
 </template>
@@ -136,6 +143,39 @@ export default {
     }
 
     .time {
+      font-size: 12px;
+    }
+  }
+
+  .function {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-left: 16px;
+  }
+
+  .icon {
+    font-size: 14px;
+    color: #8492A6;
+  }
+
+  .text {
+    font-size: 14px;
+    color: #8492A6;
+    margin-left: 3px;
+  }
+
+  @media (max-width: 1300px) {
+    .function {
+        margin-left: 8px;
+    }
+
+    .icon {
+      font-size: 12px;
+    }
+
+    .text {
       font-size: 12px;
     }
   }

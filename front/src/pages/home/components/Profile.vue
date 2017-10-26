@@ -1,8 +1,8 @@
 <template>
   <div class="profile">
-    <img class="avatar mt32" :src="userInfo.logo" alt="avatar">
-    <h1 class="name mt24">{{userInfo.name}}</h1>
-    <h3 class="job ellipsis mt8">{{userInfo.intro}}</h3>
+    <img class="avatar mt32" :src="userInfo.user.avatar" alt="avatar">
+    <h1 class="name mt24">{{userInfo.user.name}}</h1>
+    <h3 class="job ellipsis mt8">{{userInfo.user.intro}}</h3>
     <p class="follow mt24">关注一波</p>
     <div class="summary mt16">
       <div class="summary-wrapper">

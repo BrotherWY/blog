@@ -1,3 +1,4 @@
+import FormatDate from '@/util/date';
 
 export default {
   data() {
@@ -9,6 +10,9 @@ export default {
     // 设置网页title
     setTitleMixin(title) {
       if (this.$ssrContext) this.$ssrContext.title = title;
+    },
+    formatTime(val) {
+      return new FormatDate(val).farmat('YYYY-MM-DD hh:mm');
     },
   },
   computed: {
