@@ -2,7 +2,7 @@ const router = require('koa-router')();
 const MenuService = require('../services/MenuService');
 
 router.get('/1.0/menu', async (ctx) => {
-  ctx.body = await MenuService.findAll();
+  ctx.body = await MenuService.findByFlag(1);
 });
 
 router.get('/1.0/menu/paging', async (ctx) => {
