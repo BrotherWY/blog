@@ -60,7 +60,7 @@ export default {
       return this.$store.state.home.articles;
     },
     getRecents() {
-      return this.$store.state.home.recents;
+      return this.$store.state.home.hots;
     },
   },
   created() {

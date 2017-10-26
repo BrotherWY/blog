@@ -3,7 +3,7 @@
     <div class="top-bar wrapper">
       <h1 class="logo-wrapper">
         <router-link :to="data.logo.url">
-          <img :src="data.logo.img" alt="logo" class="logo">
+          <img :src="data.logo.img_url" alt="logo" class="logo">
         </router-link>
       </h1>
       <div class="bars">

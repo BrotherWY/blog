@@ -7,12 +7,12 @@ export default {
     tags: [],
     userInfo: {},
     articles: [],
-    recents: [],
+    hots: [],
   },
   getters: {},
   actions: {
     [FETCH_INDEX]({ commit }) {
-      HttpClient.get('/index')
+      HttpClient.get('/1.0/index')
       .then((data) => {
         commit(SET_INDEX, data);
       });
@@ -23,7 +23,7 @@ export default {
       state.tags = data.tags;
       state.userInfo = data.userInfo;
       state.articles = data.articles;
-      state.recents = data.recents;
+      state.hots = data.hots;
     },
   },
 };

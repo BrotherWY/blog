@@ -18,8 +18,8 @@ export default {
   },
   methods: {
     fetchHeader() {
-      HttpClient.get('/header').then((data) => {
-        this.header = data.header;
+      HttpClient.get('/1.0/index/header').then((data) => {
+        this.header = data;
       });
     },
   },
