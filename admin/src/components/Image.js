@@ -32,21 +32,27 @@ class Image extends Component {
           overflow: 'hidden',
           position: 'relative',
           width: 80,
-          height: 50,
+          height: src === '/' ? 'auto' : 50,
           cursor: 'pointer',
         }}
-        onClick={this.handleClick}
       >
-        <img
-          src={src}
-          alt="cover"
-          style={{
-            width: '100px',
-            position: 'absolute',
-            left: '50%',
-            marginLeft: '-50px',
-          }}
-        />
+        {
+          src === '/'
+          ?
+            <div>无图片</div>
+          :
+            <img
+              src={src}
+              alt="cover"
+              style={{
+                width: '100px',
+                position: 'absolute',
+                left: '50%',
+                marginLeft: '-50px',
+              }}
+              onClick={this.handleClick}
+            />
+        }
         <Modal
           visible={visible}
           onCancel={this.handleCancel}

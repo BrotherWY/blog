@@ -55,7 +55,6 @@ class WriteArticle extends Component {
         article.content = content;
         article.cover = fileList[0].response.url;
         article.tags = article.tags.join(',');
-        article.catalog = article.catalog.join(',');
         article.flag = flag;
         // 文章内容存储到数据库
         dispatch({
@@ -159,11 +158,10 @@ class WriteArticle extends Component {
               rules: [{ required: true, message: '请选择该文章的标签' }],
             })(
               <Select
+                mode="multiple"
                 size="large"
-                mode="tags"
                 style={{ width: '100%' }}
                 placeholder="请选择该文章的标签"
-                tokenSeparators={[',']}
               >
                 {this.renderSelectTag()}
               </Select>,
@@ -175,7 +173,6 @@ class WriteArticle extends Component {
               rules: [{ required: true, message: '请选择该文章的分类' }],
             })(
               <Select
-                mode="tags"
                 size="large"
                 style={{ width: '100%' }}
                 placeholder="请选择该文章的分类"

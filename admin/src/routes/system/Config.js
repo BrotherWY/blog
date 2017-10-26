@@ -23,11 +23,6 @@ class Config extends Component {
       label: 'url',
       name: 'url',
       disabled: false,
-      validate: {
-        rules: [{
-          required: true, message: 'url不能为空',
-        }],
-      },
     }, {
       label: '排序',
       name: 'sort',
@@ -42,11 +37,6 @@ class Config extends Component {
       name: 'img_url',
       disabled: false,
       isUpload: true,
-      validate: {
-        rules: [{
-          required: true, message: '图片不能为空',
-        }],
-      },
     }, {
       label: '代码',
       name: 'code',
