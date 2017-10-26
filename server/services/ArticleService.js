@@ -24,6 +24,8 @@ ArticleService.findAll = async () => {
 
 /**
  * 增加文章
+ * 这里需要修改
+ * tag和catalog 应该存他的id
  */
 ArticleService.add = async (article) => {
   article.views = 0;// 文章阅读量初始化为0
