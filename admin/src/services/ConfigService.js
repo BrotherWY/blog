@@ -11,6 +11,7 @@ export function findAllByPaging({ pageIndex, pageSize }) {
 export function add(config) {
   if (!config.url) config.url = '/';
   if (!config.img_url) config.img_url = '/';
+  if (!config.icon) config.img_url = '';
   return HttpClient.post('/1.0/config/add', config);
 }
 

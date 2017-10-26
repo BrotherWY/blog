@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Popconfirm, Button, Modal, message } from 'antd';
+import { Table, Popconfirm, Button, Modal, message, Icon } from 'antd';
 import { PAGING, UPDATE, DELETE, ADD, BATCH_DELETE, SEARCH } from '../../constants/ActionType';
 import AddAndUpdate from '../../components/AddAndUpdate';
 import Search from '../../components/Search';
@@ -23,6 +23,20 @@ class Config extends Component {
       label: 'url',
       name: 'url',
       disabled: false,
+    }, {
+      label: '图标',
+      name: 'icon',
+      disabled: false,
+      isSelect: true,
+      selects: [{
+        name: 'github',
+        value: 'wy-github',
+      }],
+      validate: {
+        rules: [{
+          required: true, message: '图标不能为空',
+        }],
+      },
     }, {
       label: '排序',
       name: 'sort',
@@ -85,6 +99,7 @@ class Config extends Component {
       columns: [
         { title: '配置名', dataIndex: 'name', key: 'name' },
         { title: '图片', dataIndex: 'img_url', key: 'img_url', render: text => <Image src={text} /> },
+        { title: '图标', dataIndex: 'icon', key: 'icon', render: (text) => text ? <Icon type={text} /> : '无图标' },
         { title: 'url', dataIndex: 'url', key: 'url' },
         { title: '排序', dataIndex: 'sort', key: 'sort' },
         { title: '代码', dataIndex: 'code', key: 'code' },

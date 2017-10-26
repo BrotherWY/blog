@@ -13,6 +13,7 @@ export function findAllByPaging({ pageIndex, pageSize }) {
 
 export function add(tag) {
   tag.count = 0;
+  if (!tag.article_ids) tag.article_ids = '';
   return HttpClient.post('/1.0/tag/add', tag);
 }
 

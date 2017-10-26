@@ -13,6 +13,7 @@ export function findAllByPaging({ pageIndex, pageSize }) {
 
 export function add(catalog) {
   catalog.count = 0;
+  if (!catalog.article_ids) catalog.article_ids = '';
   return HttpClient.post('/1.0/catalog/add', catalog);
 }
 
