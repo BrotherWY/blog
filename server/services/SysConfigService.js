@@ -9,12 +9,24 @@ const logger = log4js.getLogger('app');
 const SysConfigService = {};
 
 
-/**
- * 获取所有菜单
- */
 SysConfigService.findAll = async () => {
   try {
     const data = await SysConfig.findAll();
+    return ReturnData.success(data);
+  } catch (err) {
+    logger.error(err.stack);
+    return ReturnData.error(ErrorMessage.NETWORK_ERROR);
+  }
+};
+
+
+SysConfigService.findByCode = async (code) => {
+  try {
+    const data = await SysConfig.findAll({
+      where: {
+        code: code,
+      },
+    });
     return ReturnData.success(data);
   } catch (err) {
     logger.error(err.stack);

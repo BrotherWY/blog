@@ -29,4 +29,18 @@ UserService.checkLogin = async (userName, password) => {
   }
 };
 
+UserService.getAdmin = async () => {
+  try {
+    const data = await User.findOne({
+      where: {
+        userName: 'admin',
+      },
+    });
+    return ReturnData.success(data);
+  } catch (err) {
+    logger.error(err.stack);
+    return ReturnData.error(ErrorMessage.NETWORK_ERROR);
+  }
+};
+
 module.exports = UserService;

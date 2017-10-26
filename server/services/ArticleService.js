@@ -76,7 +76,7 @@ ArticleService.findAllByPaging = async ({ pageSize, pageIndex, flag }) => {
 };
 
 /**
- * 根据名字查找文章并分页
+ * 根据flag查找文章并分页
  */
 ArticleService.findByFlag = async ({ pageSize, pageIndex, flag }) => {
   try {
@@ -86,6 +86,23 @@ ArticleService.findByFlag = async ({ pageSize, pageIndex, flag }) => {
       },
       limit: parseInt(pageSize, 0),
       offset: (pageIndex - 1) * parseInt(pageSize, 0),
+    });
+    return ReturnData.success(data);
+  } catch (err) {
+    logger.error(err.stack);
+    return ReturnData.error(ErrorMessage.NETWORK_ERROR);
+  }
+};
+
+/**
+ * 根据hot查找文章并分页
+ */
+ArticleService.findByhot = async () => {
+  try {
+    const data = await Article.findOne({
+      where: {
+        is_hot: 1,
+      },
     });
     return ReturnData.success(data);
   } catch (err) {
