@@ -29,13 +29,13 @@ IndexService.index = async () => {
     // 先对articles排序
     articles.sort((a, b) => b.createdAt - a.createdAt);
     // 推荐文章
-    const hots = await Article.findOne({
+    const hots = await Article.findAll({
       where: {
         is_hot: 1,
       },
     }) || [];
     // 把置顶文章放到最前
-    const tops = await Article.findOne({
+    const tops = await Article.findAll({
       where: {
         is_top: 1,
       },
