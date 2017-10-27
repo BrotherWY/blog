@@ -1,12 +1,12 @@
 <template>
   <div class="recent mt16">
     <div class="title-wrapper">
-      <div class="title bg ml8">最新文章</div>
+      <div class="title bg ml8">推荐文章</div>
     </div>
     <div class="articles">
       <div class="article" v-for="(recent,i) in recents" :key="i">
         <p class="text ellipsis">{{recent.title}}</p>
-        <span class="time">{{recent.time}}</span>
+        <span class="time">{{formatTime(recent.createdAt)}}</span>
       </div>
     </div>
   </div>
@@ -63,7 +63,7 @@ export default {
   }
 
   .text {
-    width: 72%;
+    width: 62%;
     font-size: 14px;
     color: #666;
     cursor: pointer;

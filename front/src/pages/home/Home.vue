@@ -2,7 +2,7 @@
   <div class="container">
     <div class="wrapper mt16">
       <div class="left">
-        <profile v-if="getUserInfo&&getUserInfo.user.avatar" :userInfo="getUserInfo"></profile>
+        <profile v-if="getUserInfo&&getUserInfo.user" :userInfo="getUserInfo"></profile>
         <skeleton-profile v-else></skeleton-profile>
       </div>
       <div class="center">
@@ -54,7 +54,6 @@ export default {
       return this.$store.state.home.tags;
     },
     getUserInfo() {
-      console.log(this.$store.state.home.userInfo);
       return this.$store.state.home.userInfo;
     },
     getArticles() {

@@ -3,7 +3,7 @@
     <img class="avatar mt32" :src="userInfo.user.avatar" alt="avatar">
     <h1 class="name mt24">{{userInfo.user.name}}</h1>
     <h3 class="job ellipsis mt8">{{userInfo.user.intro}}</h3>
-    <p class="follow mt24">关注一波</p>
+    <a class="follow mt24" :href="userInfo.contacts.length　>0 &&　userInfo.contacts[0].url">关注一波</a>
     <div class="summary mt16">
       <div class="summary-wrapper">
         <div class="summary-item">文章</div>
@@ -20,7 +20,7 @@
     </div>
     <div class="contacts">
       <a class="item" v-for="(contact,i) in userInfo.contacts" :key="i" :href="contact.url">
-        <span :class="['icon iconfont', contact.icon]" :title="contact.title"></span>
+        <span :class="['icon iconfont', contact.icon]" :title="contact.name"></span>
       </a>
     </div>
   </div>
