@@ -1,3 +1,7 @@
+## 地址
+- 前台:http://brotherwang.online/
+- 后台:http://brotherwang.tech/
+
 ## 前端-前台
 使用vue-ssr,架子照着官网上搭的(参考了很多别的大神的)
 
