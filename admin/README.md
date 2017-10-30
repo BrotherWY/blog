@@ -5,5 +5,5 @@
 
 # 线上地址
 
-- http://brotherwang.tech
+- http://admin.brotherwang.online
 - admin admin(当然不用账号密码也是可以的)
