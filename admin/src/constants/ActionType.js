@@ -15,5 +15,5 @@ export const BATCH_UPDATE_STATU = 'BATCH_UPDATE_STATU';
 
 export const SET_ALL_MENUS = 'SET_ALL_MENUS';
 
-export const UPLOAD_URL = 'http://localhost:3000/1.0/upload';
+export const UPLOAD_URL = 'http://104.129.182.249:3000/1.0/upload';
 

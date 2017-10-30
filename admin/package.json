@@ -32,6 +32,9 @@
     "expect": "^1.20.2",
     "husky": "^0.12.0",
     "redbox-react": "^1.4.3",
-    "roadhog": "^1.2.1"
+    "roadhog": "^1.2.1",
+    "gulp": "^3.9.1",
+    "gulp-sftp": "^0.1.5",
+    "gulp-util": "^3.0.8"
   }
 }
