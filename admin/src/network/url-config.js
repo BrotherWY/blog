@@ -1,3 +1,3 @@
 const UrlConfig = {};
-UrlConfig.apiUrl = 'http://104.129.182.249:3000';
+UrlConfig.apiUrl = 'http://207.246.102.22:3000';
 module.exports = UrlConfig;

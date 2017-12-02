@@ -5,10 +5,10 @@ const sftp = require('gulp-sftp');
 gulp.task('upload', function () {
   return gulp.src('dist/**/*')
     .pipe(sftp({
-      host: '104.129.182.249',
-      port: 27688,
+      host: '207.246.102.22',
+      port: 22,
       user: 'root',
-      pass: 'jEgCe0NHNLNj',
+      pass: '[5vJqE!Uhb%3rg#U',
       remotePath: '/usr/share/nginx/html/admin',
     }))
     .pipe(gutil.noop());
